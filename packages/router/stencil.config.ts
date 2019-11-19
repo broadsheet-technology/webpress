@@ -5,10 +5,12 @@ export const config: Config = {
   outputTargets: [
     {
       type: 'dist',
+      /*
       copy: [
         { src: "index.php", dest: "../www/index.php" },
         { src: "functions.php", dest: "../www/functions.php" }
       ]
+      */
     },
   ]
 };

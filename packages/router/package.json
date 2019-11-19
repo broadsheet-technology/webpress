@@ -11,8 +11,8 @@
     "dist/"
   ],
   "scripts": {
-    "build": "../../node_modules/.bin/stencil build",
-    "dev": "../../node_modules/.bin/stencil build --dev --watch",
+    "build": "stencil build",
+    "dev": "stencil build --dev --watch",
     "start": "npm run dev",
     "version": "npm run build"
   },
@@ -20,6 +20,8 @@
     "@types/wpapi": "^1.1.0"
   },
   "dependencies": {
+    "@stencil/core": "^1.8.1",
+    "fs": "0.0.1-security",
     "wpapi": "^1.2.1"
   },
   "repository": {
