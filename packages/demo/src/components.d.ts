@@ -7,13 +7,17 @@
 
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
-
+import {
+  Query,
+} from '@webpress/core';
 
 export namespace Components {
   interface Wp404 {}
   interface WpHome {}
   interface WpPage {}
-  interface WpPost {}
+  interface WpPost {
+    'query': Query;
+  }
   interface WpRoot {}
 }
 
@@ -62,7 +66,9 @@ declare namespace LocalJSX {
   interface Wp404 {}
   interface WpHome {}
   interface WpPage {}
-  interface WpPost {}
+  interface WpPost {
+    'query'?: Query;
+  }
   interface WpRoot {}
 
   interface IntrinsicElements {

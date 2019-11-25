@@ -1,11 +1,17 @@
-import { Component, h } from '@stencil/core';
+import { Component, h, Prop } from '@stencil/core';
+import { Query } from '@webpress/core';
+import { QueryContextual } from '@webpress/router';
 
 @Component({
   tag: 'wp-post',
   styleUrl: 'wp-post.scss',
 })
-export class WebpressPost {
+export class WebpressPost implements QueryContextual  {
+  @Prop() query: Query 
   render() {
-    return <h2>This is a ~Post~</h2>
+    console.log(this.query)
+    return [
+      <h2>This is a ~Post~</h2>
+    ]
   }
 }

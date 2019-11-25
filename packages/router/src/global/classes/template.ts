@@ -1,5 +1,14 @@
 import { WPRoute } from "../json"
-import { Single, Post } from "@webpress/core"
+import { Query } from "@webpress/core"
+
+export interface QueryContextual {
+    query: Query
+}
+
+export interface TemplateContextual extends QueryContextual {
+    match: TemplateMatch
+    hidden: boolean
+}
 
 export enum TemplateType {
     FrontPage = 0,
@@ -48,7 +57,7 @@ export interface TemplateMatch {
 }
 
 export class Template implements TemplateMatch {
-    query: Single[]
+    query: Query
 
     type: TemplateType
     singleType?: TemplateSingleType
@@ -77,24 +86,20 @@ export class Template implements TemplateMatch {
     }
 }
 
-export class TemplateContextual {
-    match: TemplateMatch
-    hidden: boolean
-}
 
 export class TemplateFactory {
-    static templateFromRoute(route: WPRoute) : Template {
-        const template = new Template()
-        
+    static templateFromRoute(route: WPRoute) : Template {       
+        let template;
         if(route === undefined || route.query.is_404) {
-            return this.notFoundTemplate()
+            template = this.notFoundTemplate()
         } else if(route.query.is_home) {
-            return this.homepageTemplate(route.query)
+            template = this.homepageTemplate()
         } else if(route.query.is_archive) {
-            return this.archiveTemplate()
+            template = this.archiveTemplate()
         } else if(route.query.is_single || route.query.is_page) {
-            return this.singleTemplate(route.query) 
+            template = this.singleTemplate(route.query) 
         }
+        template.query = new Query(route.query)
         return template
     }
 
@@ -104,10 +109,9 @@ export class TemplateFactory {
         return template;
     }
 
-    private static homepageTemplate(query: any) {
+    private static homepageTemplate() {
         const template = new Template()
         template.type = TemplateType.FrontPage
-        template.query = Post.fromList(query.posts)
         return template;
     }
 
@@ -126,7 +130,6 @@ export class TemplateFactory {
         if(query.is_single) {
             template.singleType = TemplateSingleType.Post
         }
-        console.log("template",template, query)
         return template
     }
 }

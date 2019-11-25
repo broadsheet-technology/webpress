@@ -7,6 +7,7 @@ import { TemplateMatch, TemplateContextual } from '../../../global/index';
 
 export class WPTemplate implements TemplateContextual {
 
+  @Prop() query 
   @Prop() match : TemplateMatch
   hidden: boolean
 
@@ -14,9 +15,11 @@ export class WPTemplate implements TemplateContextual {
   @Prop() componentProps?: { [key: string]: any } = {};
 
   render() {
-    const ChildComponent = this.component;
+    const ChildComponent = this.component
+    ChildComponent
+    console.log("This query is set!",this.query)
     return (
-      <ChildComponent />
+      <ChildComponent query={this.query} />
     );
     
   }

@@ -9,9 +9,7 @@ export interface Single {
 }
 
 export class Post implements Single {
-    constructor(private wpapiPost?: any) { 
-        console.log(wpapiPost)
-    }
+    constructor(private wpapiPost?: any) { }
     
     static fromList(posts : WPAPI.WPRequest[]) {
         return posts.map(post => {return new Post(post)})

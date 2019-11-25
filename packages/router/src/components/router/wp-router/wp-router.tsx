@@ -44,7 +44,6 @@ export class Router {
       this.template = TemplateFactory.templateFromRoute(routes[0])
     } else {
       const index = routes.findIndex(route => !route.query.is_404)
-      console.log("many!",index, routes)
       if(index == -1 ) {
         this.template =  TemplateFactory.templateFromRoute(undefined)
       } else {
@@ -53,7 +52,6 @@ export class Router {
     }
 
     return
-        
   }
 
   render() {
@@ -64,11 +62,12 @@ export class Router {
     var templates = Array.from(this.el.children as unknown as TemplateContextual[])
     var highestScoredTemplateValue = Math.max.apply(Math, templates.map( template => this.template.matchScore(template.match)))
     templates.map( template => {
-      console.log("template",template.match,this.template)
       if(this.template.matchScore(template.match) == highestScoredTemplateValue) {
         template.hidden = false;
       } else {
+        template.query = this.template.query
         template.hidden = true;
+        
       }
     })
   }

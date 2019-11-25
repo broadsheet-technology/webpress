@@ -8,14 +8,9 @@ export interface WebpressThemeOptions {
 }
 export function theme(options : WebpressThemeOptions) {
     return {
-        async generateBundle() {
+        generateBundle() {
             console.log(__dirname,options.themeDir)
-
-            encodeAndCopyStyle()
-            await encodeAndCopyFunctions(options)
-            encodeAndCopyIndex()
-
-            
+            encodeAndCopyFunctions(options)
             fs.copyFile(__dirname + '/www/functions.php', options.themeDir + 'functions.php', (err) => {
                 if (err) throw err;
             }); 
@@ -23,14 +18,7 @@ export function theme(options : WebpressThemeOptions) {
     }
 }
 
-function encodeAndCopyStyle() {
-}
-
-function encodeAndCopyIndex() {
-    
-}
-
-async function encodeAndCopyFunctions(options : WebpressThemeOptions) {
+function encodeAndCopyFunctions(options : WebpressThemeOptions) {
     if(!options.root) {
         throw new Error("Webpress: Must define a root component in options.root")
     }
