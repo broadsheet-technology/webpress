@@ -4,6 +4,7 @@ import { theme } from '@webpress/theme'
 
 export const config: Config = {
   namespace: 'webpress',
+  enableCache: false,
   outputTargets: [
     {
       type: 'www',

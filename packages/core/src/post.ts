@@ -16,7 +16,7 @@ export class Post implements Single {
     }
 
     get title() : string {
-        return this.wpapiPost.title
+        return this.wpapiPost.post_title
     }
 
     get subhead() : string {

@@ -55,6 +55,21 @@ export class Router {
   }
 
   render() {
+    var templates = Array.from(this.el.children as unknown as TemplateContextual[])
+    templates.map( template => {
+      template.query = this.template.query
+    })
+    
+    var highestScoredTemplateValue = Math.max.apply(Math, templates.map( template => this.template.matchScore(template.match)))
+    templates.map( template => {
+      if(this.template.matchScore(template.match) == highestScoredTemplateValue) {
+        template.hidden = false;
+      } else {
+        template.query = this.template.query
+        template.hidden = true;
+      }
+    })
+
 	  return <slot />
   }
 
@@ -67,9 +82,9 @@ export class Router {
       } else {
         template.query = this.template.query
         template.hidden = true;
-        
       }
     })
+
   }
 
   private wordpressRoutes() {

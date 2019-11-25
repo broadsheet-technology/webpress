@@ -7,25 +7,36 @@
 
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
-
+import {
+  Post,
+} from '@webpress/core';
 
 export namespace Components {
-
+  interface WpTitle {
+    'post': Post;
+  }
 }
 
 declare global {
 
 
+  interface HTMLWpTitleElement extends Components.WpTitle, HTMLStencilElement {}
+  var HTMLWpTitleElement: {
+    prototype: HTMLWpTitleElement;
+    new (): HTMLWpTitleElement;
+  };
   interface HTMLElementTagNameMap {
-
+    'wp-title': HTMLWpTitleElement;
   }
 }
 
 declare namespace LocalJSX {
-
+  interface WpTitle {
+    'post'?: Post;
+  }
 
   interface IntrinsicElements {
-
+    'wp-title': WpTitle;
   }
 }
 
@@ -35,7 +46,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
-
+      'wp-title': LocalJSX.WpTitle & JSXBase.HTMLAttributes<HTMLWpTitleElement>;
     }
   }
 }
