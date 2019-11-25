@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+
+<?php define('WEBPRESS_STENCIL_NAMESPACE', '%%STENCIL_NAMESPACE%%'); ?>
 <html dir="ltr" lang="en">
 <head>
   <meta charset="utf-8">
@@ -6,8 +8,8 @@
   <title><?php echo wp_title("&middot;",true,"right"); ?></title>
   <?php wp_head(); ?>
 </head>
-<?php jp_debug_rewrite_rules(); ?>
+<?php //jp_debug_rewrite_rules(); ?>
 <body <?php body_class(); ?>>
-  <wjh-dev first="Stencil" last="'Don't call me a framework' JS"></wjh-dev>
+  <%%ROOT%%></%%ROOT%%>
 </body>
 </html>

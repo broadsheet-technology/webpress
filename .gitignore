@@ -1,6 +1,6 @@
 dist/
-www/
-
+/www/
+!/src/www/
 *~
 *.sw[mnpcod]
 *.log

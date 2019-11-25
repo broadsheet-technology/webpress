@@ -1,5 +1,5 @@
 import { WPRoute } from "../json"
-
+import { Single, Post } from "@webpress/core"
 
 export enum TemplateType {
     FrontPage = 0,
@@ -11,6 +11,7 @@ export enum TemplateType {
 }
 
 export enum TemplateSingleType {
+    None = 0,
     Page = 1,
     Post = 2,
     Attachment = 3,
@@ -47,26 +48,31 @@ export interface TemplateMatch {
 }
 
 export class Template implements TemplateMatch {
-    type: TemplateType;
-    singleType?: TemplateSingleType;
-    archiveType?: TemplateArchiveType;
-    archiveDateType?: TemplateArchiveDateType;
-    slug?: string;
-    postType?: string;
-    nicename?: string;
-    id?: string;
-    taxonomy?: string;
-    taxonomyTerm?: string; 
+    query: Single[]
+
+    type: TemplateType
+    singleType?: TemplateSingleType
+    archiveType?: TemplateArchiveType
+    archiveDateType?: TemplateArchiveDateType
+    slug?: string
+    postType?: string
+    nicename?: string
+    id?: string
+    taxonomy?: string
+    taxonomyTerm?: string
     matchScore(template: TemplateMatch) {
+        console.log("scoring",template,this)
         let score = 0;
         if(template.type === this.type) {
-            console.log(this,"10!")
             score += 10
         }
 
-        if(template.singleType && template.singleType === this.singleType) {
-            score += 9
+        if(template.singleType && template.singleType !== this.singleType) {
+            return -999
+        } else if(template.singleType && template.singleType === this.singleType) {
+            score += 2
         }
+        console.log(score)
         return score;
     }
 }
@@ -83,11 +89,11 @@ export class TemplateFactory {
         if(route === undefined || route.query.is_404) {
             return this.notFoundTemplate()
         } else if(route.query.is_home) {
-            return this.homepageTemplate()
+            return this.homepageTemplate(route.query)
         } else if(route.query.is_archive) {
             return this.archiveTemplate()
-        } else if(route.query.is_single) {
-            return this.singleTemplate(route) 
+        } else if(route.query.is_single || route.query.is_page) {
+            return this.singleTemplate(route.query) 
         }
         return template
     }
@@ -98,9 +104,10 @@ export class TemplateFactory {
         return template;
     }
 
-    private static homepageTemplate() {
+    private static homepageTemplate(query: any) {
         const template = new Template()
         template.type = TemplateType.FrontPage
+        template.query = Post.fromList(query.posts)
         return template;
     }
 
@@ -110,14 +117,16 @@ export class TemplateFactory {
         return template;
     }
 
-    private static singleTemplate(route: WPRoute) {
+    private static singleTemplate(query: any) {
         const template = new Template()
-        if(route.query.is_page) {
+        template.type = TemplateType.Single
+        if(query.is_page) {
             template.singleType = TemplateSingleType.Page
-        } else {
+        }
+        if(query.is_single) {
             template.singleType = TemplateSingleType.Post
         }
-        template.type = TemplateType.Single
+        console.log("template",template, query)
         return template
     }
 }

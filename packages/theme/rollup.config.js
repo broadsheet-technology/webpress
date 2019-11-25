@@ -10,8 +10,8 @@ export default {
     }),
     copy({
       targets: [
-        { src: "src/index.php", dest: "dist/www", options: {verbose: true} },
-        { src: "src/functions.php", dest: "dist/www" }
+        { src: "src/www/index.php", dest: "dist/www", options: {verbose: true} },
+        { src: "src/www/functions.php", dest: "dist/www" }
       ]
     })
   ],

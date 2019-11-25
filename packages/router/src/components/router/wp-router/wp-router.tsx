@@ -14,7 +14,6 @@ export class Router {
 
   @State() template : Template
 
-
   @Element() el!: HTMLElement;
 
   private routeMap : WeakMap<WPRoute,RouteMatch> = new WeakMap<WPRoute,RouteMatch>()
@@ -24,7 +23,6 @@ export class Router {
     const path = window.location.pathname
     this.foundRoutes = routeFactory.routesForPath(path)
 
-    console.log(WPAPI)
     var wp = new WPAPI({endpoint: exa.api_url})
     WPAPI.prototype['route'] = wp.registerRoute( 'webpress/v1', '/route/(?P<id>)' );
 
@@ -43,15 +41,13 @@ export class Router {
     if(routes.length === 0) {
       this.template = TemplateFactory.templateFromRoute(undefined)
     } else if(routes.length === 1) {
-      console.log("justOne",routes[0])
       this.template = TemplateFactory.templateFromRoute(routes[0])
     } else {
       const index = routes.findIndex(route => !route.query.is_404)
+      console.log("many!",index, routes)
       if(index == -1 ) {
-        console.log("not found",routes)
         this.template =  TemplateFactory.templateFromRoute(undefined)
       } else {
-        console.log("moreThanOneButFound",routes[index])
         this.template = TemplateFactory.templateFromRoute(routes[index])
       }
     }
