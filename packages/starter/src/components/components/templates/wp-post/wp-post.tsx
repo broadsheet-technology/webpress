@@ -8,18 +8,18 @@ import '@webpress/tags'
   styleUrl: 'wp-post.scss',
 })
 export class WebpressPost implements QueryContextual  {
-  
   @Prop() query: Query 
 
   render() {
-    console.log("rendering...")
+    console.log(this.query.posts[0])
     if(!this.query) {
       console.log("no query")
       return
     }
     return [
       <wp-title post={this.query.posts[0]}></wp-title>,
-      <h2>This is a ~Post~</h2>
+      <h2>This is a ~Post~</h2>,
+      <wp-running-copy post={this.query.posts[0]}></wp-running-copy>
     ]
   }
 }

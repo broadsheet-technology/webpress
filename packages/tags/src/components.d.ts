@@ -12,6 +12,9 @@ import {
 } from '@webpress/core';
 
 export namespace Components {
+  interface WpRunningCopy {
+    'post': Post;
+  }
   interface WpTitle {
     'post': Post;
   }
@@ -20,22 +23,33 @@ export namespace Components {
 declare global {
 
 
+  interface HTMLWpRunningCopyElement extends Components.WpRunningCopy, HTMLStencilElement {}
+  var HTMLWpRunningCopyElement: {
+    prototype: HTMLWpRunningCopyElement;
+    new (): HTMLWpRunningCopyElement;
+  };
+
   interface HTMLWpTitleElement extends Components.WpTitle, HTMLStencilElement {}
   var HTMLWpTitleElement: {
     prototype: HTMLWpTitleElement;
     new (): HTMLWpTitleElement;
   };
   interface HTMLElementTagNameMap {
+    'wp-running-copy': HTMLWpRunningCopyElement;
     'wp-title': HTMLWpTitleElement;
   }
 }
 
 declare namespace LocalJSX {
+  interface WpRunningCopy {
+    'post'?: Post;
+  }
   interface WpTitle {
     'post'?: Post;
   }
 
   interface IntrinsicElements {
+    'wp-running-copy': WpRunningCopy;
     'wp-title': WpTitle;
   }
 }
@@ -46,6 +60,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
+      'wp-running-copy': LocalJSX.WpRunningCopy & JSXBase.HTMLAttributes<HTMLWpRunningCopyElement>;
       'wp-title': LocalJSX.WpTitle & JSXBase.HTMLAttributes<HTMLWpTitleElement>;
     }
   }

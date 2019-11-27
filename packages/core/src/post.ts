@@ -32,7 +32,7 @@ export class Post implements Single {
     }    
 
     get content() : string {
-        return this.wpapiPost.content as any
+        return this.wpapiPost.post_content as any
     }
 }
 
@@ -49,4 +49,3 @@ export class WebMedia {
 
     }
 }
-
