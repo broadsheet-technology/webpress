@@ -13,6 +13,35 @@ add_action('wp_head', function() {
 });
 
 
+class WebPressDefinition {
+  var $menus;
+  var $sidebars;
+  public function __construct($json) {
+    $jsonIterator = new RecursiveIteratorIterator(
+      new RecursiveArrayIterator(json_decode($json, TRUE)),
+      RecursiveIteratorIterator::SELF_FIRST);
+
+    $decoded = json_decode($json);
+    $this->parseMenus($decoded->menus);
+  }
+
+  private function parseMenus($menus) {
+    foreach($menus as $menu) {
+      register_nav_menu( $menu );
+    }
+  }
+
+  private function parseSidebars($json) {
+
+  }
+}
+
+function register_webpress_theme_definition() {
+  $json = file_get_contents( __DIR__ . "/theme-definition.json");
+  $themeDefinition = new WebPressDefinition($json);
+}
+add_action( 'init', 'register_webpress_theme_definition' );
+
 /**
  * 
  * Modified from:
@@ -23,8 +52,6 @@ add_action('wp_head', function() {
  * Author URI: https://www.aucor.fi/
  * Version: 1.1.1
  * License: GPL2+
- * 
- * 
  * 
  **/
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
@@ -128,16 +155,13 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
       $allowed_args[] = 'author__in';
       $allowed_args[] = 'author__not_in';
 
-
       $allowed_args[] = 'meta_key';
       $allowed_args[] = 'meta_value';
       $allowed_args[] = 'meta_value_num';
       $allowed_args[] = 'meta_compare';
       $allowed_args[] = 'meta_query';
 
-
       $allowed_args[] = 's';
-
 
       $allowed_args[] = 'cat';
       $allowed_args[] = 'category_name';

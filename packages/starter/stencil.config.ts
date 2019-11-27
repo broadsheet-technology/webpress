@@ -13,6 +13,7 @@ export const config: Config = {
       copy: [
         { src: 'style.css' },
         { src: 'index.php' },
+        { src: 'theme-definition.json' },
         { src: '../node_modules/@webpress/theme/dist/www/functions.php', dest: 'functions.php'}
       ]
     }
