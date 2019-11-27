@@ -1,7 +1,7 @@
 {
-  "name": "@webpress/demo",
+  "name": "@webpress/starter",
   "version": "0.0.1",
-  "description": "Webpress Demo",
+  "description": "Webpress Starter",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "es2015": "dist/esm/index.mjs",

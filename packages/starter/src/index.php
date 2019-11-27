@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-<?php define('WEBPRESS_STENCIL_NAMESPACE', '%%STENCIL_NAMESPACE%%'); ?>
+<?php define('WEBPRESS_STENCIL_NAMESPACE', 'webpress'); ?>
+
 <html dir="ltr" lang="en">
 <head>
   <meta charset="utf-8">
@@ -8,9 +9,9 @@
   <title><?php echo wp_title("&middot;",true,"right"); ?></title>
   <?php wp_head(); ?>
 </head>
-<?php //jp_debug_rewrite_rules(); ?>
+
 <body <?php body_class(); ?>>
-  <%%ROOT%%></%%ROOT%%>
+  <wp-root />
 </body>
 
 <?php wp_footer(); ?>
