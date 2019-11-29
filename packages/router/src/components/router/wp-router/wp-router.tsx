@@ -14,46 +14,33 @@ export class Router {
   @Element() el!: HTMLElement;
 
   async componentWillLoad() {
-
     var wp = new WPAPI({endpoint: exa.api_url})
     WPAPI.prototype['template'] = wp.registerRoute( 'webpress/v1', '/template/(?P<url>)' );
 
     var templateLoader = wp.template()
     templateLoader.param("url", window.location.pathname)
 
-    this.template = await templateLoader.then( template => template )
+    this.template = await templateLoader.then( response => new Template(response) )
+
+    console.log(this.template)
 
     return
   }
 
   render() {
     var templateComponents = Array.from(this.el.children as unknown as TemplateContextual[])
-    templateComponents.map( template => {
-      template.query = this.template.query
-    })
     
     var highestScoredTemplateValue = Math.max.apply(Math, templateComponents.map( template => this.template.matchScore(template.match)))
+    
     templateComponents.map( templateComponent => {
       if(this.template.matchScore(templateComponent.match) == highestScoredTemplateValue) {
         templateComponent.hidden = false;
-      } else {
         templateComponent.query = this.template.query
+      } else {
+        templateComponent.hidden = true;
       }
     })
 
 	  return <slot />
-  }
-
-  componentDidLoad() {
-    var templates = Array.from(this.el.children as unknown as TemplateContextual[])
-    var highestScoredTemplateValue = Math.max.apply(Math, templates.map( template => this.template.matchScore(template.match)))
-    templates.map( template => {
-      if(this.template.matchScore(template.match) == highestScoredTemplateValue) {
-        template.hidden = false;
-      } else {
-        template.query = this.template.query
-        template.hidden = true;
-      }
-    })
   }
 }

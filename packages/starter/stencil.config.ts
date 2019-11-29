@@ -3,7 +3,6 @@ import { sass } from '@stencil/sass'
 
 export const config: Config = {
   namespace: 'webpress',
-  enableCache: false,
   outputTargets: [
     {
       type: 'www',

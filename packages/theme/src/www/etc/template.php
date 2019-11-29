@@ -29,15 +29,22 @@ function webpress_template_request( $request ) {
 }
 
 class WebpressTemplate {
-	var $posts;
+	var $query;
 	var $match;
 
 	function __construct(\WP_Query $query) {
-		$this->posts = $query->posts;
+		$this->query = new WebpressQuery($query);
 		$this->match = new WebpressTemplateMatch($query);
 	}
 }
 
+class WebpressQuery {
+	var $posts;
+
+	function __construct(\WP_Query $query) {
+		$this->posts = $query->posts;
+	}
+}
 class WebpressTemplateMatch {
 	var $type; /* {
 		FrontPage = 0,
