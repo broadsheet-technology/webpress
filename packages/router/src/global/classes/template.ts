@@ -21,11 +21,11 @@ export enum TemplateType {
 }
 
 export enum TemplateSingleType {
-    None = 0,
-    Page = 1,
-    Post = 2,
-    Attachment = 3,
-    Custom = 4,
+    Page = 0,
+    Post = 1,
+    Attachment = 2,
+    Custom = 3,
+    None = 99,
 }
 
 export enum TemplateArchiveType {
@@ -48,6 +48,7 @@ export interface TemplateMatch {
     singleType?: TemplateSingleType
     archiveType?: TemplateArchiveType 
     archiveDateType?: TemplateArchiveDateType 
+
 
     slug?: string
     postType?: string
