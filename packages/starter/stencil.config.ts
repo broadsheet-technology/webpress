@@ -14,7 +14,8 @@ export const config: Config = {
         { src: 'style.css' },
         { src: 'index.php' },
         { src: 'theme-definition.json' },
-        { src: '../node_modules/@webpress/theme/dist/www/functions.php', dest: 'functions.php'}
+        { src: '../node_modules/@webpress/theme/dist/www/functions.php', dest: 'functions.php'},
+        { src: '../node_modules/@webpress/theme/dist/www/etc', dest: 'etc'}
       ]
     }
   ]

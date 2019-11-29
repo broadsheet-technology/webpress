@@ -7,7 +7,7 @@
         {
             "name" : "Main Sidebar",
             "id": "sidebar-main",
-            "description": "The main sidebar for the WebPress starter theme",
+            "description": "The main sidebar for the WebPress starter theme"
         }
     ]
 }

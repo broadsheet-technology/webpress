@@ -6,10 +6,13 @@ import { TemplateMatch, TemplateContextual } from '../../../global/index';
 })
 
 export class WPTemplate implements TemplateContextual {
-
   @Prop() query 
   @Prop() match : TemplateMatch
+
   hidden: boolean
+
+  @Prop() menus
+  @Prop() sidebars
 
   @Prop() component : string 
   @Prop() componentProps?: { [key: string]: any } = {};
@@ -20,10 +23,7 @@ export class WPTemplate implements TemplateContextual {
     console.log("This query is set!",this.query)
     return (
       <ChildComponent query={this.query} />
-    );
-    
+    ); 
   }
-
-
 }
 

@@ -8,7 +8,6 @@ declare const exa : any
   tag: 'wp-router',
 })
 export class Router {
-
   @State() foundRoutes : RouteMatch[]
   @State() path : string = ""
 

@@ -8,11 +8,10 @@ export interface WebpressThemeOptions {
     root: string
     namespace: string
 }
+
 export function theme(options : WebpressThemeOptions) {
     return {
         generateBundle(_outputOptions : any, _bundle : { [fileName: string]: any }, _isWrite : boolean) {
-            
-
             const target = options.config.outputTargets.find( target => target.type === 'www') as any
             
             target.copy.push({ src: "style.css" })
@@ -24,6 +23,7 @@ export function theme(options : WebpressThemeOptions) {
         }
     }
 }
+
 export function encodeAndCopyFunctions(options : WebpressThemeOptions, _context : any) {
     if(!options.root) {
         throw new Error("Webpress: Must define a root component in options.root")
@@ -46,7 +46,6 @@ function encode(str : string, tokens : Map<RegExp,string>) {
     })
     return str
 }
-
 
 export function themeStuff(options: WebpressThemeOptions) {
     return {

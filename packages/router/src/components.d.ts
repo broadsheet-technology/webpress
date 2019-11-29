@@ -17,7 +17,9 @@ export namespace Components {
     'component': string;
     'componentProps'?: { [key: string]: any };
     'match': TemplateMatch;
+    'menus': any;
     'query': any;
+    'sidebars': any;
   }
 }
 
@@ -47,7 +49,9 @@ declare namespace LocalJSX {
     'component'?: string;
     'componentProps'?: { [key: string]: any };
     'match'?: TemplateMatch;
+    'menus'?: any;
     'query'?: any;
+    'sidebars'?: any;
   }
 
   interface IntrinsicElements {
