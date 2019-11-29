@@ -5,8 +5,9 @@ export interface QueryContextual {
     query: Query
 }
 
-export interface TemplateContextual extends QueryContextual {
+export interface TemplateContextual {
     match: TemplateMatch
+    query: Query
     hidden: boolean
 }
 
@@ -69,6 +70,7 @@ export class Template implements TemplateMatch {
     id?: string
     taxonomy?: string
     taxonomyTerm?: string
+
     matchScore(template: TemplateMatch) {
         console.log("scoring",template,this)
         let score = 0;

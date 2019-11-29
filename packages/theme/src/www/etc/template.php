@@ -20,7 +20,12 @@ add_action( "rest_api_init", "webpress_register_template_routes" );
  * @param WP_REST_Request $request Full data about the request.
  */
 function webpress_template_request( $request ) {
-	echo json_encode($request);
+	$url = $request["url"];
+	$resolver = new UrlToQuery();
+	$args = $resolver->resolve( $url );
+
+	$query = new WP_Query($args);
+	print_r($query);
 }
 
   
