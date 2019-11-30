@@ -14,7 +14,9 @@ import {
 export namespace Components {
   interface Wp404 {}
   interface WpHome {}
-  interface WpPage {}
+  interface WpPage {
+    'query': Query;
+  }
   interface WpPost {
     'query': Query;
   }
@@ -65,7 +67,9 @@ declare global {
 declare namespace LocalJSX {
   interface Wp404 {}
   interface WpHome {}
-  interface WpPage {}
+  interface WpPage {
+    'query'?: Query;
+  }
   interface WpPost {
     'query'?: Query;
   }

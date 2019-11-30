@@ -35,9 +35,11 @@ export class Router {
     templateComponents.map( templateComponent => {
       if(this.template.matchScore(templateComponent.match) == highestScoredTemplateValue) {
         templateComponent.hidden = false;
+        console.log("!!",this.template)
         templateComponent.query = this.template.query
       } else {
         templateComponent.hidden = true;
+        templateComponent.query = this.template.query // todo, why are hidden templates rendering
       }
     })
 

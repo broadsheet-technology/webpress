@@ -20,8 +20,6 @@ export class WPTemplate implements TemplateContextual {
 
   render() {
     const ChildComponent = this.component
-    ChildComponent
-    console.log("This query is set!",this.query)
     return (
       <ChildComponent query={this.query} />
     ); 

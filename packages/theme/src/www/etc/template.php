@@ -90,7 +90,7 @@ class WebpressTemplateMatch {
 			return 1;
 		} else if( $query->is_archive() ) {
 			return 2;
-		} else if( $query->is_single() ) {
+		} else if( $query->is_singular() ) {
 			return 4;
 		}
 		return 99;
