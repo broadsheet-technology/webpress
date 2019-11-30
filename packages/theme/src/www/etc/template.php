@@ -31,10 +31,12 @@ function webpress_template_request( $request ) {
 class WebpressTemplate {
 	var $query;
 	var $match;
+	var $menus;
 
 	function __construct(\WP_Query $query) {
 		$this->query = new WebpressQuery($query);
 		$this->match = new WebpressTemplateMatch($query);
+		$this->menus = get_nav_menu_locations();
 	}
 }
 
@@ -45,6 +47,7 @@ class WebpressQuery {
 		$this->posts = $query->posts;
 	}
 }
+
 class WebpressTemplateMatch {
 	var $type; /* {
 		FrontPage = 0,
@@ -109,5 +112,8 @@ class WebpressTemplateMatch {
 	}
 }
 
+class WebpressMenus {
+
+}
   
   

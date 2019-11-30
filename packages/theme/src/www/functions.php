@@ -1,6 +1,7 @@
 <?php 
 
 include 'etc/template.php';
+include 'etc/theme.php';
 
 add_action('wp_head', function() {
     ?>

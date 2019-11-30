@@ -48,7 +48,6 @@ export interface TemplateMatch {
     archiveType?: TemplateArchiveType 
     archiveDateType?: TemplateArchiveDateType 
 
-
     slug?: string
     postType?: string
     nicename?: string
