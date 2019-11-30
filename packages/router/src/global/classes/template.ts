@@ -1,12 +1,12 @@
-import { WPRoute } from "../json"
 import { Query } from "@webpress/core"
 
 export interface QueryContextual {
     query: Query
 }
 
-export interface TemplateContextual extends QueryContextual {
+export interface TemplateContextual {
     match: TemplateMatch
+    query: Query
     hidden: boolean
 }
 
@@ -20,11 +20,11 @@ export enum TemplateType {
 }
 
 export enum TemplateSingleType {
-    None = 0,
-    Page = 1,
-    Post = 2,
-    Attachment = 3,
-    Custom = 4,
+    Page = 0,
+    Post = 1,
+    Attachment = 2,
+    Custom = 3,
+    None = 99,
 }
 
 export enum TemplateArchiveType {
@@ -57,7 +57,7 @@ export interface TemplateMatch {
 }
 
 export class Template implements TemplateMatch {
-    query: Query
+    query : Query
 
     type: TemplateType
     singleType?: TemplateSingleType
@@ -69,6 +69,13 @@ export class Template implements TemplateMatch {
     id?: string
     taxonomy?: string
     taxonomyTerm?: string
+
+    constructor(json) {
+        this.query = new Query(json.query)
+        this.type = json.match.type;
+        this.singleType = json.match.singleType;
+    }
+
     matchScore(template: TemplateMatch) {
         console.log("scoring",template,this)
         let score = 0;
@@ -83,53 +90,5 @@ export class Template implements TemplateMatch {
         }
         console.log(score)
         return score;
-    }
-}
-
-
-export class TemplateFactory {
-    static templateFromRoute(route: WPRoute) : Template {       
-        let template;
-        if(route === undefined || route.query.is_404) {
-            template = this.notFoundTemplate()
-        } else if(route.query.is_home) {
-            template = this.homepageTemplate()
-        } else if(route.query.is_archive) {
-            template = this.archiveTemplate()
-        } else if(route.query.is_single || route.query.is_page) {
-            template = this.singleTemplate(route.query) 
-        }
-        template.query = new Query(route.query)
-        return template
-    }
-
-    private static notFoundTemplate() {
-        const template = new Template()
-        template.type = TemplateType.PageNotFound
-        return template;
-    }
-
-    private static homepageTemplate() {
-        const template = new Template()
-        template.type = TemplateType.FrontPage
-        return template;
-    }
-
-    private static archiveTemplate() {
-        const template = new Template()
-        template.type = TemplateType.Archive
-        return template;
-    }
-
-    private static singleTemplate(query: any) {
-        const template = new Template()
-        template.type = TemplateType.Single
-        if(query.is_page) {
-            template.singleType = TemplateSingleType.Page
-        }
-        if(query.is_single) {
-            template.singleType = TemplateSingleType.Post
-        }
-        return template
     }
 }

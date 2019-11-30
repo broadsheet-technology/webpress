@@ -1,0 +1,13 @@
+{
+    "menus" : [
+        "Main", 
+        "Secondary"
+    ],
+    "sidebar" : [
+        {
+            "name" : "Main Sidebar",
+            "id": "sidebar-main",
+            "description": "The main sidebar for the WebPress starter theme"
+        }
+    ]
+}

@@ -11,7 +11,8 @@ export default {
     copy({
       targets: [
         { src: "src/www/index.php", dest: "dist/www", options: {verbose: true} },
-        { src: "src/www/functions.php", dest: "dist/www" }
+        { src: "src/www/functions.php", dest: "dist/www" },
+        { src: "src/www/etc", dest: "dist/www/" },
       ]
     })
   ],

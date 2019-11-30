@@ -3,7 +3,6 @@ import { sass } from '@stencil/sass'
 
 export const config: Config = {
   namespace: 'webpress',
-  enableCache: false,
   outputTargets: [
     {
       type: 'www',
@@ -13,7 +12,9 @@ export const config: Config = {
       copy: [
         { src: 'style.css' },
         { src: 'index.php' },
-        { src: '../node_modules/@webpress/theme/dist/www/functions.php', dest: 'functions.php'}
+        { src: 'theme-definition.json' },
+        { src: '../node_modules/@webpress/theme/dist/www/functions.php', dest: 'functions.php'},
+        { src: '../node_modules/@webpress/theme/dist/www/etc', dest: 'etc'}
       ]
     }
   ]

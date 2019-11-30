@@ -10,6 +10,9 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   TemplateMatch,
 } from './global/index';
+import {
+  Query,
+} from '@webpress/core';
 
 export namespace Components {
   interface WpRouter {}
@@ -17,7 +20,9 @@ export namespace Components {
     'component': string;
     'componentProps'?: { [key: string]: any };
     'match': TemplateMatch;
-    'query': any;
+    'menus': any;
+    'query': Query;
+    'sidebars': any;
   }
 }
 
@@ -47,7 +52,9 @@ declare namespace LocalJSX {
     'component'?: string;
     'componentProps'?: { [key: string]: any };
     'match'?: TemplateMatch;
-    'query'?: any;
+    'menus'?: any;
+    'query'?: Query;
+    'sidebars'?: any;
   }
 
   interface IntrinsicElements {

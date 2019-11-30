@@ -69,7 +69,6 @@ export class RouteFactory {
     }
 
     bestMatches(matches : RouteMatch[]) : RouteMatch[] {
-
         console.log("matches",matches)
         return matches;
         /*
