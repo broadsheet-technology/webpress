@@ -8,7 +8,7 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
-  TemplateMatch,
+  TemplateArgs,
 } from './global/index';
 import {
   Query,
@@ -17,9 +17,9 @@ import {
 export namespace Components {
   interface WpRouter {}
   interface WpTemplate {
+    'args': TemplateArgs;
     'component': string;
     'componentProps'?: { [key: string]: any };
-    'match': TemplateMatch;
     'menus': any;
     'query': Query;
     'sidebars': any;
@@ -49,9 +49,9 @@ declare global {
 declare namespace LocalJSX {
   interface WpRouter {}
   interface WpTemplate {
+    'args'?: TemplateArgs;
     'component'?: string;
     'componentProps'?: { [key: string]: any };
-    'match'?: TemplateMatch;
     'menus'?: any;
     'query'?: Query;
     'sidebars'?: any;

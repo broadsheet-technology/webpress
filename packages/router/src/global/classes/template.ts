@@ -5,7 +5,7 @@ export interface QueryContextual {
 }
 
 export interface TemplateContextual {
-    match: TemplateMatch
+    args: TemplateArgs
     query: Query
     hidden: boolean
 }
@@ -42,7 +42,7 @@ export enum TemplateArchiveDateType {
     Day
 }
 
-export interface TemplateMatch {
+export interface TemplateArgs {
     type: TemplateType
     singleType?: TemplateSingleType
     archiveType?: TemplateArchiveType 
@@ -55,29 +55,13 @@ export interface TemplateMatch {
     taxonomy?: string 
     taxonomyTerm?: string
 }
-
-export class Template implements TemplateMatch {
-    query : Query
-
-    type: TemplateType
-    singleType?: TemplateSingleType
-    archiveType?: TemplateArchiveType
-    archiveDateType?: TemplateArchiveDateType
-    slug?: string
-    postType?: string
-    nicename?: string
-    id?: string
-    taxonomy?: string
-    taxonomyTerm?: string
-
+export class TemplateArgs implements TemplateArgs { 
     constructor(json) {
-        this.query = new Query(json.query)
-        this.type = json.match.type;
-        this.singleType = json.match.singleType;
+        this.type = json.type;
+        this.singleType = json.singleType;
     }
 
-    matchScore(template: TemplateMatch) {
-        console.log("scoring",template,this)
+    matchScore(template: TemplateArgs) {
         let score = 0;
         if(template.type === this.type) {
             score += 10
@@ -88,7 +72,16 @@ export class Template implements TemplateMatch {
         } else if(template.singleType && template.singleType === this.singleType) {
             score += 2
         }
-        console.log(score)
         return score;
+    }
+}
+
+export class Template {
+    query : Query
+    args : TemplateArgs
+
+    constructor(json) {
+        this.query = new Query(json.query)
+        this.args = new TemplateArgs(json.args)
     }
 }

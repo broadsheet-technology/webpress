@@ -1,5 +1,5 @@
 import { Component, h, Prop } from '@stencil/core';
-import { TemplateMatch, TemplateContextual } from '../../../global/index';
+import { TemplateArgs, TemplateContextual } from '../../../global/index';
 import { Query } from '@webpress/core'
 
 @Component({
@@ -7,7 +7,7 @@ import { Query } from '@webpress/core'
 })
 
 export class WPTemplate implements TemplateContextual {
-  @Prop() match: TemplateMatch
+  @Prop() args: TemplateArgs
   @Prop() query: Query
 
   hidden: boolean

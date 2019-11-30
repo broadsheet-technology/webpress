@@ -30,12 +30,12 @@ function webpress_template_request( $request ) {
 
 class WebpressTemplate {
 	var $query;
-	var $match;
+	var $args;
 	var $menus;
 
 	function __construct(\WP_Query $query) {
 		$this->query = new WebpressQuery($query);
-		$this->match = new WebpressTemplateMatch($query);
+		$this->args = new WebpressTemplateArgs($query);
 		$this->menus = get_nav_menu_locations();
 	}
 }
@@ -48,7 +48,7 @@ class WebpressQuery {
 	}
 }
 
-class WebpressTemplateMatch {
+class WebpressTemplateArgs {
 	var $type; /* {
 		FrontPage = 0,
 		Search = 1,
@@ -79,8 +79,8 @@ class WebpressTemplateMatch {
 	*/
 
 	function __construct(\WP_Query $query) {
-		$this->type = WebpressTemplateMatch::resolveType($query);
-		$this->singleType = WebpressTemplateMatch::resolveSingleType($query); 
+		$this->type = WebpressTemplateArgs::resolveType($query);
+		$this->singleType = WebpressTemplateArgs::resolveSingleType($query); 
 	}
 
 	private static function resolveType(\WP_Query $query) {

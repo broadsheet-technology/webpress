@@ -2,6 +2,7 @@
 
 include 'etc/template.php';
 include 'etc/theme.php';
+include 'etc/menus.php';
 
 add_action('wp_head', function() {
     ?>

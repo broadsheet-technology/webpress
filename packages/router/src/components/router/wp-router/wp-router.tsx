@@ -21,19 +21,18 @@ export class Router {
     templateLoader.param("url", window.location.pathname)
 
     this.template = await templateLoader.then( response => new Template(response) )
-
     console.log(this.template)
 
     return
   }
 
+
+
   render() {
     var templateComponents = Array.from(this.el.children as unknown as TemplateContextual[])
-    
-    var highestScoredTemplateValue = Math.max.apply(Math, templateComponents.map( template => this.template.matchScore(template.match)))
-    
+    var highestScoredTemplateValue = Math.max.apply(Math, templateComponents.map( template => this.template.args.matchScore(template.args)))
     templateComponents.map( templateComponent => {
-      if(this.template.matchScore(templateComponent.match) == highestScoredTemplateValue) {
+      if(this.template.args.matchScore(templateComponent.args) == highestScoredTemplateValue) {
         templateComponent.hidden = false;
         console.log("!!",this.template)
         templateComponent.query = this.template.query
