@@ -8,10 +8,16 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
+  Menu,
   Post,
+  WebpressConnection,
 } from '@webpress/core';
 
 export namespace Components {
+  interface WpMenu {
+    'connection': WebpressConnection;
+    'menu': Menu;
+  }
   interface WpRunningCopy {
     'post': Post;
   }
@@ -22,6 +28,12 @@ export namespace Components {
 
 declare global {
 
+
+  interface HTMLWpMenuElement extends Components.WpMenu, HTMLStencilElement {}
+  var HTMLWpMenuElement: {
+    prototype: HTMLWpMenuElement;
+    new (): HTMLWpMenuElement;
+  };
 
   interface HTMLWpRunningCopyElement extends Components.WpRunningCopy, HTMLStencilElement {}
   var HTMLWpRunningCopyElement: {
@@ -35,12 +47,17 @@ declare global {
     new (): HTMLWpTitleElement;
   };
   interface HTMLElementTagNameMap {
+    'wp-menu': HTMLWpMenuElement;
     'wp-running-copy': HTMLWpRunningCopyElement;
     'wp-title': HTMLWpTitleElement;
   }
 }
 
 declare namespace LocalJSX {
+  interface WpMenu {
+    'connection'?: WebpressConnection;
+    'menu'?: Menu;
+  }
   interface WpRunningCopy {
     'post'?: Post;
   }
@@ -49,6 +66,7 @@ declare namespace LocalJSX {
   }
 
   interface IntrinsicElements {
+    'wp-menu': WpMenu;
     'wp-running-copy': WpRunningCopy;
     'wp-title': WpTitle;
   }
@@ -60,6 +78,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
+      'wp-menu': LocalJSX.WpMenu & JSXBase.HTMLAttributes<HTMLWpMenuElement>;
       'wp-running-copy': LocalJSX.WpRunningCopy & JSXBase.HTMLAttributes<HTMLWpRunningCopyElement>;
       'wp-title': LocalJSX.WpTitle & JSXBase.HTMLAttributes<HTMLWpTitleElement>;
     }

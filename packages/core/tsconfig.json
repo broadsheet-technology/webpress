@@ -1,26 +1,26 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
-    "alwaysStrict": true,
-    "declaration": true,
-    "forceConsistentCasingInFileNames": true,
+    "declaration": false,
+    "experimentalDecorators": true,
     "lib": [
-      "es2015",
-      "dom"
+      "dom",
+      "es2017"
     ],
-    "esModuleInterop": true,
-    "module": "es2015",
     "moduleResolution": "node",
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
+    "module": "esnext",
+    "target": "es2017",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "outDir": "dist",
-    "pretty": true,
-    "removeComments": false,
-    "target": "es2017"
+    "jsx": "react",
+    "jsxFactory": "h"
   },
-  "files": [
-    "src/index.ts"
+  "include": [
+    "src",
+    "types/jsx.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

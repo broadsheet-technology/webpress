@@ -4,26 +4,26 @@
   "description": "Webpress Core",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "es2015": "dist/esm/index.mjs",
+  "es2017": "dist/esm/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/core/core.js",
   "files": [
-    "dist/"
+    "dist/",
+    "loader/"
   ],
   "scripts": {
-    "build": "tsc && npm run rollup",
-    "lint": "tslint --project tsconfig.json",
-    "release": "np",
-    "rollup": "rollup -c rollup.config.js",
-    "version": "npm run build",
-    "watch": "tsc --watch"
-  },
-  "devDependencies": {
-    "@types/wpapi": "^1.1.0"
+    "build": "stencil build --docs",
+    "start": "stencil build --dev --watch --serve"
   },
   "dependencies": {
-    "@stencil/core": "^1.8.1",
-    "esm": "^3.2.25",
-    "fs": "0.0.1-security",
+    "@types/wpapi": "^1.1.0",
     "wpapi": "^1.2.1"
+  },
+  "devDependencies": {
+    "@stencil/core": "^1.3.3"
   },
   "repository": {
     "type": "git",
