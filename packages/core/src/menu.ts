@@ -1,3 +1,5 @@
-class Menu {
-    
+export class Menu {
+    constructor(readonly json : any) {
+
+    }
 }

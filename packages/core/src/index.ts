@@ -1,5 +1,6 @@
 export { Post, Single } from './post'
 export { Query } from './query'
-export { ThemeDefinition, WebpressContext } from './theme'
+export { ThemeDefinition, WebpressContext, Theme } from './theme'
 export { Components } from './components'
 export { WebpressConnection } from './connection'
+export { Menu } from './menu'

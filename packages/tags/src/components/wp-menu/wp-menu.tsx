@@ -1,21 +1,25 @@
 import { Component, Prop, h } from '@stencil/core';
+import { WebpressConnection, Menu } from '@webpress/core';
 
 @Component({
   tag: 'wp-menu',
 })
 export class ExaMenu {  
 
-  @Prop() menu: any
-
-  componentDidLoad() { }
+  @Prop() connection : WebpressConnection
+  @Prop() menu: Menu
 
   render() {
-    if(this.menu == null) {
+    if(!this.menu || !this.connection) {
       return;
     }
+    console.log(this.menu)
     return (
       <menu>
-        // todo
+        asdfas
+        {this.menu.json.items.map((menuItem) => 
+          <li><a href={menuItem.url}>{menuItem.title}</a></li>
+        )}
       </menu>
     );  
   } 

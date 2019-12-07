@@ -1,8 +1,8 @@
 {
     "root" : "wp-root",
     "menus" : [
-        "Main", 
-        "Secondary"
+        "main", 
+        "secondary"
     ],
     "sidebar" : [
         {

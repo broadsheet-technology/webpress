@@ -1,6 +1,6 @@
 import { Component, Prop, Element, h } from '@stencil/core';
 import { WebpressConnection } from '../../connection';
-import { WebpressContext } from '../../theme';
+import { WebpressContext, Theme } from '../../theme';
 
 @Component({
     tag: 'webpress-theme',
@@ -11,6 +11,7 @@ export class WebpressTheme {
 
   @Element() el!: HTMLElement;
 
+  theme : Theme
   connection : WebpressConnection
 
   componentWillLoad() {
@@ -23,7 +24,7 @@ export class WebpressTheme {
     }
     const ChildComponent = this.context.root
     return (
-      <ChildComponent theme={this.context.theme} />
+      <ChildComponent theme={new Theme(this.context.theme,this.connection)} />
     )
   }
 

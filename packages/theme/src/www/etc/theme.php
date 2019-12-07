@@ -1,27 +1,33 @@
 <?php
 
-class WPTheme {
+class WPContext {
     var $root;
     var $server;
+    var $theme;
+}
+
+class WPTheme {
+    var $menus;
+    function __construct() {
+        $this->menus = get_nav_menu_locations();
+    }
 }
 
 $json = file_get_contents( __DIR__ . "/../theme-definition.json");
 $decoded = json_decode($json);
     
-
-
-$WPTheme = new WPTheme();
+$WPContext = new WPContext();
 
 function loadWebpressTheme() {
-    global $WPTheme;
+    global $WPContext;
 
     $json = file_get_contents( __DIR__ . "/../theme-definition.json");
     $decoded = json_decode($json);
     
-    // parseMenus($decoded->menus);
-
-    $WPTheme->root = $decoded->root;
-    $WPTheme->server = [ 
+    parseMenus($decoded->menus);
+    $WPContext->theme = new WPTheme();
+    $WPContext->root = $decoded->root;
+    $WPContext->server = [ 
         "apiUrl" => get_home_url() . '/wp-json'
     ];
 }

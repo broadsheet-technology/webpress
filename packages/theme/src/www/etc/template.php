@@ -31,12 +31,10 @@ function webpress_template_request( $request ) {
 class WebpressTemplate {
 	var $query;
 	var $args;
-	var $menus;
 
 	function __construct(\WP_Query $query) {
 		$this->query = new WebpressQuery($query);
 		$this->args = new WebpressTemplateArgs($query);
-		$this->menus = get_nav_menu_locations();
 	}
 }
 

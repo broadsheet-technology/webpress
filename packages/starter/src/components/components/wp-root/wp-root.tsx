@@ -1,6 +1,6 @@
-import { Component,  h, Prop } from '@stencil/core';
+import { Component,  h, Prop, State } from '@stencil/core';
 import { TemplateType, TemplateSingleType } from '@webpress/router'
-import { ThemeDefinition } from '@webpress/core'
+import { Theme, Menu } from '@webpress/core'
 
 @Component({
   tag: 'wp-root',
@@ -8,10 +8,23 @@ import { ThemeDefinition } from '@webpress/core'
 })
 export class Webpress {
 
-  @Prop() theme : ThemeDefinition
+  @Prop() theme : Theme
+
+  @State() mainMenu : Menu
+
+  async componentWillRender() {
+    if(!this.mainMenu && this.theme) {
+      console.log('also here!')
+      this.mainMenu = await this.theme.getMenu('Main')
+    }
+    console.log('here!')
+    console.log(this.mainMenu)
+  }
 
   render() {
     return (
+      [
+      <wp-menu menu={this.mainMenu} />,
       <wp-router>
         <wp-template args={ { type : TemplateType.FrontPage } } component="wp-home"></wp-template>
         <wp-template args={ { 
@@ -23,6 +36,7 @@ export class Webpress {
         } }  component="wp-page"></wp-template>
         <wp-template args={ { type : TemplateType.PageNotFound} }  component="wp-404"></wp-template>
       </wp-router>
+      ]
     )
   }
 }
