@@ -7,22 +7,21 @@ import { Query } from '@webpress/core'
 })
 
 export class WPTemplate implements TemplateContextual {
-  @Prop() args: TemplateArgs
-  @Prop() query: Query
-
+  args: TemplateArgs
   hidden: boolean
 
-  @Prop() menus
-  @Prop() sidebars
+  @Prop() query : Query
+  @Prop() menus : any[]
+  @Prop() sidebars : any[]
 
   @Prop() component : string 
-  @Prop() componentProps?: { [key: string]: any } = {};
+  @Prop() componentProps?: { [key: string]: any } = {}
 
   render() {
     const ChildComponent = this.component
     return (
       <ChildComponent query={this.query} />
-    ); 
+    )
   }
 }
 

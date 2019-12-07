@@ -62,6 +62,9 @@ export class TemplateArgs implements TemplateArgs {
     }
 
     matchScore(template: TemplateArgs) {
+        if(!template) {
+            return -1;
+        }
         let score = 0;
         if(template.type === this.type) {
             score += 10
@@ -81,7 +84,7 @@ export class Template {
     args : TemplateArgs
 
     constructor(json) {
-        this.query = new Query(json.query)
+        this.query = json.query
         this.args = new TemplateArgs(json.args)
     }
 }

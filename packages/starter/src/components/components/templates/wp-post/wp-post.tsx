@@ -1,5 +1,5 @@
-import { Component, h, Prop } from '@stencil/core';
-import { Query } from '@webpress/core';
+import { Component, h, Prop, State } from '@stencil/core';
+import { Query, Post } from '@webpress/core';
 import { QueryContextual } from '@webpress/router';
 import '@webpress/tags'
 
@@ -9,17 +9,23 @@ import '@webpress/tags'
 })
 export class WebpressPost implements QueryContextual  {
   @Prop() query: Query 
+  @State() post: Post
+
+  async componentWillUpdate() {
+    if(!this.post) {
+      this.post = (await this.query.posts)[0]
+    }
+    console.log(this.post)
+  }
 
   render() {
-    console.log(this.query.posts[0])
-    if(!this.query) {
-      console.log("no query")
+    if(!this.query || !this.post) {
       return
     }
     return [
-      <wp-title post={this.query.posts[0]}></wp-title>,
+      <wp-title post={this.post}></wp-title>,
       <h2>This is a ~Post~</h2>,
-      <wp-running-copy post={this.query.posts[0]}></wp-running-copy>
+      <wp-running-copy post={this.post}></wp-running-copy>
     ]
   }
 }

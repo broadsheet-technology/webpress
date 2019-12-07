@@ -9,6 +9,7 @@
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   Query,
+  ThemeDefinition,
 } from '@webpress/core';
 
 export namespace Components {
@@ -20,7 +21,9 @@ export namespace Components {
   interface WpPost {
     'query': Query;
   }
-  interface WpRoot {}
+  interface WpRoot {
+    'theme': ThemeDefinition;
+  }
 }
 
 declare global {
@@ -73,7 +76,9 @@ declare namespace LocalJSX {
   interface WpPost {
     'query'?: Query;
   }
-  interface WpRoot {}
+  interface WpRoot {
+    'theme'?: ThemeDefinition;
+  }
 
   interface IntrinsicElements {
     'wp-404': Wp404;

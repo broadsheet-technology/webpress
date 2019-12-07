@@ -1,37 +1,32 @@
 {
-  "name": "@webpress/core",
+  "name": "core",
   "version": "0.0.1",
-  "description": "Webpress Core",
+  "description": "Stencil Component Starter",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "es2015": "dist/esm/index.mjs",
+  "es2017": "dist/esm/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/core/core.js",
   "files": [
-    "dist/"
+    "dist/",
+    "loader/"
   ],
   "scripts": {
-    "build": "tsc && npm run rollup",
-    "lint": "tslint --project tsconfig.json",
-    "release": "np",
-    "rollup": "rollup -c rollup.config.js",
-    "version": "npm run build",
-    "watch": "tsc --watch"
+    "build": "stencil build --docs",
+    "start": "stencil build --dev --watch --serve",
+    "test": "stencil test --spec --e2e",
+    "test.watch": "stencil test --spec --e2e --watchAll",
+    "generate": "stencil generate"
   },
   "devDependencies": {
-    "@types/wpapi": "^1.1.0"
+    "@stencil/core": "^1.3.3"
   },
+  "license": "MIT",
   "dependencies": {
-    "@stencil/core": "^1.8.1",
-    "esm": "^3.2.25",
-    "fs": "0.0.1-security",
+    "@types/wpapi": "^1.1.0",
     "wpapi": "^1.2.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wjhdev/webpress.git"
-  },
-  "author": "Will Haynes",
-  "license": "GPLv2",
-  "bugs": {
-    "url": "https://github.com/wjhdev/webpress"
   }
 }

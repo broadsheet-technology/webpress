@@ -8,21 +8,20 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
-  TemplateArgs,
-} from './global/index';
-import {
   Query,
+  WebpressConnection,
 } from '@webpress/core';
 
 export namespace Components {
-  interface WpRouter {}
+  interface WpRouter {
+    'connection': WebpressConnection;
+  }
   interface WpTemplate {
-    'args': TemplateArgs;
     'component': string;
     'componentProps'?: { [key: string]: any };
-    'menus': any;
+    'menus': any[];
     'query': Query;
-    'sidebars': any;
+    'sidebars': any[];
   }
 }
 
@@ -47,14 +46,15 @@ declare global {
 }
 
 declare namespace LocalJSX {
-  interface WpRouter {}
+  interface WpRouter {
+    'connection'?: WebpressConnection;
+  }
   interface WpTemplate {
-    'args'?: TemplateArgs;
     'component'?: string;
     'componentProps'?: { [key: string]: any };
-    'menus'?: any;
+    'menus'?: any[];
     'query'?: Query;
-    'sidebars'?: any;
+    'sidebars'?: any[];
   }
 
   interface IntrinsicElements {

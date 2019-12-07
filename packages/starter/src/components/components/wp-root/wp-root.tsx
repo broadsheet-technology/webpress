@@ -1,11 +1,14 @@
-import { Component,  h } from '@stencil/core';
+import { Component,  h, Prop } from '@stencil/core';
 import { TemplateType, TemplateSingleType } from '@webpress/router'
+import { ThemeDefinition } from '@webpress/core'
 
 @Component({
   tag: 'wp-root',
   styleUrl: 'wp-root.scss',
 })
 export class Webpress {
+
+  @Prop() theme : ThemeDefinition
 
   render() {
     return (
@@ -20,7 +23,6 @@ export class Webpress {
         } }  component="wp-page"></wp-template>
         <wp-template args={ { type : TemplateType.PageNotFound} }  component="wp-404"></wp-template>
       </wp-router>
-
     )
   }
 }

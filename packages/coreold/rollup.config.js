@@ -2,6 +2,10 @@ import pkg from './package.json';
 
 export default {
   input: 'dist/index.js',
+  external: [
+    'fs',
+    'path'
+  ],
   output: [
     {
       format: 'cjs',
