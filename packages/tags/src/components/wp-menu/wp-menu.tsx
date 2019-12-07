@@ -16,7 +16,6 @@ export class ExaMenu {
     console.log(this.menu)
     return (
       <menu>
-        asdfas
         {this.menu.json.items.map((menuItem) => 
           <li><a href={menuItem.url}>{menuItem.title}</a></li>
         )}
