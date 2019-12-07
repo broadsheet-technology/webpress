@@ -4,12 +4,14 @@ import { Menu } from './menu'
 export interface ThemeDefinition {
     menus : any[] 
     sidebar : any[]
+    dir : string
 }
 
 export interface WebpressContext {
     root : string 
     server : ServerDefinition
     theme : ThemeDefinition
+    
 }
 
 export class Theme {

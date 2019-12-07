@@ -21,11 +21,33 @@ add_action( "rest_api_init", "webpress_register_template_routes" );
  */
 function webpress_template_request( $request ) {
 	$url = $request["url"];
-	$resolver = new UrlToQuery();
-	$args = $resolver->resolve( $url );
-
+	$isHome;
+	$args;
+	if( $url == "/" ) {
+		$isHome = true;
+		if( webpress_home_is_static() ) {
+			$args = ['p' => get_option('page_on_front'), 'post_type'=> 'any'];
+		} else {
+			$args = ['type' => 'post'];
+		}
+	} else {
+		$resolver = new UrlToQuery();
+		$args = $resolver->resolve( $url );
+	}
 	$query = new WP_Query($args);
+	if($isHome) {
+		if(webpress_home_is_static()) {
+			$query->is_home = true;
+			$query->is_page = true;
+		} else {
+			$query->is_home = true;
+		}
+	}	
 	return new WebpressTemplate($query);
+}
+
+function webpress_home_is_static() {
+	return 'page' == get_option('show_on_front');
 }
 
 class WebpressTemplate {

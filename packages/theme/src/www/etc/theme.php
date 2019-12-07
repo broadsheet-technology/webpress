@@ -8,8 +8,10 @@ class WPContext {
 
 class WPTheme {
     var $menus;
+    var $dir;
     function __construct() {
         $this->menus = get_nav_menu_locations();
+        $this->dir = get_template_directory_uri();
     }
 }
 
