@@ -21,7 +21,7 @@ add_action( "rest_api_init", "webpress_register_template_routes" );
  */
 function webpress_template_request( $request ) {
 	$url = $request["url"];
-	$isHome;
+	$isHome = false;
 	$args;
 	if( $url == "/" ) {
 		$isHome = true;
@@ -35,10 +35,12 @@ function webpress_template_request( $request ) {
 		$args = $resolver->resolve( $url );
 	}
 	$query = new WP_Query($args);
+
 	if($isHome) {
 		if(webpress_home_is_static()) {
 			$query->is_home = true;
 			$query->is_page = true;
+			$query->is_single = true;
 		} else {
 			$query->is_home = true;
 		}
@@ -70,21 +72,23 @@ class WebpressQuery {
 
 class WebpressTemplateArgs {
 	var $type; /* {
-		FrontPage = 0,
-		Search = 1,
-		Archive = 2,
-		Blog = 3, ?? 
-		Single = 4,
-		PageNotFound = 99
+		FrontPage = 1,
+		Search = 2,
+		Archive = 3,
+		Blog = 4, ?? 
+		Single = 5,
+		PageNotFound = 0
 	} */
 
 	var $singleType; /* {
-		Page = 0,
-		Post = 1,
-		Attachment = 2,
-		Custom = 3,
-		None = 99,
+		Page = 1,
+		Post = 2,
+		Attachment = 3,
+		Custom = 4,
+		None = 0,
 	} */
+
+	var $frontPageType;
 
 	/* todo...
     archiveType?: TemplateArchiveType 
@@ -101,34 +105,45 @@ class WebpressTemplateArgs {
 	function __construct(\WP_Query $query) {
 		$this->type = WebpressTemplateArgs::resolveType($query);
 		$this->singleType = WebpressTemplateArgs::resolveSingleType($query); 
+		$this->frontPageType = WebpressTemplateArgs::resolveFrontPageType($query); 
 	}
 
 	private static function resolveType(\WP_Query $query) {
 		if( $query->is_home() ) {
-			return 0;
-		} else if( $query->is_search() ) {
 			return 1;
-		} else if( $query->is_archive() ) {
+		} else if( $query->is_search() ) {
 			return 2;
+		} else if( $query->is_archive() ) {
+			return 3;
 		} else if( $query->is_singular() ) {
-			return 4;
+			return 5;
 		}
-		return 99;
+		return 0;
 	}
 
 	private static function resolveSingleType(\WP_Query $query) {
 		if( $query->is_page() ) {
-			return 0;
+			return 1;
 		} else if( $query->is_single() ) {
 			if( $query->post->post_type == "post") {
-				return 1;
+				return 2;
 			} else {
-				return 3;
+				return 4;
 			}
 		} else if( $query->is_attachment() ) {
-			return 2;
+			return 3;
 		}
-		return 99;
+		return 0;
+	}
+
+	private static function resolveFrontPageType(\WP_Query $query) {
+		if( !$query->is_home ) {
+			return 0;
+		} else if( $query->is_page ) {
+			return 2;
+		} else {
+			return 1;
+		}
 	}
 }
 

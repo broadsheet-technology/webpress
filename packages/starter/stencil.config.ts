@@ -10,6 +10,7 @@ export const config: Config = {
       buildDir: 'app',
       dir: '../../../webpress.test/wp.test/wp/wp-content/themes/webpress/',
       copy: [
+        { src: 'global' },
         { src: 'style.css' },
         { src: 'index.php' },
         { src: 'theme-definition.json' },
@@ -21,7 +22,9 @@ export const config: Config = {
 };
 
 config.plugins = [ 
-  sass({})
+  sass({injectGlobalPaths: [
+    'src/global/sass/foundations.scss',
+  ]})
   /* todo: copy index.php, functions.php inside the theme plugin
   theme({
     config: config,

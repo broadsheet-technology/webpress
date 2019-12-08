@@ -14,6 +14,10 @@ import {
 
 export namespace Components {
   interface Wp404 {}
+  interface WpBroadsheet {}
+  interface WpFrontPage {
+    'query': Query;
+  }
   interface WpHome {}
   interface WpPage {
     'query': Query;
@@ -33,6 +37,18 @@ declare global {
   var HTMLWp404Element: {
     prototype: HTMLWp404Element;
     new (): HTMLWp404Element;
+  };
+
+  interface HTMLWpBroadsheetElement extends Components.WpBroadsheet, HTMLStencilElement {}
+  var HTMLWpBroadsheetElement: {
+    prototype: HTMLWpBroadsheetElement;
+    new (): HTMLWpBroadsheetElement;
+  };
+
+  interface HTMLWpFrontPageElement extends Components.WpFrontPage, HTMLStencilElement {}
+  var HTMLWpFrontPageElement: {
+    prototype: HTMLWpFrontPageElement;
+    new (): HTMLWpFrontPageElement;
   };
 
   interface HTMLWpHomeElement extends Components.WpHome, HTMLStencilElement {}
@@ -60,6 +76,8 @@ declare global {
   };
   interface HTMLElementTagNameMap {
     'wp-404': HTMLWp404Element;
+    'wp-broadsheet': HTMLWpBroadsheetElement;
+    'wp-front-page': HTMLWpFrontPageElement;
     'wp-home': HTMLWpHomeElement;
     'wp-page': HTMLWpPageElement;
     'wp-post': HTMLWpPostElement;
@@ -69,6 +87,10 @@ declare global {
 
 declare namespace LocalJSX {
   interface Wp404 {}
+  interface WpBroadsheet {}
+  interface WpFrontPage {
+    'query'?: Query;
+  }
   interface WpHome {}
   interface WpPage {
     'query'?: Query;
@@ -82,6 +104,8 @@ declare namespace LocalJSX {
 
   interface IntrinsicElements {
     'wp-404': Wp404;
+    'wp-broadsheet': WpBroadsheet;
+    'wp-front-page': WpFrontPage;
     'wp-home': WpHome;
     'wp-page': WpPage;
     'wp-post': WpPost;
@@ -96,6 +120,8 @@ declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
       'wp-404': LocalJSX.Wp404 & JSXBase.HTMLAttributes<HTMLWp404Element>;
+      'wp-broadsheet': LocalJSX.WpBroadsheet & JSXBase.HTMLAttributes<HTMLWpBroadsheetElement>;
+      'wp-front-page': LocalJSX.WpFrontPage & JSXBase.HTMLAttributes<HTMLWpFrontPageElement>;
       'wp-home': LocalJSX.WpHome & JSXBase.HTMLAttributes<HTMLWpHomeElement>;
       'wp-page': LocalJSX.WpPage & JSXBase.HTMLAttributes<HTMLWpPageElement>;
       'wp-post': LocalJSX.WpPost & JSXBase.HTMLAttributes<HTMLWpPostElement>;

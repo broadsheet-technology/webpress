@@ -22,10 +22,11 @@ export class WebpressPost implements QueryContextual  {
     if(!this.query || !this.post) {
       return
     }
-    return [
-      <wp-title post={this.post}></wp-title>,
-      <h2>This is a ~Post~</h2>,
-      <wp-running-copy post={this.post}></wp-running-copy>
-    ]
+    return (
+      <wp-broadsheet>
+        <wp-title post={this.post}></wp-title>
+        <wp-running-copy post={this.post}></wp-running-copy>
+      </wp-broadsheet>
+    )
   }
 }
