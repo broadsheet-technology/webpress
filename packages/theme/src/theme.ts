@@ -15,7 +15,6 @@ export function theme(options : WebpressThemeOptions) {
             const target = options.config.outputTargets.find( target => target.type === 'www') as any
             
             target.copy.push({ src: "style.css" })
-            console.log(target)
             
             /* fs.copyFile(__dirname + '/www/functions.php', options.themeDir + 'functions.php', (err: any) => {
                 if (err) throw err;
@@ -51,9 +50,7 @@ export function themeStuff(options: WebpressThemeOptions) {
     return {
         name: 'themeStuff',
         pluginType: 'copy',
-        transform(_sourceText: any, fileName :any, _context: any) {
-            console.log(fileName);
-
+        transform(_sourceText: any, _fileName :any, _context: any) {
             let data
             data = fs.readFileSync(__dirname + '/www/index.php', "utf8")
             const indexString = encode(data, new Map([[/%%ROOT%%/g, options.root],[/%%STENCIL_NAMESPACE%%/g, options.namespace]]))

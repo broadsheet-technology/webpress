@@ -1,6 +1,5 @@
 import { Component, h, Prop } from '@stencil/core';
-import { TemplateArgs, TemplateContextual } from '../../../global/index';
-import { Query } from '@webpress/core'
+import { Query, TemplateArgs, TemplateContextual } from '@webpress/core'
 
 @Component({
   tag: 'wp-template',

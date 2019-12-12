@@ -10,6 +10,6 @@ export class WebpressPage {
   @Prop() query : Query
 
   render() {
-    return <h2>It's a Page!</h2>
+    return <wp-broadsheet><h2>It's a Page!</h2></wp-broadsheet>
   }
 }

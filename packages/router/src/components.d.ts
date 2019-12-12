@@ -9,12 +9,12 @@
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   Query,
-  WebpressConnection,
+  TemplateQuery,
 } from '@webpress/core';
 
 export namespace Components {
   interface WpRouter {
-    'connection': WebpressConnection;
+    'query': TemplateQuery;
   }
   interface WpTemplate {
     'component': string;
@@ -47,7 +47,7 @@ declare global {
 
 declare namespace LocalJSX {
   interface WpRouter {
-    'connection'?: WebpressConnection;
+    'query'?: TemplateQuery;
   }
   interface WpTemplate {
     'component'?: string;

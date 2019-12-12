@@ -10,13 +10,13 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   Menu,
   Post,
-  WebpressConnection,
+  TemplateQuery,
 } from '@webpress/core';
 
 export namespace Components {
   interface WpMenu {
-    'connection': WebpressConnection;
     'menu': Menu;
+    'query': TemplateQuery;
   }
   interface WpRunningCopy {
     'post': Post;
@@ -55,8 +55,8 @@ declare global {
 
 declare namespace LocalJSX {
   interface WpMenu {
-    'connection'?: WebpressConnection;
     'menu'?: Menu;
+    'query'?: TemplateQuery;
   }
   interface WpRunningCopy {
     'post'?: Post;

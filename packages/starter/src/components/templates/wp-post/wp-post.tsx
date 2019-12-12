@@ -1,6 +1,5 @@
 import { Component, h, Prop, State } from '@stencil/core';
-import { Query, Post } from '@webpress/core';
-import { QueryContextual } from '@webpress/router';
+import { Query, Post, QueryContextual } from '@webpress/core';
 import '@webpress/tags'
 
 @Component({

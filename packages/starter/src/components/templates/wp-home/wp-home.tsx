@@ -6,6 +6,6 @@ import { Component, h } from '@stencil/core';
 })
 export class WebpressHome {
   render() {
-    return <h2>This is home</h2>
+    return <wp-broadsheet><h2>This is home</h2></wp-broadsheet>
   }
 }

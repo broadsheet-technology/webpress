@@ -5,10 +5,12 @@ import { Post } from '@webpress/core'
   tag: 'wp-title'
 })
 export class WebpressPost {
-
   @Prop() post : Post 
+
   render() {
-    console.log(this.post)
+    if(!this.post) {
+      return
+    }
     return <h1>{this.post.title}</h1>
   }
 }

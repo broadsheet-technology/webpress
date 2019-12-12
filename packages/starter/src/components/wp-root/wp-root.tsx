@@ -1,6 +1,5 @@
 import { Component,  h, Prop, State } from '@stencil/core';
-import { TemplateType, TemplateSingleType, TemplateFrontPageType } from '@webpress/router'
-import { Theme, Menu } from '@webpress/core'
+import { Theme, Menu, TemplateType, TemplateSingleType, TemplateFrontPageType  } from '@webpress/core'
 
 @Component({
   tag: 'wp-root',
@@ -9,16 +8,12 @@ import { Theme, Menu } from '@webpress/core'
 export class Webpress {
 
   @Prop() theme : Theme
-
   @State() mainMenu : Menu
 
   async componentWillRender() {
     if(!this.mainMenu && this.theme) {
-      console.log('also here!')
       this.mainMenu = await this.theme.getMenu('main')
     }
-    console.log('here!')
-    console.log(this.mainMenu)
   }
 
   render() {
@@ -36,10 +31,9 @@ export class Webpress {
           <wp-template args={ { type : TemplateType.FrontPage, frontPageType: TemplateFrontPageType.Home } } component="wp-home"></wp-template>
 
           { /* Single Templates */ }
-          <wp-template args={ { 
+          <wp-template args={{ 
             type : TemplateType.Single,
-            
-          } } component="wp-post"></wp-template>
+            }} component="wp-post"></wp-template>
           <wp-template args={ { 
             type : TemplateType.Single,
             singleType: TemplateSingleType.Page 

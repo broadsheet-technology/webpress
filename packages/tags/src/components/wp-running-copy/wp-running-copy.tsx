@@ -9,6 +9,9 @@ export class WebpressRunningCopy {
   @Prop() post : Post 
   render() {
     console.log("running copy")
+    if(!this.post) {
+      return
+    }
     return <div innerHTML={this.post.content}></div>
   }
 }

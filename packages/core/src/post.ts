@@ -6,6 +6,7 @@ export interface Single {
     readonly featuredMedia: number 
     readonly link : string 
     readonly content: string 
+    readonly id: number
 }
 
 export class Post implements Single {
@@ -30,6 +31,10 @@ export class Post implements Single {
     get link() : string {
         return this.wpapiPost.link
     }    
+
+    get id() : number {
+        return parseInt(this.wpapiPost.ID,10)
+    }
 
     get content() : string {
         return this.wpapiPost.post_content as any

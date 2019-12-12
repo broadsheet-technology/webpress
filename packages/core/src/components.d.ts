@@ -14,7 +14,6 @@ import {
 export namespace Components {
   interface WebpressTheme {
     'context': WebpressContext;
-    'primaryMenu': number;
   }
 }
 
@@ -34,7 +33,6 @@ declare global {
 declare namespace LocalJSX {
   interface WebpressTheme {
     'context'?: WebpressContext;
-    'primaryMenu'?: number;
   }
 
   interface IntrinsicElements {

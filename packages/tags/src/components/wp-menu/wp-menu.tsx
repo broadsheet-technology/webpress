@@ -1,25 +1,35 @@
-import { Component, Prop, h } from '@stencil/core';
-import { WebpressConnection, Menu } from '@webpress/core';
+import { Component, Prop, h, State } from '@stencil/core';
+import { Menu, TemplateQuery, MenuItem } from '@webpress/core';
 
 @Component({
   tag: 'wp-menu',
 })
-export class ExaMenu {  
-
-  @Prop() connection : WebpressConnection
+export class WebpressMenu {  
   @Prop() menu: Menu
+  @Prop() query: TemplateQuery
+
+  @State() activeMenuItem: MenuItem
+
+  async componentWillRender() {
+    if(!this.query) {
+      return
+    }
+    let template = await this.query.template 
+    let post = (await this.query.posts)[0]
+    this.activeMenuItem = this.menu.items.find(item => item.isActive(post, template))
+  }
 
   render() {
-    if(!this.menu || !this.connection) {
+    if(!this.menu) {
       return;
     }
-    console.log(this.menu)
+   
     return (
       <menu>
-        {this.menu.json.items.map((menuItem) => 
-          <li><a href={menuItem.url}>{menuItem.title}</a></li>
+        {this.menu.items.map((item) => 
+          <li class={item === this.activeMenuItem ? "active" : ""}><a href={item.url}>{item.title}</a></li>
         )}
       </menu>
     );  
-  } 
+  }
 }

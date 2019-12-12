@@ -1,4 +1,4 @@
-import { Query } from "@webpress/core"
+import { Query } from "./query"
 
 export interface QueryContextual {
     query: Query
@@ -70,7 +70,6 @@ export class TemplateArgs implements TemplateArgs {
         this.type = json.type;
         this.singleType = json.singleType ? json.singleType : TemplateSingleType.None;
         this.frontPageType = json.frontPageType ? json.frontPageType : TemplateFrontPageType.None;
-        console.log("created",this,json)
     }
 
     matchScore(template: TemplateArgs) {
@@ -92,7 +91,7 @@ export class TemplateArgs implements TemplateArgs {
                     if(template.type == TemplateType.Single && template.singleType && template.singleType == TemplateSingleType.Page) {
                         score = 40;
                     }
-                    else if(template.frontPageType && template.frontPageType == TemplateFrontPageType.Page) {
+                    else if(template.frontPageType) {
                         score = 60;
                     }
                 }
@@ -110,27 +109,18 @@ export class TemplateArgs implements TemplateArgs {
                     score = 10
                 }
             }
-        
             break;
-
             default:
                 score = -99
             break;
         }
-
-  
-        console.log("this", this, "template", template, "score", score)
-
         return score;
     }
 }
 
 export class Template {
-    query : Query
     args : TemplateArgs
-
     constructor(json) {
-        this.query = json.query
-        this.args = new TemplateArgs(json.args)
+        this.args = new TemplateArgs(json)
     }
 }

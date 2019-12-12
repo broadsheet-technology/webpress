@@ -11,11 +11,10 @@ export interface WebpressContext {
     root : string 
     server : ServerDefinition
     theme : ThemeDefinition
-    
 }
 
 export class Theme {
-    constructor(readonly definition : ThemeDefinition, private connection : WebpressConnection) {
+    constructor(private connection : WebpressConnection, readonly definition : ThemeDefinition) {
 
     }
 

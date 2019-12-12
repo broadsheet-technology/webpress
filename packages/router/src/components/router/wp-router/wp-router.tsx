@@ -1,46 +1,29 @@
-import { Component, State, Element, h, Prop } from '@stencil/core'
-import { WebpressConnection, Query } from '@webpress/core'
-import { Template, TemplateContextual } from '../../../global/index'
-import WPAPI from 'wpapi'
+import { Component, Element, h, Prop } from '@stencil/core'
+import { TemplateQuery, TemplateContextual } from '@webpress/core'
+
 
 @Component({
   tag: 'wp-router',
 })
 export class Router {
-  @Prop() connection : WebpressConnection
-
-  @State() path : string = ""
-  @State() template : Template
-
   @Element() el!: HTMLElement;
 
-  async componentWillUpdate() {
-    if(this.template || !this.connection) {
-      return;
-    }
-
-    var wp = new WPAPI({endpoint: this.connection.server.apiUrl})
-    WPAPI.prototype['template'] = wp.registerRoute('webpress/v1', '/template/(?P<url>)');
-
-    var templateLoader = wp.template()
-    templateLoader.param("url", window.location.pathname)
-
-    this.template = await templateLoader.then(response => new Template(response))
-  }
+  @Prop() query : TemplateQuery
 
   render() {
-	  return this.template ? <slot /> : <div hidden={true} ><slot /></div>
+	  return this.query ? <slot /> : <div hidden={true} ><slot /></div>
   }
 
-  componentDidUpdate() {
-    if(!this.template) {
+  async componentDidRender() {
+    if(!this.query) {
       return
     }
+    let template = await this.query.template
     var templateComponents = Array.from(this.el.children as unknown as TemplateContextual[])
-    var highestScoredTemplateValue = Math.max.apply(Math, templateComponents.map(template => this.template.args.matchScore(template.args)))
+    var highestScoredTemplateValue = Math.max.apply(Math, templateComponents.map(templateComponent => template.args.matchScore(templateComponent.args)))
     templateComponents.map(templateComponent => {
-      templateComponent.hidden = this.template.args.matchScore(templateComponent.args) !== highestScoredTemplateValue;
-      templateComponent.query = new Query(this.connection, this.template.query)
+      templateComponent.hidden = template.args.matchScore(templateComponent.args) !== highestScoredTemplateValue;
+      templateComponent.query = this.query
     })
   }
 }
