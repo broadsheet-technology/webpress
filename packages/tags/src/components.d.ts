@@ -12,16 +12,21 @@ import {
   Post,
   TemplateQuery,
 } from '@webpress/core';
+import {
+  WebpressMenuOptions,
+} from './components/wp-menu/wp-menu';
 
 export namespace Components {
   interface WpMenu {
     'menu': Menu;
+    'options': WebpressMenuOptions;
     'query': TemplateQuery;
   }
   interface WpRunningCopy {
     'post': Post;
   }
   interface WpTitle {
+    'permalink': boolean;
     'post': Post;
   }
 }
@@ -56,12 +61,14 @@ declare global {
 declare namespace LocalJSX {
   interface WpMenu {
     'menu'?: Menu;
+    'options'?: WebpressMenuOptions;
     'query'?: TemplateQuery;
   }
   interface WpRunningCopy {
     'post'?: Post;
   }
   interface WpTitle {
+    'permalink'?: boolean;
     'post'?: Post;
   }
 

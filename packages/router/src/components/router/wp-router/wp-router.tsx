@@ -1,7 +1,6 @@
 import { Component, Element, h, Prop } from '@stencil/core'
 import { TemplateQuery, TemplateContextual } from '@webpress/core'
 
-
 @Component({
   tag: 'wp-router',
 })

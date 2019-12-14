@@ -44,8 +44,8 @@ function webpress_template_request( $request ) {
 		} else {
 			$query->is_home = true;
 		}
-	}	
-	return new WebpressTemplate($query);
+	}
+	return new WebpressTemplate($query,$args);
 }
 
 function webpress_home_is_static() {
@@ -55,10 +55,41 @@ function webpress_home_is_static() {
 class WebpressTemplate {
 	var $query;
 	var $args;
+	var $request;
 
-	function __construct(\WP_Query $query) {
+	function __construct(\WP_Query $query, $args) {
 		$this->query = new WebpressQuery($query);
-		$this->args = new WebpressTemplateArgs($query);
+		$this->args = new WebpressTemplateArgs($query, $args);
+		$this->request = WebpressTemplate::requestFromArgs($args);
+		//print_r($args);
+		//print_r(WebpressTemplate::requestFromArgs($args));
+	}
+
+	private static function requestFromArgs($args) {
+		$req = [];
+
+		// By slug
+		$req['slug'] = array_key_exists('pagename',$args) ? $args['pagename'] : null;
+		if(array_key_exists('name',$args)) {
+			$req['slug'] = $args['name'];
+		}
+
+		// By other...
+		$req['author'] = array_key_exists('author',$args) ? $args['author'] : null;
+		$req['author_exclude'] = array_key_exists('author_exclude',$args) ? $args['author_exclude'] : null;
+		$req['exclude'] = array_key_exists('exclude',$args) ? $args['exclude'] : null;
+		$req['include'] = array_key_exists('include',$args) ? $args['include'] : null;
+		$req['menu_order'] = array_key_exists('menu_order',$args) ? $args['menu_order'] : null;
+		$req['offset'] = array_key_exists('offset',$args) ? $args['offset'] : null;
+		$req['order'] = array_key_exists('order',$args) ? $args['order'] : null;
+		$req['orderby'] = array_key_exists('orderby',$args) ? $args['orderby'] : null;
+		$req['parent'] = array_key_exists('parent',$args) ? $args['parent'] : null;
+		$req['parent_exclude'] = array_key_exists('parent_exclude',$args) ? $args['parent_exclude'] : null;
+		$req['search'] = array_key_exists('search',$args) ? $args['search'] : null;
+		$req['page'] = array_key_exists('page',$args) ? $args['page'] : null;
+		$req['status'] = array_key_exists('status',$args) ? $args['status'] : null;
+		
+		return $req;
 	}
 }
 
@@ -71,6 +102,8 @@ class WebpressQuery {
 }
 
 class WebpressTemplateArgs {
+
+	var $slug;	
 	var $type; /* {
 		FrontPage = 1,
 		Search = 2,
@@ -102,14 +135,20 @@ class WebpressTemplateArgs {
 	taxonomyTerm?: string
 	*/
 
-	function __construct(\WP_Query $query) {
+	function __construct(\WP_Query $query, $args) {
 		$this->type = WebpressTemplateArgs::resolveType($query);
 		$this->singleType = WebpressTemplateArgs::resolveSingleType($query); 
 		$this->frontPageType = WebpressTemplateArgs::resolveFrontPageType($query); 
+
+		if(array_key_exists('pagename',$args)) {
+			$this->slug = $args['pagename'];
+		}
 	}
 
 	private static function resolveType(\WP_Query $query) {
-		if( $query->is_home() ) {
+		if( $query->is_posts_page ){
+			return 4;
+		} else if( $query->is_home() ) {
 			return 1;
 		} else if( $query->is_search() ) {
 			return 2;
@@ -137,7 +176,7 @@ class WebpressTemplateArgs {
 	}
 
 	private static function resolveFrontPageType(\WP_Query $query) {
-		if( !$query->is_home ) {
+		if( !$query->is_home || $query->is_posts_page ) {
 			return 0;
 		} else if( $query->is_page ) {
 			return 2;

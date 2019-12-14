@@ -67,9 +67,9 @@ export class TemplateArgs implements TemplateArgs {
     singleType? = TemplateSingleType.None
 
     constructor(json) {
-        this.type = json.type;
-        this.singleType = json.singleType ? json.singleType : TemplateSingleType.None;
-        this.frontPageType = json.frontPageType ? json.frontPageType : TemplateFrontPageType.None;
+        this.type = json.type
+        this.singleType = json.singleType ? json.singleType : TemplateSingleType.None
+        this.frontPageType = json.frontPageType ? json.frontPageType : TemplateFrontPageType.None
     }
 
     matchScore(template: TemplateArgs) {
@@ -80,6 +80,11 @@ export class TemplateArgs implements TemplateArgs {
         let score = 0;
         
         switch (this.type) {
+            case TemplateType.Blog: {
+                if(template.type == TemplateType.Blog) {
+                    score = 400;
+                }
+            }
             case TemplateType.FrontPage: {
                 if (this.frontPageType == TemplateFrontPageType.Home) {
                     if(template.type != TemplateType.FrontPage) {
@@ -120,7 +125,9 @@ export class TemplateArgs implements TemplateArgs {
 
 export class Template {
     args : TemplateArgs
+    request : any
     constructor(json) {
-        this.args = new TemplateArgs(json)
+        this.args = new TemplateArgs(json.args)
+        this.request = json.request
     }
 }

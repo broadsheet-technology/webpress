@@ -17,7 +17,7 @@ export class Post implements Single {
     }
 
     get title() : string {
-        return this.wpapiPost.post_title
+        return this.wpapiPost.title.rendered
     }
 
     get subhead() : string {
@@ -37,7 +37,7 @@ export class Post implements Single {
     }
 
     get content() : string {
-        return this.wpapiPost.post_content as any
+        return this.wpapiPost.content.rendered
     }
 }
 

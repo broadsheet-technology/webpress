@@ -6,11 +6,12 @@ import { Post } from '@webpress/core'
 })
 export class WebpressPost {
   @Prop() post : Post 
+  @Prop() permalink : boolean
 
   render() {
     if(!this.post) {
       return
     }
-    return <h1>{this.post.title}</h1>
+    return <h1 innerHTML={this.post.title} />
   }
 }

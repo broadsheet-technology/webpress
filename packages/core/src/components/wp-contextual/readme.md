@@ -7,10 +7,9 @@
 
 ## Properties
 
-| Property      | Attribute      | Description | Type              | Default     |
-| ------------- | -------------- | ----------- | ----------------- | ----------- |
-| `context`     | --             |             | `WebpressContext` | `undefined` |
-| `primaryMenu` | `primary-menu` |             | `number`          | `undefined` |
+| Property  | Attribute | Description | Type              | Default     |
+| --------- | --------- | ----------- | ----------------- | ----------- |
+| `context` | --        |             | `WebpressContext` | `undefined` |
 
 
 ----------------------------------------------
