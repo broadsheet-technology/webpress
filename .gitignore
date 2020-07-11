@@ -23,3 +23,6 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 .env
 badgerherald.org/
+
+server/*
+server/wp-content/themes/badgerheraldorg/host.config.json

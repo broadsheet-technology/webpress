@@ -1,6 +1,10 @@
 {
   "packages": [
-    "packages/*"
+    "src/packages/core",
+    "src/packages/router",
+    "src/packages/tags",
+    "src/themes/starter",
+    "src/themes/badgerherald.org"
   ],
   "version": "0.0.1"
 }

@@ -1,7 +1,7 @@
 const baseScheme = [
-    Array('packages/core'),
-    Array('packages/tags','packages/router','packages/theme'),
-    Array('packages/badgerherald.org'),
+    Array('src/packages/core'),
+    Array('src/packages/tags','src/packages/router'),
+    Array('src/themes/badgerherald.org'),
    ];
 
 async function compile(package) {
