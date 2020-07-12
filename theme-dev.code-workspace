@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"name": "core/src",
+			"path": "src/packages/core/src"
+		},
+		{
+			"name": "tags/src",
+			"path": "src/packages/tags/src"
+		},
+		{
+			"name": "router/src",
+			"path": "src/packages/router/src"
+		},
+		{
+			"name": "badgerherald.org/src",
+			"path": "src/themes/badgerherald.org/src"
+		}
+	],
+	"settings": {}
+}

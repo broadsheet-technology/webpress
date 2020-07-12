@@ -3,6 +3,7 @@
 include 'etc/template.php';
 include 'etc/theme.php';
 include 'etc/menus.php';
+include 'etc/social.php';
 
 add_action('wp_head', function() {
     global $WPContext;

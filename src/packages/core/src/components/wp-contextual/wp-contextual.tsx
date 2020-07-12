@@ -15,7 +15,8 @@ export class WebpressTheme {
   @Listen('webpressNavigation') 
   async function(event : any) {
     let path = event.detail.url
-    window.history.pushState(path ,"!!", path);
+   // window.history.pushState(path ,"!!", path);
+    window.location = event.detail.url
 
     this.template = await this.query.template
     this.query = new TemplateQuery(this.connection, path)

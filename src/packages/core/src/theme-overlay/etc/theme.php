@@ -27,6 +27,7 @@ function loadWebpressTheme() {
     $decoded = json_decode($json);
     
     parseMenus($decoded->menus);
+    parseFeatures($decoded->themeSupport);
     $WPContext->theme = new WPTheme();
     $WPContext->root = $decoded->root;
     $WPContext->server = [ 
@@ -38,6 +39,12 @@ add_action( 'init' , 'loadWebpressTheme');
 function parseMenus($menus) {
     foreach( $menus as $menu ) {
         register_nav_menu( $menu, "adf" );
+    }
+}
+
+function parseFeatures($features) {
+    foreach( $features as $feature ) {
+        add_theme_support( $feature );
     }
 }
 
