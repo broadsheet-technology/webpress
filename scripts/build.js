@@ -1,10 +1,9 @@
 
 const buildScheme = [
-    'packages/core',
-    'packages/tags',
-    'packages/router',
-    'packages/theme',
-    'packages/starter',
+    'src/packages/core',
+    'src/packages/tags',
+    'src/packages/router',
+    'src/themes/badgerherald.org'
    ];
 
 buildScheme.reduce( async (previousPromise, nextScheme) => {
@@ -20,6 +19,13 @@ function buildTask(scheme) {
 
         var spawn = require('child_process').spawn;
         var ls = spawn('npm', ['run','build'], { cwd: scheme });
+
+        ls.on("error",function (err) {
+            resolve();
+            console.log(err);
+            console.log(" ")
+            console.log(" ")
+        });
 
         ls.stdout.on('data', function (data) {
             console.log(data.toString().replace(/(\r\n|\n|\r)/gm,""));

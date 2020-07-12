@@ -1,16 +1,30 @@
 {
-  "name": "root",
+  "name": "webpress",
   "private": true,
   "license": "GPLv2",
   "devDependencies": {
-    "@stencil/core": "1.0.2",
-    "lerna": "^3.0.3"
+    "@stencil/core": "^1.12.2",
+    "@stencil/sass": "^1.1.1",
+    "@types/wpapi": "^1.1.0",
+    "lerna": "^3.22.1",
+    "rollup-plugin-copy": "^3.1.0"
   },
   "scripts": {
-    "build": "node scripts/build.js",
-    "run": "node scripts/build.js --watch"
+    "build": "stencil build",
+    "start": "stencil build --dev --watch --serve",
+    "test": "stencil test --spec --e2e",
+    "test.watch": "stencil test --spec --e2e --watchAll",
+    "generate": "stencil generate",
+    "bootstrap": "lerna bootstrap",
+    "legacycompile": "node scripts/build.js",
+    "compile": "node scripts/compile.js",
+    "watch": "node scripts/watch.js",
+    "run": "node scripts/watch.js --watch"
   },
   "dependencies": {
-    "async": "^3.1.0"
+    "@badgerherald/hepta": "file:src/themes/badgerherald.org",
+    "@webpress/core": "file:src/packages/core/src",
+    "@webpress/router": "file:src/packages/router/src",
+    "@webpress/tags": "file:src/packages/tags/src"
   }
 }

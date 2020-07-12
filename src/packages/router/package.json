@@ -1,0 +1,35 @@
+{
+  "name": "@webpress/router",
+  "version": "0.0.1",
+  "description": "Webpress Router",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "stencil build",
+    "dev": "stencil build --dev --watch",
+    "start": "npm run dev",
+    "version": "npm run build"
+  },
+  "dependencies": {
+    "@stencil/core": "^1.8.1",
+    "fs": "0.0.1-security",
+    "link": "^0.1.5",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "wpapi": "^1.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wjhdev/webpress.git"
+  },
+  "author": "Will Haynes",
+  "license": "GPLv2",
+  "bugs": {
+    "url": "https://github.com/wjhdev/webpress"
+  }
+}
