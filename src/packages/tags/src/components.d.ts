@@ -8,6 +8,8 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
+  Author,
+  Media,
   Menu,
   Post,
   TemplateQuery,
@@ -18,9 +20,16 @@ import {
 } from './components/wp-menu/wp-menu';
 
 export namespace Components {
+  interface WpAuthor {
+    'author': Author;
+    'permalink': boolean;
+  }
   interface WpLink {
     'object': WebpressObject;
     'path': string;
+  }
+  interface WpMedia {
+    'media': Media;
   }
   interface WpMenu {
     'menu': Menu;
@@ -40,10 +49,22 @@ export namespace Components {
 declare global {
 
 
+  interface HTMLWpAuthorElement extends Components.WpAuthor, HTMLStencilElement {}
+  var HTMLWpAuthorElement: {
+    prototype: HTMLWpAuthorElement;
+    new (): HTMLWpAuthorElement;
+  };
+
   interface HTMLWpLinkElement extends Components.WpLink, HTMLStencilElement {}
   var HTMLWpLinkElement: {
     prototype: HTMLWpLinkElement;
     new (): HTMLWpLinkElement;
+  };
+
+  interface HTMLWpMediaElement extends Components.WpMedia, HTMLStencilElement {}
+  var HTMLWpMediaElement: {
+    prototype: HTMLWpMediaElement;
+    new (): HTMLWpMediaElement;
   };
 
   interface HTMLWpMenuElement extends Components.WpMenu, HTMLStencilElement {}
@@ -64,7 +85,9 @@ declare global {
     new (): HTMLWpTitleElement;
   };
   interface HTMLElementTagNameMap {
+    'wp-author': HTMLWpAuthorElement;
     'wp-link': HTMLWpLinkElement;
+    'wp-media': HTMLWpMediaElement;
     'wp-menu': HTMLWpMenuElement;
     'wp-running-copy': HTMLWpRunningCopyElement;
     'wp-title': HTMLWpTitleElement;
@@ -72,10 +95,17 @@ declare global {
 }
 
 declare namespace LocalJSX {
+  interface WpAuthor {
+    'author'?: Author;
+    'permalink'?: boolean;
+  }
   interface WpLink {
     'object'?: WebpressObject;
     'onWebpressNavigation'?: (event: CustomEvent<{ url }>) => void;
     'path'?: string;
+  }
+  interface WpMedia {
+    'media'?: Media;
   }
   interface WpMenu {
     'menu'?: Menu;
@@ -92,7 +122,9 @@ declare namespace LocalJSX {
   }
 
   interface IntrinsicElements {
+    'wp-author': WpAuthor;
     'wp-link': WpLink;
+    'wp-media': WpMedia;
     'wp-menu': WpMenu;
     'wp-running-copy': WpRunningCopy;
     'wp-title': WpTitle;
@@ -105,7 +137,9 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
+      'wp-author': LocalJSX.WpAuthor & JSXBase.HTMLAttributes<HTMLWpAuthorElement>;
       'wp-link': LocalJSX.WpLink & JSXBase.HTMLAttributes<HTMLWpLinkElement>;
+      'wp-media': LocalJSX.WpMedia & JSXBase.HTMLAttributes<HTMLWpMediaElement>;
       'wp-menu': LocalJSX.WpMenu & JSXBase.HTMLAttributes<HTMLWpMenuElement>;
       'wp-running-copy': LocalJSX.WpRunningCopy & JSXBase.HTMLAttributes<HTMLWpRunningCopyElement>;
       'wp-title': LocalJSX.WpTitle & JSXBase.HTMLAttributes<HTMLWpTitleElement>;

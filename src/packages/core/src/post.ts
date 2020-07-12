@@ -7,6 +7,7 @@ export interface Single extends WebpressObject {
     readonly featuredMedia: number 
     readonly content: string 
     readonly id: number
+    readonly author : number
 }
 
 export class Post implements Single {
@@ -30,6 +31,10 @@ export class Post implements Single {
 
     get url() : string {
         return this.wpapiPost.link
+    } 
+    
+    get author() : number {
+        return this.wpapiPost.author
     }    
 
     get id() : number {

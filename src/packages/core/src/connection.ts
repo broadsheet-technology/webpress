@@ -1,5 +1,6 @@
 import WPAPI from "wpapi";
-import { Template, Single, TemplateSingleType, Post } from ".";
+import { Template, Single, TemplateSingleType, Post, AuthorQuery, Author } from ".";
+import { MediaQuery, Media } from "./model/Media";
 
 export interface ServerDefinition {
     apiUrl : string
@@ -69,6 +70,41 @@ export class WebpressConnection {
         }))
 
         return this.postsPromises.get(template)
+    }
+
+    private mediaStore = new Map<MediaQuery,Promise<Media[]>>()
+
+    async media(query : MediaQuery) : Promise<Media[]> {
+        if(!query.id) {
+            return []
+        }
+        if(this.mediaStore.has(query)) {
+            return this.mediaStore.get(query)
+        }
+
+        this.mediaStore.set(query,new Promise( async (resolve) => {
+            var wp = new WPAPI({endpoint: this.server.apiUrl})
+            let json = await wp.media().id(query.id)
+            resolve([new Media(json)])
+        }))
+
+        return this.mediaStore.get(query)
+    }
+
+    private authorStore = new Map<AuthorQuery,Promise<Author[]>>()
+
+    async authors(query : AuthorQuery) : Promise<Author[]> {
+        if(this.authorStore.has(query)) {
+            return this.authorStore.get(query)
+        }
+
+        this.authorStore.set(query,new Promise( async (resolve) => {
+            var wp = new WPAPI({endpoint: this.server.apiUrl})
+            let json = await wp.users().id(query.id)
+            resolve([new Author(json)])
+        }))
+
+        return this.authorStore.get(query)
     }
 
 }
