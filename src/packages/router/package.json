@@ -1,7 +1,7 @@
 {
   "name": "@webpress/router",
   "version": "0.0.1",
-  "description": "Webpress Router",
+  "description": "webpress router",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/types/index.d.ts",

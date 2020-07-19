@@ -5,8 +5,8 @@
 			"path": "src/packages/core/src"
 		},
 		{
-			"name": "tags/src",
-			"path": "src/packages/tags/src"
+			"name": "theme/src",
+			"path": "src/packages/theme/src"
 		},
 		{
 			"name": "router/src",

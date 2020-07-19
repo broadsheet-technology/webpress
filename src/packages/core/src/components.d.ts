@@ -7,36 +7,30 @@
 
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
-import {
-  WebpressContext,
-} from './theme';
+
 
 export namespace Components {
-  interface WebpressTheme {
-    'context': WebpressContext;
-  }
+  interface WebpressDebug {}
 }
 
 declare global {
 
 
-  interface HTMLWebpressThemeElement extends Components.WebpressTheme, HTMLStencilElement {}
-  var HTMLWebpressThemeElement: {
-    prototype: HTMLWebpressThemeElement;
-    new (): HTMLWebpressThemeElement;
+  interface HTMLWebpressDebugElement extends Components.WebpressDebug, HTMLStencilElement {}
+  var HTMLWebpressDebugElement: {
+    prototype: HTMLWebpressDebugElement;
+    new (): HTMLWebpressDebugElement;
   };
   interface HTMLElementTagNameMap {
-    'webpress-theme': HTMLWebpressThemeElement;
+    'webpress-debug': HTMLWebpressDebugElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface WebpressTheme {
-    'context'?: WebpressContext;
-  }
+  interface WebpressDebug {}
 
   interface IntrinsicElements {
-    'webpress-theme': WebpressTheme;
+    'webpress-debug': WebpressDebug;
   }
 }
 
@@ -46,7 +40,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
-      'webpress-theme': LocalJSX.WebpressTheme & JSXBase.HTMLAttributes<HTMLWebpressThemeElement>;
+      'webpress-debug': LocalJSX.WebpressDebug & JSXBase.HTMLAttributes<HTMLWebpressDebugElement>;
     }
   }
 }

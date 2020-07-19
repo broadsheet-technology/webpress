@@ -1,8 +1,8 @@
 import { Component, Prop, Element, State, h, Listen } from '@stencil/core';
-import { WebpressConnection } from '../../index';
-import { WebpressContext, Theme } from '../../theme';
-import { Template } from '../../template';
-import { TemplateQuery } from '../../query';
+import { WebpressConnection } from '@webpress/core';
+import { WebpressContext, Theme } from '@webpress/core';
+import { Template } from '@webpress/core';
+import { TemplateQuery } from '@webpress/core';
 
 @Component({
     tag: 'webpress-theme',

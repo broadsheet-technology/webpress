@@ -25,6 +25,6 @@
     "@badgerherald/hepta": "file:src/themes/badgerherald.org",
     "@webpress/core": "file:src/packages/core/src",
     "@webpress/router": "file:src/packages/router/src",
-    "@webpress/tags": "file:src/packages/tags/src"
+    "@webpress/theme": "file:src/packages/theme/src"
   }
 }

@@ -14,10 +14,8 @@
   <webpress-theme id="theme" />
 
   <script>
-
-  var element = document.getElementById('theme')
-  var object = JSON.parse(attributeContent)
-
+    var element = document.getElementById('theme')
+    var object = JSON.parse(attributeContent)
   </script>
 
   <?php wp_footer(); ?>

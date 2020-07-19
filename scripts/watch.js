@@ -1,7 +1,7 @@
 
 const baseScheme = [
     Array('src/packages/core'),
-    Array('src/packages/tags','src/packages/router'),
+    Array('src/packages/theme','src/packages/router'),
     Array('src/themes/badgerherald.org'),
    ];
    

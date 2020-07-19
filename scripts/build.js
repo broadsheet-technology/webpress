@@ -1,7 +1,7 @@
 
 const buildScheme = [
     'src/packages/core',
-    'src/packages/tags',
+    'src/packages/theme',
     'src/packages/router',
     'src/themes/badgerherald.org'
    ];
