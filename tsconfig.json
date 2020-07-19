@@ -17,8 +17,8 @@
     "jsxFactory": "h"
   },
   "include": [
-    "src/themes/**/src/",
-    "src/packages/**/src/",
+    "src/themes/**/",
+    "src/packages/**/",
     "stencil.config.ts",
     "debug.config.ts",
     "plugin-stuff.ts"
