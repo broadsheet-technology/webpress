@@ -1,6 +1,6 @@
 {
   "name": "@webpress/theme",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "webpress theme",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
