@@ -6,7 +6,7 @@ import { Query, TemplateArgs, TemplateContextual } from '@webpress/core'
 })
 
 export class WPTemplate implements TemplateContextual {
-  args: TemplateArgs
+  @Prop() args: TemplateArgs
   hidden: boolean
 
   @Prop() query : Query

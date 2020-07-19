@@ -9,6 +9,7 @@
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   Query,
+  TemplateArgs,
   TemplateQuery,
 } from '@webpress/core';
 
@@ -17,6 +18,7 @@ export namespace Components {
     'query': TemplateQuery;
   }
   interface WpTemplate {
+    'args': TemplateArgs;
     'component': string;
     'componentProps'?: { [key: string]: any };
     'menus': any[];
@@ -50,6 +52,7 @@ declare namespace LocalJSX {
     'query'?: TemplateQuery;
   }
   interface WpTemplate {
+    'args'?: TemplateArgs;
     'component'?: string;
     'componentProps'?: { [key: string]: any };
     'menus'?: any[];

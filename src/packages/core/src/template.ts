@@ -48,7 +48,8 @@ export enum TemplateArchiveDateType {
     Day
 }
 
-export interface TemplateArgs {
+export interface SingleQuery extends TemplateQueryArgs { }
+export interface TemplateQueryArgs {
     type: TemplateType
     singleType?: TemplateSingleType
     frontPageType?: TemplateFrontPageType
@@ -62,9 +63,20 @@ export interface TemplateArgs {
     taxonomy?: string 
     taxonomyTerm?: string
 }
-export class TemplateArgs implements TemplateArgs { 
+export class TemplateArgs implements TemplateQueryArgs { 
     frontPageType? = TemplateFrontPageType.None
     singleType? = TemplateSingleType.None
+
+    type: TemplateType
+    archiveType?: TemplateArchiveType 
+    archiveDateType?: TemplateArchiveDateType 
+
+    slug?: string
+    postType?: string
+    nicename?: string
+    id?: string
+    taxonomy?: string 
+    taxonomyTerm?: string
 
     constructor(json) {
         this.type = json.type
@@ -72,7 +84,7 @@ export class TemplateArgs implements TemplateArgs {
         this.frontPageType = json.frontPageType ? json.frontPageType : TemplateFrontPageType.None
     }
 
-    matchScore(template: TemplateArgs) {
+    matchScore(template: TemplateQueryArgs) {
         if(!template) {
             return -1
         }

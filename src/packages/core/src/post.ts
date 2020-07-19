@@ -21,6 +21,10 @@ export class Post implements Single {
         return this.wpapiPost.title.rendered
     }
 
+    get excerpt() : string {
+        return this.wpapiPost.excerpt.rendered
+    }
+
     get subhead() : string {
         return this.wpapiPost.subhead
     }
@@ -43,6 +47,46 @@ export class Post implements Single {
 
     get content() : string {
         return this.wpapiPost.content.rendered
+    }
+}
+
+export class Page implements Single {
+    constructor(private wpapiPage?: any) { }
+    
+    static fromList(posts : WPAPI.WPRequest[]) {
+        return posts.map(post => {return new Post(post)})
+    }
+
+    get title() : string {
+        return this.wpapiPage.title.rendered
+    }
+
+    get excerpt() : string {
+        return this.wpapiPage.excerpt.rendered
+    }
+
+    get subhead() : string {
+        return this.wpapiPage.subhead
+    }
+
+    get featuredMedia() : number {
+        return this.wpapiPage.featured_media
+    }
+
+    get url() : string {
+        return this.wpapiPage.link
+    } 
+    
+    get author() : number {
+        return this.wpapiPage.author
+    }    
+
+    get id() : number {
+        return parseInt(this.wpapiPage.ID,10)
+    }
+
+    get content() : string {
+        return this.wpapiPage.content.rendered
     }
 }
 
