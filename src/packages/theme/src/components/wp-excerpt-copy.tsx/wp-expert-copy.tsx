@@ -1,12 +1,11 @@
 import { Component,  h, Prop, Host } from '@stencil/core';
-import { Post } from '@webpress/core'
+import { Single } from '@webpress/core'
 
 @Component({
   tag: 'wp-excerpt-copy'
 })
 export class ExerptCopy {
-
-  @Prop() post : Post 
+  @Prop() post : Single 
 
   render() {
     if(!this.post || !this.post.excerpt) {

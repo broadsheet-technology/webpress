@@ -1,12 +1,11 @@
 import { Component, Prop, Event, EventEmitter, h } from '@stencil/core'
-import { WebpressObject } from '@webpress/core'
+import { Single, MenuItem } from '@webpress/core'
 
 @Component({
     tag: 'wp-link',
 })
 export class WebpressTheme {
-  
-  @Prop() object : WebpressObject;
+  @Prop() object : Single | MenuItem;
 
   @Prop() path : string;
 

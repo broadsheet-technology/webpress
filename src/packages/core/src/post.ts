@@ -8,6 +8,7 @@ export interface Single extends WebpressObject {
     readonly content: string 
     readonly id: number
     readonly author : number
+    readonly excerpt: string
 }
 
 export class Post implements Single {

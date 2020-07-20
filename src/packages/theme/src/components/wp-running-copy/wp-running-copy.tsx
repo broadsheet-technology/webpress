@@ -1,12 +1,12 @@
 import { Component,  h, Prop, Host } from '@stencil/core';
-import { Post } from '@webpress/core'
+import { Single } from '@webpress/core'
 
 @Component({
   tag: 'wp-running-copy'
 })
 export class WebpressRunningCopy {
 
-  @Prop() post : Post 
+  @Prop() post : Single 
   @Prop() content : string
 
   render() {

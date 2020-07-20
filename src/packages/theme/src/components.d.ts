@@ -11,10 +11,10 @@ import {
   Author,
   Media,
   Menu,
-  Post,
+  MenuItem,
+  Single,
   TemplateQuery,
   WebpressContext,
-  WebpressObject,
 } from '@webpress/core';
 import {
   WebpressMenuOptions,
@@ -29,10 +29,10 @@ export namespace Components {
     'permalink': boolean;
   }
   interface WpExcerptCopy {
-    'post': Post;
+    'post': Single;
   }
   interface WpLink {
-    'object': WebpressObject;
+    'object': Single | MenuItem;
     'path': string;
   }
   interface WpMedia {
@@ -45,11 +45,11 @@ export namespace Components {
   }
   interface WpRunningCopy {
     'content': string;
-    'post': Post;
+    'post': Single;
   }
   interface WpTitle {
     'permalink': boolean;
-    'post': Post;
+    'post': Single;
   }
 }
 
@@ -124,10 +124,10 @@ declare namespace LocalJSX {
     'permalink'?: boolean;
   }
   interface WpExcerptCopy {
-    'post'?: Post;
+    'post'?: Single;
   }
   interface WpLink {
-    'object'?: WebpressObject;
+    'object'?: Single | MenuItem;
     'onWebpressNavigation'?: (event: CustomEvent<{ url }>) => void;
     'path'?: string;
   }
@@ -141,11 +141,11 @@ declare namespace LocalJSX {
   }
   interface WpRunningCopy {
     'content'?: string;
-    'post'?: Post;
+    'post'?: Single;
   }
   interface WpTitle {
     'permalink'?: boolean;
-    'post'?: Post;
+    'post'?: Single;
   }
 
   interface IntrinsicElements {

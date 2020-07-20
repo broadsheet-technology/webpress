@@ -1,11 +1,11 @@
-import { Component,  h, Prop } from '@stencil/core';
-import { Post } from '@webpress/core'
+import { Component, Prop, h } from '@stencil/core';
+import { Single } from '@webpress/core'
 
 @Component({
   tag: 'wp-title'
 })
 export class WebpressPost {
-  @Prop() post : Post 
+  @Prop() post : Single 
   @Prop() permalink : boolean
 
   render() {
