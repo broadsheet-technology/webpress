@@ -12,6 +12,7 @@ import {
   Media,
   Menu,
   MenuItem,
+  Post,
   Single,
   TemplateQuery,
   WebpressContext,
@@ -50,6 +51,10 @@ export namespace Components {
   interface WpRunningCopy {
     'content': string;
     'post': Single;
+  }
+  interface WpSubhead {
+    'el': string;
+    'post': Post;
   }
   interface WpTitle {
     'el': string;
@@ -109,6 +114,12 @@ declare global {
     new (): HTMLWpRunningCopyElement;
   };
 
+  interface HTMLWpSubheadElement extends Components.WpSubhead, HTMLStencilElement {}
+  var HTMLWpSubheadElement: {
+    prototype: HTMLWpSubheadElement;
+    new (): HTMLWpSubheadElement;
+  };
+
   interface HTMLWpTitleElement extends Components.WpTitle, HTMLStencilElement {}
   var HTMLWpTitleElement: {
     prototype: HTMLWpTitleElement;
@@ -123,6 +134,7 @@ declare global {
     'wp-media': HTMLWpMediaElement;
     'wp-menu': HTMLWpMenuElement;
     'wp-running-copy': HTMLWpRunningCopyElement;
+    'wp-subhead': HTMLWpSubheadElement;
     'wp-title': HTMLWpTitleElement;
   }
 }
@@ -159,6 +171,10 @@ declare namespace LocalJSX {
     'content'?: string;
     'post'?: Single;
   }
+  interface WpSubhead {
+    'el'?: string;
+    'post'?: Post;
+  }
   interface WpTitle {
     'el'?: string;
     'permalink'?: boolean;
@@ -174,6 +190,7 @@ declare namespace LocalJSX {
     'wp-media': WpMedia;
     'wp-menu': WpMenu;
     'wp-running-copy': WpRunningCopy;
+    'wp-subhead': WpSubhead;
     'wp-title': WpTitle;
   }
 }
@@ -192,6 +209,7 @@ declare module "@stencil/core" {
       'wp-media': LocalJSX.WpMedia & JSXBase.HTMLAttributes<HTMLWpMediaElement>;
       'wp-menu': LocalJSX.WpMenu & JSXBase.HTMLAttributes<HTMLWpMenuElement>;
       'wp-running-copy': LocalJSX.WpRunningCopy & JSXBase.HTMLAttributes<HTMLWpRunningCopyElement>;
+      'wp-subhead': LocalJSX.WpSubhead & JSXBase.HTMLAttributes<HTMLWpSubheadElement>;
       'wp-title': LocalJSX.WpTitle & JSXBase.HTMLAttributes<HTMLWpTitleElement>;
     }
   }

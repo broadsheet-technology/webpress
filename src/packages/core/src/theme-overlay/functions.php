@@ -4,6 +4,7 @@ include 'etc/template.php';
 include 'etc/theme.php';
 include 'etc/menus.php';
 include 'etc/social.php';
+include 'etc/subheads.php';
 
 add_action('wp_head', function() {
     global $WPContext;

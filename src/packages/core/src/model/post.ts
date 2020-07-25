@@ -6,19 +6,7 @@ export class Post extends Single {
     constructor(json: any, connection: WebpressConnection) { 
         super(json, connection)
     }
-}
-
-
-export class WebMedia {
-    readonly author: string ;
-    
-    constructor(private wpmedia?: any) { }
-
-    get url() {
-        return this.wpmedia.source_url
-    }
-
-    size() {
-
+    get subhead() {
+        return this.json.subhead
     }
 }

@@ -3,7 +3,7 @@ import { Author } from "./author";
 import { Media } from "./media";
 
 export abstract class Single implements WebpressObject {
-    protected constructor(private json: any, private connection) { }
+    protected constructor(protected json: any, private connection) { }
     abstract route: string;
 
     get title() : string {
