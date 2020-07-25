@@ -8,13 +8,16 @@ export class WebpressPost {
   @Prop() post: Single 
   @Prop() permalink: boolean
 
+  @Prop() el : string
+
   render() {
     if(!this.post) {
       return
     }
+    let Element = this.el ? this.el : "h1"
     if(this.permalink) {
-      return <wp-link object={this.post}><h1 innerHTML={this.post.title} /></wp-link>
+      return <wp-link object={this.post}><Element innerHTML={this.post.title} /></wp-link>
     }
-    return <h1 innerHTML={this.post.title} />
+    return <Element innerHTML={this.post.title} />
   }
 }

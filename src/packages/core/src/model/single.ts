@@ -22,6 +22,10 @@ export abstract class Single implements WebpressObject {
         return new LinkedObject(Media, this.json.featured_media, this.connection)
     }
 
+    get date() : Date {
+        return new Date(this.json.date)
+    }
+
     get link() : string {
         return this.json.link
     } 

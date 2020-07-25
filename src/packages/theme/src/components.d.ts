@@ -28,6 +28,10 @@ export namespace Components {
     'author': Author;
     'permalink': boolean;
   }
+  interface WpDate {
+    'el': string;
+    'post': Single;
+  }
   interface WpExcerptCopy {
     'post': Single;
   }
@@ -48,6 +52,7 @@ export namespace Components {
     'post': Single;
   }
   interface WpTitle {
+    'el': string;
     'permalink': boolean;
     'post': Single;
   }
@@ -66,6 +71,12 @@ declare global {
   var HTMLWpAuthorElement: {
     prototype: HTMLWpAuthorElement;
     new (): HTMLWpAuthorElement;
+  };
+
+  interface HTMLWpDateElement extends Components.WpDate, HTMLStencilElement {}
+  var HTMLWpDateElement: {
+    prototype: HTMLWpDateElement;
+    new (): HTMLWpDateElement;
   };
 
   interface HTMLWpExcerptCopyElement extends Components.WpExcerptCopy, HTMLStencilElement {}
@@ -106,6 +117,7 @@ declare global {
   interface HTMLElementTagNameMap {
     'webpress-theme': HTMLWebpressThemeElement;
     'wp-author': HTMLWpAuthorElement;
+    'wp-date': HTMLWpDateElement;
     'wp-excerpt-copy': HTMLWpExcerptCopyElement;
     'wp-link': HTMLWpLinkElement;
     'wp-media': HTMLWpMediaElement;
@@ -122,6 +134,10 @@ declare namespace LocalJSX {
   interface WpAuthor {
     'author'?: Author;
     'permalink'?: boolean;
+  }
+  interface WpDate {
+    'el'?: string;
+    'post'?: Single;
   }
   interface WpExcerptCopy {
     'post'?: Single;
@@ -144,6 +160,7 @@ declare namespace LocalJSX {
     'post'?: Single;
   }
   interface WpTitle {
+    'el'?: string;
     'permalink'?: boolean;
     'post'?: Single;
   }
@@ -151,6 +168,7 @@ declare namespace LocalJSX {
   interface IntrinsicElements {
     'webpress-theme': WebpressTheme;
     'wp-author': WpAuthor;
+    'wp-date': WpDate;
     'wp-excerpt-copy': WpExcerptCopy;
     'wp-link': WpLink;
     'wp-media': WpMedia;
@@ -168,6 +186,7 @@ declare module "@stencil/core" {
     interface IntrinsicElements {
       'webpress-theme': LocalJSX.WebpressTheme & JSXBase.HTMLAttributes<HTMLWebpressThemeElement>;
       'wp-author': LocalJSX.WpAuthor & JSXBase.HTMLAttributes<HTMLWpAuthorElement>;
+      'wp-date': LocalJSX.WpDate & JSXBase.HTMLAttributes<HTMLWpDateElement>;
       'wp-excerpt-copy': LocalJSX.WpExcerptCopy & JSXBase.HTMLAttributes<HTMLWpExcerptCopyElement>;
       'wp-link': LocalJSX.WpLink & JSXBase.HTMLAttributes<HTMLWpLinkElement>;
       'wp-media': LocalJSX.WpMedia & JSXBase.HTMLAttributes<HTMLWpMediaElement>;
