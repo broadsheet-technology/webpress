@@ -15,8 +15,8 @@ export class WebpressTheme {
   @Listen('webpressNavigation') 
   async function(event : any) {
     let path = event.detail.url
-   // window.history.pushState(path ,"!!", path);
-    window.location = event.detail.url
+    window.history.pushState(path ,"!!", path);
+    //window.location = event.detail.url
 
     this.template = await this.query.template
     this.query = new TemplateQuery(this.connection, path)
@@ -33,7 +33,6 @@ export class WebpressTheme {
     if(this.template || this.connection) {
       return; 
     }
-
     this.connection = new WebpressConnection(this.context.server)
     this.query = new TemplateQuery(this.connection, window.location.pathname)
     this.template = await this.query.template

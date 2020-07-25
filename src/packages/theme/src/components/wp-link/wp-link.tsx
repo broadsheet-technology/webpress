@@ -16,13 +16,13 @@ export class WebpressTheme {
   private clicked(e: MouseEvent) {
     console.log(e)
     e.preventDefault()
-    let url = new URL(this.object ? this.object.url : "http://" +window.location.hostname + this.path)
+    let url = new URL(this.object ? this.object.link : "http://" +window.location.hostname + this.path)
     this.webpressNavigation.emit({url: url.pathname});
   }
 
   render() {
     return (
-      <a ref={ref => this.anchor = ref } onClick={e => this.clicked(e)} href={this.object ? this.object.url : this.path}>
+      <a ref={ref => this.anchor = ref } onClick={e => this.clicked(e)} href={this.object ? this.object.link : this.path}>
         <slot />
       </a>
     )

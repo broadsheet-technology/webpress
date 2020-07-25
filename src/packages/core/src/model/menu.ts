@@ -1,5 +1,5 @@
 import { TemplateType, TemplateFrontPageType } from "./template";
-import { Single, Template } from ".";
+import { Single, Template } from "..";
 import { WebpressObject } from "./object";
 
 export enum MenuItemType {
@@ -12,7 +12,7 @@ export class MenuItem implements WebpressObject {
     get title() : string {
         return this.json.title
     }
-    get url() : string {
+    get link() : string {
         return this.json.url
     }
 
@@ -43,6 +43,7 @@ export class MenuItem implements WebpressObject {
     }
 
     constructor(private json : any) { }
+    route: string;
 }
 
 export class Menu {

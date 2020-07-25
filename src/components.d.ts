@@ -5,16 +5,21 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Menu, Post, Query, TemplateQuery, Theme, WebpressObject } from "@webpress/core";
-import { WebpressContext } from "./packages/core/src/theme";
-import { WebpressMenuOptions } from "./packages/tags/src/components/wp-menu/wp-menu";
+import { Author, Media, Menu, MenuItem, Post, Query, Single, TemplateArgs, TemplateQuery, Theme, WebpressContext } from "@webpress/core";
+import { WebpressMenuOptions } from "./packages/theme/src/components/wp-menu/wp-menu";
 export namespace Components {
-    interface BhaaDonate {
-        "post": Post;
+    interface Bhaa404 {
     }
     interface BhaaExpandingCopy {
         "linkText": string;
         "post": Post;
+    }
+    interface BhaaFooter {
+        "query": TemplateQuery;
+        "theme": Theme;
+    }
+    interface BhaaFrontPage {
+        "query": Query;
     }
     interface BhaaHeader {
         "query": TemplateQuery;
@@ -23,49 +28,57 @@ export namespace Components {
     interface BhaaHeartHerald {
         "theme": Theme;
     }
+    interface BhaaPage {
+        "query": Query;
+    }
+    interface BhaaPost {
+        "query": Query;
+    }
+    interface BhaaPostBreadcrumbs {
+        "post": Post;
+    }
+    interface BhaaRoot {
+        "query": TemplateQuery;
+        "theme": Theme;
+    }
     interface BhaaUpdates {
         "query": Query;
     }
     interface BhaaWrapper {
     }
+    interface WebpressDebug {
+    }
     interface WebpressTheme {
         "context": WebpressContext;
     }
-    interface Wp404 {
+    interface WpAuthor {
+        "author": Author;
+        "permalink": boolean;
     }
-    interface WpFrontPage {
-        "query": Query;
-    }
-    interface WpHome {
-        "query": Query;
+    interface WpExcerptCopy {
+        "post": Single;
     }
     interface WpLink {
-        "object": WebpressObject;
+        "object": Single | MenuItem;
         "path": string;
+    }
+    interface WpMedia {
+        "media": Media;
     }
     interface WpMenu {
         "menu": Menu;
         "options": WebpressMenuOptions;
         "query": TemplateQuery;
     }
-    interface WpPage {
-        "query": Query;
-    }
-    interface WpPost {
-        "query": Query;
-    }
-    interface WpRoot {
-        "query": TemplateQuery;
-        "theme": Theme;
-    }
     interface WpRouter {
         "query": TemplateQuery;
     }
     interface WpRunningCopy {
         "content": string;
-        "post": Post;
+        "post": Single;
     }
     interface WpTemplate {
+        "args": TemplateArgs;
         "component": string;
         "componentProps"?: { [key: string]: any };
         "menus": any[];
@@ -74,21 +87,33 @@ export namespace Components {
     }
     interface WpTitle {
         "permalink": boolean;
-        "post": Post;
+        "post": Single;
     }
 }
 declare global {
-    interface HTMLBhaaDonateElement extends Components.BhaaDonate, HTMLStencilElement {
+    interface HTMLBhaa404Element extends Components.Bhaa404, HTMLStencilElement {
     }
-    var HTMLBhaaDonateElement: {
-        prototype: HTMLBhaaDonateElement;
-        new (): HTMLBhaaDonateElement;
+    var HTMLBhaa404Element: {
+        prototype: HTMLBhaa404Element;
+        new (): HTMLBhaa404Element;
     };
     interface HTMLBhaaExpandingCopyElement extends Components.BhaaExpandingCopy, HTMLStencilElement {
     }
     var HTMLBhaaExpandingCopyElement: {
         prototype: HTMLBhaaExpandingCopyElement;
         new (): HTMLBhaaExpandingCopyElement;
+    };
+    interface HTMLBhaaFooterElement extends Components.BhaaFooter, HTMLStencilElement {
+    }
+    var HTMLBhaaFooterElement: {
+        prototype: HTMLBhaaFooterElement;
+        new (): HTMLBhaaFooterElement;
+    };
+    interface HTMLBhaaFrontPageElement extends Components.BhaaFrontPage, HTMLStencilElement {
+    }
+    var HTMLBhaaFrontPageElement: {
+        prototype: HTMLBhaaFrontPageElement;
+        new (): HTMLBhaaFrontPageElement;
     };
     interface HTMLBhaaHeaderElement extends Components.BhaaHeader, HTMLStencilElement {
     }
@@ -102,6 +127,30 @@ declare global {
         prototype: HTMLBhaaHeartHeraldElement;
         new (): HTMLBhaaHeartHeraldElement;
     };
+    interface HTMLBhaaPageElement extends Components.BhaaPage, HTMLStencilElement {
+    }
+    var HTMLBhaaPageElement: {
+        prototype: HTMLBhaaPageElement;
+        new (): HTMLBhaaPageElement;
+    };
+    interface HTMLBhaaPostElement extends Components.BhaaPost, HTMLStencilElement {
+    }
+    var HTMLBhaaPostElement: {
+        prototype: HTMLBhaaPostElement;
+        new (): HTMLBhaaPostElement;
+    };
+    interface HTMLBhaaPostBreadcrumbsElement extends Components.BhaaPostBreadcrumbs, HTMLStencilElement {
+    }
+    var HTMLBhaaPostBreadcrumbsElement: {
+        prototype: HTMLBhaaPostBreadcrumbsElement;
+        new (): HTMLBhaaPostBreadcrumbsElement;
+    };
+    interface HTMLBhaaRootElement extends Components.BhaaRoot, HTMLStencilElement {
+    }
+    var HTMLBhaaRootElement: {
+        prototype: HTMLBhaaRootElement;
+        new (): HTMLBhaaRootElement;
+    };
     interface HTMLBhaaUpdatesElement extends Components.BhaaUpdates, HTMLStencilElement {
     }
     var HTMLBhaaUpdatesElement: {
@@ -114,29 +163,29 @@ declare global {
         prototype: HTMLBhaaWrapperElement;
         new (): HTMLBhaaWrapperElement;
     };
+    interface HTMLWebpressDebugElement extends Components.WebpressDebug, HTMLStencilElement {
+    }
+    var HTMLWebpressDebugElement: {
+        prototype: HTMLWebpressDebugElement;
+        new (): HTMLWebpressDebugElement;
+    };
     interface HTMLWebpressThemeElement extends Components.WebpressTheme, HTMLStencilElement {
     }
     var HTMLWebpressThemeElement: {
         prototype: HTMLWebpressThemeElement;
         new (): HTMLWebpressThemeElement;
     };
-    interface HTMLWp404Element extends Components.Wp404, HTMLStencilElement {
+    interface HTMLWpAuthorElement extends Components.WpAuthor, HTMLStencilElement {
     }
-    var HTMLWp404Element: {
-        prototype: HTMLWp404Element;
-        new (): HTMLWp404Element;
+    var HTMLWpAuthorElement: {
+        prototype: HTMLWpAuthorElement;
+        new (): HTMLWpAuthorElement;
     };
-    interface HTMLWpFrontPageElement extends Components.WpFrontPage, HTMLStencilElement {
+    interface HTMLWpExcerptCopyElement extends Components.WpExcerptCopy, HTMLStencilElement {
     }
-    var HTMLWpFrontPageElement: {
-        prototype: HTMLWpFrontPageElement;
-        new (): HTMLWpFrontPageElement;
-    };
-    interface HTMLWpHomeElement extends Components.WpHome, HTMLStencilElement {
-    }
-    var HTMLWpHomeElement: {
-        prototype: HTMLWpHomeElement;
-        new (): HTMLWpHomeElement;
+    var HTMLWpExcerptCopyElement: {
+        prototype: HTMLWpExcerptCopyElement;
+        new (): HTMLWpExcerptCopyElement;
     };
     interface HTMLWpLinkElement extends Components.WpLink, HTMLStencilElement {
     }
@@ -144,29 +193,17 @@ declare global {
         prototype: HTMLWpLinkElement;
         new (): HTMLWpLinkElement;
     };
+    interface HTMLWpMediaElement extends Components.WpMedia, HTMLStencilElement {
+    }
+    var HTMLWpMediaElement: {
+        prototype: HTMLWpMediaElement;
+        new (): HTMLWpMediaElement;
+    };
     interface HTMLWpMenuElement extends Components.WpMenu, HTMLStencilElement {
     }
     var HTMLWpMenuElement: {
         prototype: HTMLWpMenuElement;
         new (): HTMLWpMenuElement;
-    };
-    interface HTMLWpPageElement extends Components.WpPage, HTMLStencilElement {
-    }
-    var HTMLWpPageElement: {
-        prototype: HTMLWpPageElement;
-        new (): HTMLWpPageElement;
-    };
-    interface HTMLWpPostElement extends Components.WpPost, HTMLStencilElement {
-    }
-    var HTMLWpPostElement: {
-        prototype: HTMLWpPostElement;
-        new (): HTMLWpPostElement;
-    };
-    interface HTMLWpRootElement extends Components.WpRoot, HTMLStencilElement {
-    }
-    var HTMLWpRootElement: {
-        prototype: HTMLWpRootElement;
-        new (): HTMLWpRootElement;
     };
     interface HTMLWpRouterElement extends Components.WpRouter, HTMLStencilElement {
     }
@@ -193,21 +230,25 @@ declare global {
         new (): HTMLWpTitleElement;
     };
     interface HTMLElementTagNameMap {
-        "bhaa-donate": HTMLBhaaDonateElement;
+        "bhaa-404": HTMLBhaa404Element;
         "bhaa-expanding-copy": HTMLBhaaExpandingCopyElement;
+        "bhaa-footer": HTMLBhaaFooterElement;
+        "bhaa-front-page": HTMLBhaaFrontPageElement;
         "bhaa-header": HTMLBhaaHeaderElement;
         "bhaa-heart-herald": HTMLBhaaHeartHeraldElement;
+        "bhaa-page": HTMLBhaaPageElement;
+        "bhaa-post": HTMLBhaaPostElement;
+        "bhaa-post-breadcrumbs": HTMLBhaaPostBreadcrumbsElement;
+        "bhaa-root": HTMLBhaaRootElement;
         "bhaa-updates": HTMLBhaaUpdatesElement;
         "bhaa-wrapper": HTMLBhaaWrapperElement;
+        "webpress-debug": HTMLWebpressDebugElement;
         "webpress-theme": HTMLWebpressThemeElement;
-        "wp-404": HTMLWp404Element;
-        "wp-front-page": HTMLWpFrontPageElement;
-        "wp-home": HTMLWpHomeElement;
+        "wp-author": HTMLWpAuthorElement;
+        "wp-excerpt-copy": HTMLWpExcerptCopyElement;
         "wp-link": HTMLWpLinkElement;
+        "wp-media": HTMLWpMediaElement;
         "wp-menu": HTMLWpMenuElement;
-        "wp-page": HTMLWpPageElement;
-        "wp-post": HTMLWpPostElement;
-        "wp-root": HTMLWpRootElement;
         "wp-router": HTMLWpRouterElement;
         "wp-running-copy": HTMLWpRunningCopyElement;
         "wp-template": HTMLWpTemplateElement;
@@ -215,12 +256,18 @@ declare global {
     }
 }
 declare namespace LocalJSX {
-    interface BhaaDonate {
-        "post"?: Post;
+    interface Bhaa404 {
     }
     interface BhaaExpandingCopy {
         "linkText"?: string;
         "post"?: Post;
+    }
+    interface BhaaFooter {
+        "query"?: TemplateQuery;
+        "theme"?: Theme;
+    }
+    interface BhaaFrontPage {
+        "query"?: Query;
     }
     interface BhaaHeader {
         "query"?: TemplateQuery;
@@ -229,51 +276,59 @@ declare namespace LocalJSX {
     interface BhaaHeartHerald {
         "theme"?: Theme;
     }
+    interface BhaaPage {
+        "query"?: Query;
+    }
+    interface BhaaPost {
+        "query"?: Query;
+    }
+    interface BhaaPostBreadcrumbs {
+        "post"?: Post;
+    }
+    interface BhaaRoot {
+        "query"?: TemplateQuery;
+        "theme"?: Theme;
+    }
     interface BhaaUpdates {
         "query"?: Query;
     }
     interface BhaaWrapper {
         "onBreakpointChanged"?: (event: CustomEvent<number>) => void;
     }
+    interface WebpressDebug {
+    }
     interface WebpressTheme {
         "context"?: WebpressContext;
     }
-    interface Wp404 {
+    interface WpAuthor {
+        "author"?: Author;
+        "permalink"?: boolean;
     }
-    interface WpFrontPage {
-        "query"?: Query;
-    }
-    interface WpHome {
-        "query"?: Query;
+    interface WpExcerptCopy {
+        "post"?: Single;
     }
     interface WpLink {
-        "object"?: WebpressObject;
+        "object"?: Single | MenuItem;
         "onWebpressNavigation"?: (event: CustomEvent<{ url }>) => void;
         "path"?: string;
+    }
+    interface WpMedia {
+        "media"?: Media;
     }
     interface WpMenu {
         "menu"?: Menu;
         "options"?: WebpressMenuOptions;
         "query"?: TemplateQuery;
     }
-    interface WpPage {
-        "query"?: Query;
-    }
-    interface WpPost {
-        "query"?: Query;
-    }
-    interface WpRoot {
-        "query"?: TemplateQuery;
-        "theme"?: Theme;
-    }
     interface WpRouter {
         "query"?: TemplateQuery;
     }
     interface WpRunningCopy {
         "content"?: string;
-        "post"?: Post;
+        "post"?: Single;
     }
     interface WpTemplate {
+        "args"?: TemplateArgs;
         "component"?: string;
         "componentProps"?: { [key: string]: any };
         "menus"?: any[];
@@ -282,24 +337,28 @@ declare namespace LocalJSX {
     }
     interface WpTitle {
         "permalink"?: boolean;
-        "post"?: Post;
+        "post"?: Single;
     }
     interface IntrinsicElements {
-        "bhaa-donate": BhaaDonate;
+        "bhaa-404": Bhaa404;
         "bhaa-expanding-copy": BhaaExpandingCopy;
+        "bhaa-footer": BhaaFooter;
+        "bhaa-front-page": BhaaFrontPage;
         "bhaa-header": BhaaHeader;
         "bhaa-heart-herald": BhaaHeartHerald;
+        "bhaa-page": BhaaPage;
+        "bhaa-post": BhaaPost;
+        "bhaa-post-breadcrumbs": BhaaPostBreadcrumbs;
+        "bhaa-root": BhaaRoot;
         "bhaa-updates": BhaaUpdates;
         "bhaa-wrapper": BhaaWrapper;
+        "webpress-debug": WebpressDebug;
         "webpress-theme": WebpressTheme;
-        "wp-404": Wp404;
-        "wp-front-page": WpFrontPage;
-        "wp-home": WpHome;
+        "wp-author": WpAuthor;
+        "wp-excerpt-copy": WpExcerptCopy;
         "wp-link": WpLink;
+        "wp-media": WpMedia;
         "wp-menu": WpMenu;
-        "wp-page": WpPage;
-        "wp-post": WpPost;
-        "wp-root": WpRoot;
         "wp-router": WpRouter;
         "wp-running-copy": WpRunningCopy;
         "wp-template": WpTemplate;
@@ -310,21 +369,25 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "bhaa-donate": LocalJSX.BhaaDonate & JSXBase.HTMLAttributes<HTMLBhaaDonateElement>;
+            "bhaa-404": LocalJSX.Bhaa404 & JSXBase.HTMLAttributes<HTMLBhaa404Element>;
             "bhaa-expanding-copy": LocalJSX.BhaaExpandingCopy & JSXBase.HTMLAttributes<HTMLBhaaExpandingCopyElement>;
+            "bhaa-footer": LocalJSX.BhaaFooter & JSXBase.HTMLAttributes<HTMLBhaaFooterElement>;
+            "bhaa-front-page": LocalJSX.BhaaFrontPage & JSXBase.HTMLAttributes<HTMLBhaaFrontPageElement>;
             "bhaa-header": LocalJSX.BhaaHeader & JSXBase.HTMLAttributes<HTMLBhaaHeaderElement>;
             "bhaa-heart-herald": LocalJSX.BhaaHeartHerald & JSXBase.HTMLAttributes<HTMLBhaaHeartHeraldElement>;
+            "bhaa-page": LocalJSX.BhaaPage & JSXBase.HTMLAttributes<HTMLBhaaPageElement>;
+            "bhaa-post": LocalJSX.BhaaPost & JSXBase.HTMLAttributes<HTMLBhaaPostElement>;
+            "bhaa-post-breadcrumbs": LocalJSX.BhaaPostBreadcrumbs & JSXBase.HTMLAttributes<HTMLBhaaPostBreadcrumbsElement>;
+            "bhaa-root": LocalJSX.BhaaRoot & JSXBase.HTMLAttributes<HTMLBhaaRootElement>;
             "bhaa-updates": LocalJSX.BhaaUpdates & JSXBase.HTMLAttributes<HTMLBhaaUpdatesElement>;
             "bhaa-wrapper": LocalJSX.BhaaWrapper & JSXBase.HTMLAttributes<HTMLBhaaWrapperElement>;
+            "webpress-debug": LocalJSX.WebpressDebug & JSXBase.HTMLAttributes<HTMLWebpressDebugElement>;
             "webpress-theme": LocalJSX.WebpressTheme & JSXBase.HTMLAttributes<HTMLWebpressThemeElement>;
-            "wp-404": LocalJSX.Wp404 & JSXBase.HTMLAttributes<HTMLWp404Element>;
-            "wp-front-page": LocalJSX.WpFrontPage & JSXBase.HTMLAttributes<HTMLWpFrontPageElement>;
-            "wp-home": LocalJSX.WpHome & JSXBase.HTMLAttributes<HTMLWpHomeElement>;
+            "wp-author": LocalJSX.WpAuthor & JSXBase.HTMLAttributes<HTMLWpAuthorElement>;
+            "wp-excerpt-copy": LocalJSX.WpExcerptCopy & JSXBase.HTMLAttributes<HTMLWpExcerptCopyElement>;
             "wp-link": LocalJSX.WpLink & JSXBase.HTMLAttributes<HTMLWpLinkElement>;
+            "wp-media": LocalJSX.WpMedia & JSXBase.HTMLAttributes<HTMLWpMediaElement>;
             "wp-menu": LocalJSX.WpMenu & JSXBase.HTMLAttributes<HTMLWpMenuElement>;
-            "wp-page": LocalJSX.WpPage & JSXBase.HTMLAttributes<HTMLWpPageElement>;
-            "wp-post": LocalJSX.WpPost & JSXBase.HTMLAttributes<HTMLWpPostElement>;
-            "wp-root": LocalJSX.WpRoot & JSXBase.HTMLAttributes<HTMLWpRootElement>;
             "wp-router": LocalJSX.WpRouter & JSXBase.HTMLAttributes<HTMLWpRouterElement>;
             "wp-running-copy": LocalJSX.WpRunningCopy & JSXBase.HTMLAttributes<HTMLWpRunningCopyElement>;
             "wp-template": LocalJSX.WpTemplate & JSXBase.HTMLAttributes<HTMLWpTemplateElement>;

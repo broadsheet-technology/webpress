@@ -1,6 +1,8 @@
 import WPAPI from "wpapi";
-import { Template, Single, TemplateSingleType, Post, AuthorQuery, Author, SingleQuery } from ".";
-import { MediaQuery, Media } from "./model/Media";
+import { Template, Single, TemplateSingleType, Post, AuthorQuery, Author, SingleQuery, WebpressQuery, WebpressObject } from "..";
+import { MediaQuery, Media } from "./media";
+
+export type Retrievable<T> = { new (...args: any[]): T; };
 
 export interface ServerDefinition {
     apiUrl : string
@@ -13,6 +15,41 @@ export class WebpressConnection {
 
     loadPost(_post : string) {
         // todo...
+    }
+
+    async get<T extends WebpressObject>(route: string, query: WebpressQuery<T>) : Promise<T> {
+        let wp = new WPAPI({endpoint: this.server.apiUrl})
+        let req = this.request(route,wp)
+        if(query.args && query.args.id) {
+            req.id(query.args.id)
+        }
+        let json = await req.then(json => json)
+        let record = new query.type(json)
+        return record
+    }
+
+    async getMulti<T extends WebpressObject>(route: string, query: WebpressQuery<T>) : Promise<T[]> {
+        let wp = new WPAPI({endpoint: this.server.apiUrl})
+        let req = this.request(route,wp)
+        if(query.args && query.args.id) {
+            req.id(query.args.id)
+        }
+        let json = await req.then(json => json)
+        let records = json.map(json => new query.type(json))
+        return records
+    } 
+
+    private request(route: string, wp : WPAPI) {
+        switch (route) {
+            case "Posts":
+                return wp.posts()
+            case "pages":
+                return wp.pages()
+            case "Authors":
+                return wp.users()
+            case "Media":
+                return wp.media()
+        }
     }
 
     async getMenu(menu : string) : Promise<any> {
@@ -48,14 +85,14 @@ export class WebpressConnection {
     private postsPromises = new Map<Template,Promise<Single[]>>()
 
     async posts(template : Template) : Promise<Single[]> {
-        if(this.postsPromises.has(template)) {
+        if (this.postsPromises.has(template)) {
             return this.postsPromises.get(template)
         } 
 
         this.postsPromises.set(template,new Promise( async (resolve) => {
             var wp = new WPAPI({endpoint: this.server.apiUrl})
 
-            if(template.args.singleType == TemplateSingleType.Page) {
+            if (template.args.singleType == TemplateSingleType.Page) {
                 var postLoader = wp.pages()
             } else {
                 var postLoader = wp.posts()
@@ -66,7 +103,7 @@ export class WebpressConnection {
             })            
 
             let json = await postLoader.then(response => response).catch(error => resolve(error))
-            resolve(json.map(json => new Post(json)))
+            resolve(json.map(json => new Post(json, this)))
         }))
 
         return this.postsPromises.get(template)
@@ -75,7 +112,7 @@ export class WebpressConnection {
     private singleStore = new Map<SingleQuery,Promise<Single[]>>()
 
     async single(query : SingleQuery) : Promise<Single[]> {
-        if(this.singleStore.has(query)) {
+        if (this.singleStore.has(query)) {
             return this.singleStore.get(query)
         } 
 
@@ -93,7 +130,7 @@ export class WebpressConnection {
             }        
 
             let json = await postLoader.then(response => response).catch(error => resolve(error))
-            resolve(json.map(json => new Post(json)))
+            resolve(json.map(json => new Post(json, this)))
         }))
 
         return this.singleStore.get(query)
@@ -133,5 +170,4 @@ export class WebpressConnection {
 
         return this.authorStore.get(query)
     }
-
 }

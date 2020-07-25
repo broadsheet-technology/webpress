@@ -3,7 +3,7 @@
   "private": true,
   "license": "GPLv2",
   "devDependencies": {
-    "@stencil/core": "^1.12.2",
+    "@stencil/core": "file:../../ionic-team/stencil",
     "@stencil/sass": "^1.1.1",
     "@types/wpapi": "^1.1.0",
     "lerna": "^3.22.1",
@@ -23,8 +23,8 @@
   },
   "dependencies": {
     "@badgerherald/hepta": "file:src/themes/badgerherald.org",
-    "@webpress/core": "file:src/packages/core/src",
-    "@webpress/router": "file:src/packages/router/src",
-    "@webpress/theme": "file:src/packages/theme/src"
+    "@webpress/core": "file:src/packages/core",
+    "@webpress/router": "file:src/packages/router",
+    "@webpress/theme": "file:src/packages/theme"
   }
 }

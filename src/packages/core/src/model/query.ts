@@ -1,6 +1,13 @@
-import { Single } from "./post";
+import { Single } from "./single";
 import { Template } from "./template";
-import { WebpressConnection } from "./connection";
+import { WebpressConnection, Retrievable } from "./connection";
+
+export interface WebpressQuery<T> {
+    args: {
+        id: number
+    },
+    type: Retrievable<T>
+}
 
 export class Query {
     protected loadedPosts : Single[]
@@ -12,7 +19,6 @@ export class Query {
 }
 
 export class TemplateQuery extends Query {
-
     get template() : Promise<Template> {
         return this.connection.template(this.pagePath)
     }

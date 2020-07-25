@@ -5,8 +5,8 @@ import { Single } from '@webpress/core'
   tag: 'wp-title'
 })
 export class WebpressPost {
-  @Prop() post : Single 
-  @Prop() permalink : boolean
+  @Prop() post: Single 
+  @Prop() permalink: boolean
 
   render() {
     if(!this.post) {

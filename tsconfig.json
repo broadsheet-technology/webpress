@@ -17,12 +17,11 @@
     "jsxFactory": "h"
   },
   "include": [
-    "src/themes/**/",
-    "src/packages/**/",
+    "src/themes/",
+    "src/packages/",
     "stencil.config.ts",
     "debug.config.ts",
     "plugin-stuff.ts"
-    
   ],
   "exclude": [
     "node_modules", "**/node_modules/*", "**/dist/*", "**/*.d.ts"
