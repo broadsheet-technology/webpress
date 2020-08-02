@@ -6,6 +6,10 @@ include 'etc/menus.php';
 include 'etc/social.php';
 include 'etc/subheads.php';
 
+if ( file_exists('functions/functions.php') ) {
+    include 'functions.php';
+}
+
 add_action('wp_head', function() {
     global $WPContext;
     ?>
