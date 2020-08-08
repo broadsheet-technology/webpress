@@ -6,7 +6,7 @@ include 'etc/menus.php';
 include 'etc/social.php';
 include 'etc/subheads.php';
 
-if ( file_exists( dirname(__FILE__) . 'functions/functions.php' ) ) {
+if ( file_exists( dirname(__FILE__) . '/functions/functions.php' ) ) {
     include 'functions/functions.php';
 }
 
