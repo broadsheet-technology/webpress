@@ -1,6 +1,7 @@
 import WPAPI from "wpapi";
 import { Template, Single, TemplateSingleType, Post, AuthorQuery, Author, SingleQuery, WebpressQuery, WebpressObject } from "..";
 import { MediaQuery, Media } from "./media";
+import { Menu } from "./menu";
 
 export type Retrievable<T> = { new (...args: any[]): T; };
 
@@ -56,7 +57,7 @@ export class WebpressConnection {
         var wp = new WPAPI({endpoint: this.server.apiUrl})
         WPAPI.prototype['menus'] = wp.registerRoute( 'wp-api-menus/v2', '/menus/(?P<id>)' );
         var menuLoaded = await wp.menus().id(menu).then(response => response);
-        return menuLoaded
+        return new Menu(menuLoaded)
     }
 
     private templatePromises = new Map<string,Promise<Template>>()

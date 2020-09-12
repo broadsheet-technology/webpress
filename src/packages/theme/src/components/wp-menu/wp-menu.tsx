@@ -3,6 +3,7 @@ import { Menu, TemplateQuery, MenuItem } from '@webpress/core';
 
 export interface WebpressMenuOptions {
   classForMenuItem: (item : MenuItem) => string
+  domForItem: (item : MenuItem) => HTMLElement 
 }
 
 @Component({
@@ -11,13 +12,12 @@ export interface WebpressMenuOptions {
 export class WebpressMenu {  
   @Prop() menu: Menu
   @Prop() query: TemplateQuery
-
-  @State() activeMenuItem: MenuItem
-
   @Prop() options: WebpressMenuOptions
 
+  @State() activeMenuItem: MenuItem
+  
   async componentWillRender() {
-    if(!this.query) {
+    if(!this.query || !this.menu) {
       return
     }
     let template = await this.query.template 
@@ -25,17 +25,33 @@ export class WebpressMenu {
     this.activeMenuItem = this.menu.items.find(item => item.isActive(post, template))
   }
 
-  render() {
-    if(!this.menu) {
+  render() {  
+    if (!this.menu) {
       return;
     }
-    return (
-      <menu>
-        {this.menu.items.map((item: MenuItem) => {
-          let classes = (item === this.activeMenuItem ? "active " : "") + (this.options && this.options.classForMenuItem  ? this.options.classForMenuItem(item) : "")
-          return <li class={classes}><wp-link object={item}>{item.title}</wp-link></li>
-        })}
-      </menu>
-    );  
+    return this.renderMenu(this.menu)
+  }
+
+  private renderMenu(menu : Menu) {
+    return <menu>
+      {menu.items.map((item: MenuItem) => 
+        this.renderMenuItem(item)
+      )}
+    </menu>
+  }
+
+  private renderMenuItem(item: MenuItem) {
+    let classes = this.menuItemClasses(item)
+    let linkDom = this.options && this.options.domForItem  ? this.options.domForItem(item) : item.title
+    return <li class={classes}>
+      <wp-link object={item}>{linkDom}</wp-link>
+      {item.children ? this.renderMenu(item.children) : undefined}
+    </li>
+  }
+
+  private menuItemClasses(item : MenuItem) {
+    return (item === this.activeMenuItem ? "active " : "") 
+              + (this.options && this.options.classForMenuItem  ? this.options.classForMenuItem(item) : "")
+              + (item.children ? " hasChildren" : "")
   }
 }

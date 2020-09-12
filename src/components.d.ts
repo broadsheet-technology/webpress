@@ -55,6 +55,10 @@ export namespace Components {
         "author": Author;
         "permalink": boolean;
     }
+    interface WpDate {
+        "el": string;
+        "post": Single;
+    }
     interface WpExcerptCopy {
         "post": Single;
     }
@@ -77,6 +81,10 @@ export namespace Components {
         "content": string;
         "post": Single;
     }
+    interface WpSubhead {
+        "el": string;
+        "post": Post;
+    }
     interface WpTemplate {
         "args": TemplateArgs;
         "component": string;
@@ -86,6 +94,7 @@ export namespace Components {
         "sidebars": any[];
     }
     interface WpTitle {
+        "el": string;
         "permalink": boolean;
         "post": Single;
     }
@@ -181,6 +190,12 @@ declare global {
         prototype: HTMLWpAuthorElement;
         new (): HTMLWpAuthorElement;
     };
+    interface HTMLWpDateElement extends Components.WpDate, HTMLStencilElement {
+    }
+    var HTMLWpDateElement: {
+        prototype: HTMLWpDateElement;
+        new (): HTMLWpDateElement;
+    };
     interface HTMLWpExcerptCopyElement extends Components.WpExcerptCopy, HTMLStencilElement {
     }
     var HTMLWpExcerptCopyElement: {
@@ -217,6 +232,12 @@ declare global {
         prototype: HTMLWpRunningCopyElement;
         new (): HTMLWpRunningCopyElement;
     };
+    interface HTMLWpSubheadElement extends Components.WpSubhead, HTMLStencilElement {
+    }
+    var HTMLWpSubheadElement: {
+        prototype: HTMLWpSubheadElement;
+        new (): HTMLWpSubheadElement;
+    };
     interface HTMLWpTemplateElement extends Components.WpTemplate, HTMLStencilElement {
     }
     var HTMLWpTemplateElement: {
@@ -245,12 +266,14 @@ declare global {
         "webpress-debug": HTMLWebpressDebugElement;
         "webpress-theme": HTMLWebpressThemeElement;
         "wp-author": HTMLWpAuthorElement;
+        "wp-date": HTMLWpDateElement;
         "wp-excerpt-copy": HTMLWpExcerptCopyElement;
         "wp-link": HTMLWpLinkElement;
         "wp-media": HTMLWpMediaElement;
         "wp-menu": HTMLWpMenuElement;
         "wp-router": HTMLWpRouterElement;
         "wp-running-copy": HTMLWpRunningCopyElement;
+        "wp-subhead": HTMLWpSubheadElement;
         "wp-template": HTMLWpTemplateElement;
         "wp-title": HTMLWpTitleElement;
     }
@@ -304,6 +327,10 @@ declare namespace LocalJSX {
         "author"?: Author;
         "permalink"?: boolean;
     }
+    interface WpDate {
+        "el"?: string;
+        "post"?: Single;
+    }
     interface WpExcerptCopy {
         "post"?: Single;
     }
@@ -327,6 +354,10 @@ declare namespace LocalJSX {
         "content"?: string;
         "post"?: Single;
     }
+    interface WpSubhead {
+        "el"?: string;
+        "post"?: Post;
+    }
     interface WpTemplate {
         "args"?: TemplateArgs;
         "component"?: string;
@@ -336,6 +367,7 @@ declare namespace LocalJSX {
         "sidebars"?: any[];
     }
     interface WpTitle {
+        "el"?: string;
         "permalink"?: boolean;
         "post"?: Single;
     }
@@ -355,12 +387,14 @@ declare namespace LocalJSX {
         "webpress-debug": WebpressDebug;
         "webpress-theme": WebpressTheme;
         "wp-author": WpAuthor;
+        "wp-date": WpDate;
         "wp-excerpt-copy": WpExcerptCopy;
         "wp-link": WpLink;
         "wp-media": WpMedia;
         "wp-menu": WpMenu;
         "wp-router": WpRouter;
         "wp-running-copy": WpRunningCopy;
+        "wp-subhead": WpSubhead;
         "wp-template": WpTemplate;
         "wp-title": WpTitle;
     }
@@ -384,12 +418,14 @@ declare module "@stencil/core" {
             "webpress-debug": LocalJSX.WebpressDebug & JSXBase.HTMLAttributes<HTMLWebpressDebugElement>;
             "webpress-theme": LocalJSX.WebpressTheme & JSXBase.HTMLAttributes<HTMLWebpressThemeElement>;
             "wp-author": LocalJSX.WpAuthor & JSXBase.HTMLAttributes<HTMLWpAuthorElement>;
+            "wp-date": LocalJSX.WpDate & JSXBase.HTMLAttributes<HTMLWpDateElement>;
             "wp-excerpt-copy": LocalJSX.WpExcerptCopy & JSXBase.HTMLAttributes<HTMLWpExcerptCopyElement>;
             "wp-link": LocalJSX.WpLink & JSXBase.HTMLAttributes<HTMLWpLinkElement>;
             "wp-media": LocalJSX.WpMedia & JSXBase.HTMLAttributes<HTMLWpMediaElement>;
             "wp-menu": LocalJSX.WpMenu & JSXBase.HTMLAttributes<HTMLWpMenuElement>;
             "wp-router": LocalJSX.WpRouter & JSXBase.HTMLAttributes<HTMLWpRouterElement>;
             "wp-running-copy": LocalJSX.WpRunningCopy & JSXBase.HTMLAttributes<HTMLWpRunningCopyElement>;
+            "wp-subhead": LocalJSX.WpSubhead & JSXBase.HTMLAttributes<HTMLWpSubheadElement>;
             "wp-template": LocalJSX.WpTemplate & JSXBase.HTMLAttributes<HTMLWpTemplateElement>;
             "wp-title": LocalJSX.WpTitle & JSXBase.HTMLAttributes<HTMLWpTitleElement>;
         }

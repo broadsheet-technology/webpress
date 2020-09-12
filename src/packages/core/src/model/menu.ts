@@ -15,6 +15,13 @@ export class MenuItem implements WebpressObject {
     get link() : string {
         return this.json.url
     }
+    get slug() : string {
+        return this.json.object_slug
+    }
+
+    get children() : Menu {
+        return this.json.children ? new Menu({items: this.json.children}) : undefined
+    }
 
     isActive(post : Single, template: Template) : boolean {
         if(this.type == MenuItemType.Page) {
@@ -42,7 +49,9 @@ export class MenuItem implements WebpressObject {
         return parseInt(this.json.object_id,10)
     }
 
-    constructor(private json : any) { }
+    constructor(private json : any) {
+
+    }
     route: string;
 }
 

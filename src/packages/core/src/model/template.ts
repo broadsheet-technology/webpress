@@ -1,9 +1,5 @@
 import { Query } from "./query"
 
-export interface QueryContextual {
-    query: Query
-}
-
 export interface TemplateContextual {
     args: TemplateArgs
     query: Query
