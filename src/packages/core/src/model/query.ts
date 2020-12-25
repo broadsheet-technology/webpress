@@ -14,7 +14,6 @@ export class Query {
     get posts() : Promise<Single[]> {
         return new Promise( (resolve) => resolve(this.loadedPosts) )
     }
-
     constructor(readonly connection : WebpressConnection) { }
 }
 

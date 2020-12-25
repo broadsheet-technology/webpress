@@ -156,7 +156,7 @@ declare namespace LocalJSX {
   }
   interface WpLink {
     'object'?: Single | MenuItem;
-    'onWebpressNavigation'?: (event: CustomEvent<{ url }>) => void;
+    'onWebpressRouterNavigation'?: (event: CustomEvent<{ url }>) => void;
     'path'?: string;
   }
   interface WpMedia {

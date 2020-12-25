@@ -1,4 +1,4 @@
-# webpress-theme
+# webpress-debug
 
 
 

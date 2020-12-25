@@ -9,14 +9,20 @@ export class WebpressTheme {
 
   @Prop() path : string;
 
-  @Event() webpressNavigation: EventEmitter<{ url }>;
+  @Event() webpressRouterNavigation: EventEmitter<{ url }>;
 
   anchor
 
+  private clicked(e: MouseEvent) {
+    console.log(e)
+    e.preventDefault()
+    let url = new URL(this.object ? this.object.link : "http://" + window.location.hostname + this.path)
+    this.webpressRouterNavigation.emit({url: url.pathname});
+  }
+
   render() {
-    console.log("thing",this.object,this.path)
     return (
-      <a ref={ref => this.anchor = ref } href={this.object ? this.object.link : this.path}>
+      <a ref={ref => this.anchor = ref } onClick={e => this.clicked(e)} href={this.object ? this.object.link : this.path}>
         <slot />
       </a>
     )
