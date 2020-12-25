@@ -10,7 +10,11 @@ export class Router {
 
   private template : Template
 
-  async componentWillRender() {
+  async componentWillLoad() {
+    return this.componentWillUpdate()
+  }
+
+  async componentWillUpdate() {
     this.template = await this.query.template
     this.templateComponents.map(templateComponent => {
       templateComponent.hidden = true
@@ -22,7 +26,11 @@ export class Router {
 	  return this.query ? <slot /> : <div hidden={true} ><slot /></div>
   }
 
-  async componentDidRender() {
+  async componentDidLoad() {
+    return this.componentDidUpdate()
+  }
+
+  async componentDidUpdate() {
     if(!this.query) {
       return
     }

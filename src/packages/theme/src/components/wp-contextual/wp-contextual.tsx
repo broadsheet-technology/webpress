@@ -16,9 +16,13 @@ export class WebpressTheme {
   @Listen('webpressRouterNavigation') 
   async updateTemplate(event : any) {
     let path = event.detail.url
-    window.history.pushState(path ,"!!", path);
-
+    window.history.pushState(path ,"here!!", path);
     this.query = new TemplateQuery(this.query.connection, path)
+  }
+
+  @Listen("popstate", { target: "window" })
+  handleBackButton(event) {
+    this.query = new TemplateQuery(this.query.connection, event.state) 
   }
 
   async componentWillLoad() {
