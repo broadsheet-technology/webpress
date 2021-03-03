@@ -1,8 +1,12 @@
-import { Query } from "./query"
+import { Connection, Route } from "./Connection"
+import { Page } from "./Page"
+import { Query, QueryArgs } from "./Query"
+import { Retrievable } from "./Retrievable"
+import { Single } from "./Single"
 
 export interface TemplateContextual {
-    args: TemplateArgs
-    query: Query
+    args: SingleTemplateQueryArgs
+    query: Promise<Template>
     hidden: boolean
 }
 
@@ -44,9 +48,8 @@ export enum TemplateArchiveDateType {
     Day
 }
 
-export interface SingleQuery extends TemplateQueryArgs { }
-export interface TemplateQueryArgs {
-    type: TemplateType
+export interface TemplateParams {
+    templateType: TemplateType
     singleType?: TemplateSingleType
     frontPageType?: TemplateFrontPageType
     archiveType?: TemplateArchiveType 
@@ -59,11 +62,12 @@ export interface TemplateQueryArgs {
     taxonomy?: string 
     taxonomyTerm?: string
 }
-export class TemplateArgs implements TemplateQueryArgs { 
+export class SingleTemplateQueryArgs extends QueryArgs<Single> implements TemplateParams {
+    params: TemplateParams 
     frontPageType? = TemplateFrontPageType.None
     singleType? = TemplateSingleType.None
 
-    type: TemplateType
+    templateType: TemplateType
     archiveType?: TemplateArchiveType 
     archiveDateType?: TemplateArchiveDateType 
 
@@ -75,33 +79,35 @@ export class TemplateArgs implements TemplateQueryArgs {
     taxonomyTerm?: string
 
     constructor(json) {
-        this.type = json.type
+        super(Page, new Route("page"))
+        console.log(json)
+        this.templateType = json.type
         this.singleType = json.singleType ? json.singleType : TemplateSingleType.None
         this.frontPageType = json.frontPageType ? json.frontPageType : TemplateFrontPageType.None
     }
 
-    matchScore(template: TemplateQueryArgs) {
+    matchScore(template: TemplateParams) {
         if(!template) {
             return -1
         }
 
         let score = 0;
         
-        switch (this.type) {
+        switch (this.templateType) {
             case TemplateType.Blog: {
-                if(template.type == TemplateType.Blog) {
+                if(template.templateType == TemplateType.Blog) {
                     score = 400;
                 }
             }
             case TemplateType.FrontPage: {
                 if (this.frontPageType == TemplateFrontPageType.Home) {
-                    if(template.type != TemplateType.FrontPage) {
+                    if(template.templateType != TemplateType.FrontPage) {
                         score = -999
                     } else if(template.frontPageType && template.frontPageType == this.frontPageType) {
                         score = 40;
                     }
                 } else if(this.frontPageType == TemplateFrontPageType.Page) {
-                    if(template.type == TemplateType.Single && template.singleType && template.singleType == TemplateSingleType.Page) {
+                    if(template.templateType == TemplateType.Single && template.singleType && template.singleType == TemplateSingleType.Page) {
                         score = 40;
                     }
                     else if(template.frontPageType) {
@@ -111,7 +117,7 @@ export class TemplateArgs implements TemplateQueryArgs {
             }
             break;
             case TemplateType.Single: {
-                if(template.type != TemplateType.Single) {
+                if(template.templateType != TemplateType.Single) {
                     return -999;
                 }
                 if(template.singleType && template.singleType !== this.singleType) {
@@ -131,11 +137,28 @@ export class TemplateArgs implements TemplateQueryArgs {
     }
 }
 
-export class Template {
-    args : TemplateArgs
+export interface Template extends Retrievable<Template> { }
+export class Template implements Retrievable<Template> {
+    args : SingleTemplateQueryArgs
     request : any
-    constructor(json) {
-        this.args = new TemplateArgs(json.args)
+    link: string
+
+    constructor(readonly connection: Connection, json: any) { 
+        this.args = new SingleTemplateQueryArgs(json.args)
         this.request = json.request
+    }
+
+    get globalQuery() : Promise<Single> {
+        return new Query(this.connection, new SingleTemplateQueryArgs(this.args)).result[0]
+    }
+}
+
+interface TemplateQueryArgParams {
+    path: String
+}
+
+export class TemplateQueryArgs extends QueryArgs<Template, TemplateQueryArgParams> {
+    constructor(readonly params) { 
+        super(Template, new Route("template"))
     }
 }

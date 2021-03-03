@@ -1,12 +1,12 @@
 import { Component, Element, h, Prop } from '@stencil/core'
-import { TemplateQuery, TemplateContextual, Template } from '@webpress/core'
+import { TemplateContextual, Template, SingleQuery } from '@webpress/core'
 
 @Component({
   tag: 'wp-router',
 })
 export class Router {
   @Element() el!: HTMLElement;
-  @Prop() query : TemplateQuery
+  @Prop() query : SingleQuery<Template>
 
   private template : Template
 
@@ -15,7 +15,8 @@ export class Router {
   }
 
   async componentWillUpdate() {
-    this.template = await this.query.template
+    this.template = await this.query.result
+    console.log("tempate here", this.template, this.query)
     this.templateComponents.map(templateComponent => {
       templateComponent.hidden = true
       templateComponent.query = undefined
@@ -36,7 +37,7 @@ export class Router {
     }
     
     let matchedTemplate = this.matchedTemplate
-    matchedTemplate.query = this.query
+    matchedTemplate.query = this.query.result
     matchedTemplate.hidden = false
   }
 

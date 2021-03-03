@@ -1,12 +1,17 @@
-import { WebpressObject, } from "./object";
+import { Retrievable } from "./Retrievable";
+
 
 export interface AuthorQuery {
     id?: number
 }
-export class Author implements WebpressObject {
+
+export interface Author extends Retrievable<Author> { }
+export class Author {
+    static route = "authors"
+    
     constructor(private author) { }
     link: string;
-    route = "Authors"
+    
     get name() {
         return this.author.name
     }

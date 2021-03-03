@@ -1,30 +1,18 @@
-import { WebpressConnection, Retrievable } from "..";
-import { WebpressQuery } from "./query";
+import { Connection, Route } from "./Connection";
+import { Query } from "./Query";
+import { Retrievable } from "./Retrievable";
 
-export interface WebpressObject {
-    readonly link : string 
-    readonly route : string
-}
-
-export class LinkedObject<T extends WebpressObject> {
-    constructor(
-        private cls : Retrievable<T>, 
-        readonly id, 
-        private connection: WebpressConnection) {
-    }
-
-    get query(): Promise<T> {
-        var route = new this.cls().route
-        var query : WebpressQuery<T> = {
-            args: {
-                id: this.id
-            },
-            type: this.cls
-        }
-        if(!query.args.id) {
-            return undefined
-        }
-        return this.connection.get(route,query)
+export interface LinkedObjectQuery<T> extends Query<T> { }
+export class LinkedObjectQuery<T> extends Query<T> {
+    constructor(connection: Connection, type: Retrievable<T>, id: string) {
+        super(connection, {
+            route: new Route("//todo..."),
+            type: type,
+            params: {
+                id: id
+            }
+        })
     }
 }
 
+export type LinkedObject<T extends Retrievable<T>> = Promise<T>

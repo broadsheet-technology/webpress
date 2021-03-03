@@ -1,33 +1,45 @@
 import { Component, Prop, Element, State, h, Listen } from '@stencil/core';
-import { WebpressConnection, WebpressContext, TemplateQuery, Theme } from '@webpress/core';
+import { Connection, WebpressContext, Theme, Single, TemplateQueryArgs, Query } from '@webpress/core';
 
 @Component({
     tag: 'webpress-theme',
 })
 export class WebpressTheme {
-  
   // json set externally by WordPress theme
-  @Prop() context : WebpressContext;
+  @Prop() context : WebpressContext
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLElement
   
-  @State() query : TemplateQuery;
+  @State() query : Promise<Single>
+
+  private connection : Connection
 
   @Listen('webpressRouterNavigation') 
   async updateTemplate(event : any) {
     let path = event.detail.url
     window.history.pushState(path ,"here!!", path);
-    this.query = new TemplateQuery(this.query.connection, path)
+
+    let template = await new Query(this.connection, new TemplateQueryArgs(path)).result
+    this.query = template.globalQuery
   }
 
   @Listen("popstate", { target: "window" })
-  handleBackButton(event) {
-    this.query = new TemplateQuery(this.query.connection, event.state) 
+  async handleBackButton(_event) {
+   // let template = await (new TemplateQuery(this.query.connection, new TemplateQueryArgs(event.state)))
+  //  this.query = template.globalQuery
   }
 
   async componentWillLoad() {
-    let connection = new WebpressConnection(this.context.server)
-    this.query = new TemplateQuery(connection, window.location.pathname)
+    this.connection = new Connection(this.context.server)
+    return this.setTemplateByPagePath(window.location.pathname)
+    //this.query = new TemplateQuery(connection, window.location.pathname)
+  }
+
+  private async setTemplateByPagePath(path) {
+    let template = new Query(this.connection, new TemplateQueryArgs({
+      path: path 
+    })).result
+    this.query = (await template).globalQuery
   }
 
   render() {
@@ -37,7 +49,7 @@ export class WebpressTheme {
     const ThemeRoot = this.context.root
     return (
       <ThemeRoot 
-        theme={new Theme(new WebpressConnection(this.context.server), this.context.theme)} 
+        theme={new Theme(new Connection(this.context.server), this.context.theme)} 
         query={this.query}
       />
     )

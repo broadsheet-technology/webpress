@@ -1,6 +1,5 @@
-import { TemplateType, TemplateFrontPageType } from "./template";
+import { TemplateType, TemplateFrontPageType } from "./Template";
 import { Single, Template } from "..";
-import { WebpressObject } from "./object";
 
 export enum MenuItemType {
     Page,
@@ -8,7 +7,7 @@ export enum MenuItemType {
     Unknown
 }
 
-export class MenuItem implements WebpressObject {
+export class MenuItem {
     get title() : string {
         return this.json.title
     }
@@ -25,8 +24,8 @@ export class MenuItem implements WebpressObject {
 
     isActive(post : Single, template: Template) : boolean {
         if(this.type == MenuItemType.Page) {
-            let matchesPage = template.args.type == TemplateType.Single && this.objectId == post.id
-            let matchesHomepage = template.args.type == TemplateType.FrontPage && template.args.frontPageType == TemplateFrontPageType.Page && this.objectId == post.id
+            let matchesPage = template.args.templateType == TemplateType.Single && this.objectId == post.id
+            let matchesHomepage = template.args.templateType == TemplateType.FrontPage && template.args.frontPageType == TemplateFrontPageType.Page && this.objectId == post.id
             return matchesHomepage || matchesPage
         }
         return false

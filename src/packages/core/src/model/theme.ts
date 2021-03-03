@@ -1,6 +1,5 @@
-import { ServerDefinition, WebpressConnection } from "./connection";
-import { Menu } from './menu'
-import { Query } from "./query";
+import { ServerDefinition, Connection } from "./Connection";
+import { Query } from "./Query";
 
 export interface ThemeDefinition {
     menus : any[] 
@@ -15,16 +14,17 @@ export interface WebpressContext {
 }
 
 export interface QueryContextual {
-    query: Query
+    query: Query<any>
 }
 
 export class Theme {
-    constructor(private connection : WebpressConnection, readonly definition : ThemeDefinition) {
+    constructor(readonly connection : Connection, readonly definition : ThemeDefinition) {
 
     }
 
-    async getMenu(menu : string) {
-        let json = await this.connection.getMenu(this.definition.menus[menu])
-        return new Menu(json)
+    async getMenu(_menu : string) {
+       // let json = await this.connection.getMenu(this.definition.menus[menu])
+       // return new Menu(json)
+       return //todo
     }
 }

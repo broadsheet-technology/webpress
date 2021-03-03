@@ -1,15 +1,15 @@
-import { WebpressObject } from "./object";
+import { Retrievable } from "./Retrievable";
+
 
 export interface MediaQuery {
     id?: number
 }
-export class Media implements WebpressObject {
-    readonly route = "Media"
+export interface Media extends Retrievable<Media> { }
+export class Media {
+    static route = "media"
     constructor(private media) { }
-    link: string;
     get src() {
         return this.media.source_url
     }
     url: string;
-
 }

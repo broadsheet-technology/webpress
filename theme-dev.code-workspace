@@ -15,6 +15,9 @@
 		{
 			"name": "badgerherald.org/src",
 			"path": "src/themes/badgerherald.org/src"
+		},
+		{
+			"path": "../wjh.dev"
 		}
 	],
 	"settings": {}

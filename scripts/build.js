@@ -2,8 +2,7 @@
 const buildScheme = [
     'src/packages/core',
     'src/packages/theme',
-    'src/packages/router',
-    'src/themes/badgerherald.org'
+    'src/packages/router'
    ];
 
 buildScheme.reduce( async (previousPromise, nextScheme) => {

@@ -1,35 +1,31 @@
-import { Single } from "./single";
-import { Template } from "./template";
-import { WebpressConnection, Retrievable } from "./connection";
 
-export interface WebpressQuery<T> {
-    args: {
-        id: number
-    },
-    type: Retrievable<T>
+import { Connection, Route } from "./Connection";
+import { Retrievable } from "./Retrievable";
+
+export interface SingleQuery<T>{
+    readonly result : Promise<T>
+    readonly args
 }
 
-export class Query {
-    protected loadedPosts : Single[]
-    get posts() : Promise<Single[]> {
-        return new Promise( (resolve) => resolve(this.loadedPosts) )
-    }
-    constructor(readonly connection : WebpressConnection) { }
+export interface MultiQuery<T>{
+    readonly results : Promise<T[]>
 }
 
-export class TemplateQuery extends Query {
-    get template() : Promise<Template> {
-        return this.connection.template(this.pagePath)
+export class Query<T> implements SingleQuery<T>, MultiQuery<T> {
+    get result() : Promise<T> {
+        return this.connection.request(this).then(results => results[0])
     }
-
-    get posts() : Promise<Single[]> {
-        return new Promise( async (resolve) => {
-            const template = await this.template
-            resolve(this.connection.posts(template))
-        })
+    get results() : Promise<T[]> {
+        return this.connection.request(this)
     }
-
-    constructor(connection : WebpressConnection, private pagePath : string) { 
-        super(connection)
-    }
+    constructor(readonly connection : Connection, readonly args : QueryArgs<T>) { }
 }
+
+export abstract class QueryArgs<T,P = any> {
+    abstract params: P
+
+    constructor(readonly type : Retrievable<T>, readonly route : Route) { }
+}
+
+
+

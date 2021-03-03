@@ -1,14 +1,10 @@
-import { Single } from "./single"
-import { WebpressConnection } from "./connection"
+import { Single } from "./Single"
+import { Connection } from "./Connection"
+import { Retrievable } from "./Retrievable"
 
+export interface Page extends Retrievable<Page> { }
 export class Page extends Single {
-    readonly route = "page"
-    constructor(json: any, connection: WebpressConnection) { 
+    constructor(json: any, connection: Connection) { 
         super(json, connection)
     }
-    /*
-    static fromList(posts : any) {
-        return posts.map(post => {return new Post(post)})
-    }
-    */
 }

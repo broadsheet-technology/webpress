@@ -24,6 +24,7 @@ UserInterfaceState.xcuserstate
 .env
 badgerherald.org/
 
+wp-content/
 server/*
 server/wp-content/themes/badgerheraldorg/host.config.json
 .vagrant

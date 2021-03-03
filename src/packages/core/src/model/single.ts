@@ -1,10 +1,13 @@
-import { WebpressObject, LinkedObject } from "./object";
-import { Author } from "./author";
+import { LinkedQueryArgs } from "./Linked";
 import { Media } from "./media";
+import { Connection, Route } from "./Connection";
+import { Retrievable } from "./Retrievable";
+import { Author } from "./author";
+import { Query } from "./Query";
 
-export abstract class Single implements WebpressObject {
-    protected constructor(protected json: any, private connection) { }
-    abstract route: string;
+export interface Single extends Retrievable<Single> { }
+export abstract class Single {
+    constructor(protected json: any, readonly connection: Connection) { }
 
     get title() : string {
         return this.json.title.rendered
@@ -18,8 +21,8 @@ export abstract class Single implements WebpressObject {
         return this.json.subhead
     }
 
-    get featuredMedia() : LinkedObject<Media> {
-        return new LinkedObject(Media, this.json.featured_media, this.connection)
+    get featuredMedia() : Promise<Media> {
+        return new Query(this.connection, new LinkedQueryArgs(Media, new Route("media"), this.json.featured_media)).result
     }
 
     get date() : Date {
@@ -30,8 +33,9 @@ export abstract class Single implements WebpressObject {
         return this.json.link
     } 
     
-    get author() : LinkedObject<Author> {
-        return new LinkedObject(Author, this.json.author, this.connection)
+    get author() : Promise<Author> {
+        let args = new LinkedQueryArgs(Author, new Route("author"), this.json.author_id)
+        return new Query(this.connection, args).result
     }    
 
     get id() : number {

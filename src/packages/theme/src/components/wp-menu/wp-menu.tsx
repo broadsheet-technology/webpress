@@ -1,5 +1,5 @@
-import { Component, Prop, h, State } from '@stencil/core';
-import { Menu, TemplateQuery, MenuItem } from '@webpress/core';
+import { Component} from '@stencil/core';
+import { MenuItem } from '@webpress/core';
 
 export interface WebpressMenuOptions {
   classForMenuItem: (item : MenuItem) => string
@@ -10,10 +10,11 @@ export interface WebpressMenuOptions {
   tag: 'wp-menu',
 })
 export class WebpressMenu {  
-  @Prop() menu: Menu
-  @Prop() query: TemplateQuery
-  @Prop() options: WebpressMenuOptions
+ // @Prop() menu: Menu
+ // @Prop() query: Query
+ // @Prop() options: WebpressMenuOptions
 
+  /*
   @State() activeMenuItem: MenuItem
   
   async componentWillRender() {
@@ -21,7 +22,7 @@ export class WebpressMenu {
       return
     }
     let template = await this.query.template 
-    let post = (await this.query.posts)[0]
+    let post = (await this.query.objects)[0]
     this.activeMenuItem = this.menu.items.find(item => item.isActive(post, template))
   }
 
@@ -54,4 +55,5 @@ export class WebpressMenu {
               + (this.options && this.options.classForMenuItem  ? this.options.classForMenuItem(item) : "")
               + (item.children ? " hasChildren" : "")
   }
+  */
 }

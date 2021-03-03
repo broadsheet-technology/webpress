@@ -45,7 +45,7 @@ function webpress_template_request( $request ) {
 			$query->is_home = true;
 		}
 	}
-	return new WebpressTemplate($query,$args);
+	return array(new WebpressTemplate($query,$args));
 }
 
 function webpress_home_is_static() {
