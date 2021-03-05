@@ -12,7 +12,6 @@ export class WebpressAuthor {
     if(!this.author) {
       return
     }
-    console.log(this.author)
     return [
       <img src={this.author.avatarSrc} />,
       this.author.name]

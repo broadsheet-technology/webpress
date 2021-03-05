@@ -19,7 +19,6 @@
     "start": "stencil build --dev --watch --serve"
   },
   "dependencies": {
-    "@stencil/core": "^2.3.0",
     "@types/wpapi": "^1.1.0",
     "wpapi": "^1.2.1"
   },
@@ -31,5 +30,8 @@
   "license": "GPLv2",
   "bugs": {
     "url": "https://github.com/wjhdev/webpress"
+  },
+  "devDependencies": {
+    "@stencil/core": "^2.4.0"
   }
 }

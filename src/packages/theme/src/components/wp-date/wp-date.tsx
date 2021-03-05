@@ -13,7 +13,6 @@ export class WebpressDate {
   render() {
     var options = { year: 'numeric', month: 'long', day: 'numeric' };
     if(!this.post) {
-      
       return
     }
     let Elem = this.el ? this.el : "span" 

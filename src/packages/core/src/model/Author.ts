@@ -1,11 +1,4 @@
-import { Retrievable } from "./Retrievable";
 
-
-export interface AuthorQuery {
-    id?: number
-}
-
-export interface Author extends Retrievable<Author> { }
 export class Author {
     static route = "authors"
     

@@ -1,24 +1,32 @@
-
 import { Connection, Route } from "./Connection";
 import { Retrievable } from "./Retrievable";
 
-export interface SingleQuery<T>{
+export interface Query<T> {
+    readonly connection : Connection
+}
+export interface SingleQuery<T> extends Query<T> {
     readonly result : Promise<T>
     readonly args
 }
 
-export interface MultiQuery<T>{
+export interface MultiQuery<T> extends Query<T> {
     readonly results : Promise<T[]>
 }
 
 export class Query<T> implements SingleQuery<T>, MultiQuery<T> {
-    get result() : Promise<T> {
-        return this.connection.request(this).then(results => results[0])
-    }
+    private promise : Promise<T[]>
+
     get results() : Promise<T[]> {
-        return this.connection.request(this)
+        if (!this.promise) {
+            this.promise = this.connection.request(this.args)
+        }
+        return this.promise
     }
-    constructor(readonly connection : Connection, readonly args : QueryArgs<T>) { }
+    get result() : Promise<T> {
+        return this.results.then(results => results[0])
+    }
+
+    constructor(readonly connection : Connection, readonly args : QueryArgs<T, any>) { }
 }
 
 export abstract class QueryArgs<T,P = any> {
@@ -26,6 +34,4 @@ export abstract class QueryArgs<T,P = any> {
 
     constructor(readonly type : Retrievable<T>, readonly route : Route) { }
 }
-
-
 

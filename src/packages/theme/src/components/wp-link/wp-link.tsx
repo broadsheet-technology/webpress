@@ -14,7 +14,6 @@ export class WebpressTheme {
   anchor
 
   private clicked(e: MouseEvent) {
-    console.log(e)
     e.preventDefault()
     let url = new URL(this.object ? this.object.link : "http://" + window.location.hostname + this.path)
     this.webpressRouterNavigation.emit({url: url.pathname});

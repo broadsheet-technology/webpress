@@ -1,13 +1,13 @@
-import { LinkedQueryArgs } from "./Linked";
 import { Media } from "./media";
 import { Connection, Route } from "./Connection";
 import { Retrievable } from "./Retrievable";
 import { Author } from "./author";
 import { Query } from "./Query";
+import { LinkedQueryArgs } from "./Linked";
 
 export interface Single extends Retrievable<Single> { }
 export abstract class Single {
-    constructor(protected json: any, readonly connection: Connection) { }
+    constructor(readonly connection: Connection, protected json: any) { }
 
     get title() : string {
         return this.json.title.rendered

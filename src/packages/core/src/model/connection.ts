@@ -1,5 +1,5 @@
 import WPAPI from "wpapi";
-import { Query } from "./Query";
+import { QueryArgs } from "./Query";
 
 export interface ServerDefinition {
     apiUrl : string
@@ -13,26 +13,29 @@ export class Connection {
     readonly wp = new WPAPI({endpoint: this.server.apiUrl})
     constructor(private server : ServerDefinition) { }
 
-    public request<T>(query: Query<T>) { 
-        let request = routeToWPRequest(this.wp, query.args.route)
-        let Constructor = query.args.type
+    public async request<T>(args: QueryArgs<T>) { 
+        let request = routeToWPRequest(this.wp, args.route)
+        let Constructor = args.type
 
-        Object.keys(query.args.params).map( key => {
-            request.param(key, query.args[key])
+        Object.keys(args.params).map( key => {
+            request.param(key, args[key])
         })
 
-        return request.then(result => result.map(json => new Constructor(query.connection, json)))
+        let json = await request
+        let object = json.map(objectJson => new Constructor(this, objectJson))
+        return object
     }
 }
 
 
 function routeToWPRequest(wp : WPAPI, route: Route) : WPAPI.WPRequest {
+    console.group(route)
     switch (route.string.toLowerCase()) {
-        case "posts":
+        case "post":
             return wp.posts()
-        case "pages":
+        case "page":
             return wp.pages()
-        case "authors":
+        case "author":
             return wp.users()
         case "media":
             return wp.media()

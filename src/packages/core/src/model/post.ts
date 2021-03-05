@@ -5,8 +5,8 @@ import { Retrievable } from './Retrievable';
 export interface Post extends Retrievable<Post> { }
 export class Post extends Single {
     readonly route = "post"
-    constructor(json: any, connection: Connection) { 
-        super(json, connection)
+    constructor(connection: Connection, json: any) { 
+        super(connection, json)
     }
     get subhead() {
         return this.json.subhead

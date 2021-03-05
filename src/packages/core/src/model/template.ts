@@ -1,12 +1,12 @@
+import { Query, QueryArgs } from "./Query"
 import { Connection, Route } from "./Connection"
 import { Page } from "./Page"
-import { Query, QueryArgs } from "./Query"
 import { Retrievable } from "./Retrievable"
 import { Single } from "./Single"
 
 export interface TemplateContextual {
     args: SingleTemplateQueryArgs
-    query: Promise<Template>
+    query: Query<Single>
     hidden: boolean
 }
 
@@ -62,8 +62,7 @@ export interface TemplateParams {
     taxonomy?: string 
     taxonomyTerm?: string
 }
-export class SingleTemplateQueryArgs extends QueryArgs<Single> implements TemplateParams {
-    params: TemplateParams 
+export class SingleTemplateQueryArgs extends QueryArgs<Single> implements TemplateParams { 
     frontPageType? = TemplateFrontPageType.None
     singleType? = TemplateSingleType.None
 
@@ -78,12 +77,11 @@ export class SingleTemplateQueryArgs extends QueryArgs<Single> implements Templa
     taxonomy?: string 
     taxonomyTerm?: string
 
-    constructor(json) {
+    constructor(readonly params) {
         super(Page, new Route("page"))
-        console.log(json)
-        this.templateType = json.type
-        this.singleType = json.singleType ? json.singleType : TemplateSingleType.None
-        this.frontPageType = json.frontPageType ? json.frontPageType : TemplateFrontPageType.None
+        this.templateType = params.type
+        this.singleType = params.singleType ? params.singleType : TemplateSingleType.None
+        this.frontPageType = params.frontPageType ? params.frontPageType : TemplateFrontPageType.None
     }
 
     matchScore(template: TemplateParams) {
@@ -148,10 +146,12 @@ export class Template implements Retrievable<Template> {
         this.request = json.request
     }
 
-    get globalQuery() : Promise<Single> {
-        return new Query(this.connection, new SingleTemplateQueryArgs(this.args)).result[0]
+    get globalQuery() : Query<Single> {
+        return new Query(this.connection, new SingleTemplateQueryArgs(this.args))
     }
 }
+
+
 
 interface TemplateQueryArgParams {
     path: String
@@ -162,3 +162,34 @@ export class TemplateQueryArgs extends QueryArgs<Template, TemplateQueryArgParam
         super(Template, new Route("template"))
     }
 }
+
+export class TemplateQuery<T> extends Query<T> {
+    get params() {
+        return this.templateQuery.result.then(template => template.globalQuery)
+    }
+
+    private globalQuery : Query<T>
+    get results() : Promise<T[]> {
+        return new Promise(async (resolve) => {
+            let template = await this.templateQuery.result
+            if (!this.globalQuery) {
+                this.globalQuery = template.globalQuery as unknown as Query<T>
+            }
+            resolve(this.globalQuery.results)
+        })
+    }
+    get result() : Promise<T> {
+        return this.results.then(results => results[0])
+    }
+
+    private templateQuery : Query<Template>
+    get template() : Promise<Template> {
+        return this.templateQuery.result
+    }
+
+    constructor(connection : Connection, args : TemplateQueryArgs) { 
+        super(connection, undefined)
+        this.templateQuery = new Query<Template>(connection, args)
+    }
+}
+

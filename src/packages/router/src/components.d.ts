@@ -5,10 +5,10 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Query, SingleQuery, Template, TemplateParams } from "@webpress/core";
+import { Query, Single, Template, TemplateParams, TemplateQuery } from "@webpress/core";
 export namespace Components {
     interface WpRouter {
-        "query": SingleQuery<Template>;
+        "query": TemplateQuery<Single>;
     }
     interface WpTemplate {
         "args": TemplateParams;
@@ -37,7 +37,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface WpRouter {
-        "query"?: SingleQuery<Template>;
+        "query"?: TemplateQuery<Single>;
     }
     interface WpTemplate {
         "args"?: TemplateParams;
