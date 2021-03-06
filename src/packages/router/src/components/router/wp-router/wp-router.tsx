@@ -1,12 +1,12 @@
 import { Component, Element, h, Prop } from '@stencil/core'
-import { TemplateContextual, Template, TemplateQuery, Single } from '@webpress/core'
+import { Template, Single } from '@webpress/core'
 
 @Component({
   tag: 'wp-router',
 })
 export class Router {
   @Element() el!: HTMLElement;
-  @Prop() query : TemplateQuery<Single>
+  @Prop() query : Template.Query<Single>
 
   private template : Template
 
@@ -36,17 +36,14 @@ export class Router {
       return
     }
     
-    let matchedTemplate = this.matchedTemplate
+    let matchedTemplate = Template.Resolve(this.template, this.templateComponents)
     matchedTemplate.query = this.query
     matchedTemplate.hidden = false
   }
 
   private get templateComponents() {
-    return Array.from(this.el.children as unknown as TemplateContextual[])
+    return Array.from(this.el.children as unknown as Template.Contextual<Single>[])
   }
 
-  private get matchedTemplate() {
-    var highestScoredTemplateValue = Math.max.apply(Math, this.templateComponents.map(templateComponent => this.template.args.matchScore(templateComponent.args)))
-    return this.templateComponents.find((templateComponent) => this.template.args.matchScore(templateComponent.args) == highestScoredTemplateValue)
-  }
+  
 }

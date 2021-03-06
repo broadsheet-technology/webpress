@@ -20,24 +20,25 @@ add_action( "rest_api_init", "webpress_register_template_routes" );
  * @param WP_REST_Request $request Full data about the request.
  */
 function webpress_template_request( $request ) {
-	$url = $request["url"];
+	$path = $request["path"];
 	$isHome = false;
 	$args;
-	if( $url == "/" ) {
+	if ( $path == "/" ) {
 		$isHome = true;
-		if( webpress_home_is_static() ) {
-			$args = ['p' => get_option('page_on_front'), 'post_type'=> 'any'];
+		if ( webpress_home_is_static() ) {
+			$args = ['p' => get_option('page_on_front'), 
+					 'post_type'=> 'any'];
 		} else {
 			$args = ['type' => 'post'];
 		}
 	} else {
 		$resolver = new UrlToQuery();
-		$args = $resolver->resolve( $url );
+		$args = $resolver->resolve( $path );
 	}
 	$query = new WP_Query($args);
 
-	if($isHome) {
-		if(webpress_home_is_static()) {
+	if ( $isHome ) {
+		if ( webpress_home_is_static() ) {
 			$query->is_home = true;
 			$query->is_page = true;
 			$query->is_single = true;
@@ -45,7 +46,7 @@ function webpress_template_request( $request ) {
 			$query->is_home = true;
 		}
 	}
-	return array(new WebpressTemplate($query,$args));
+	return array( new WebpressTemplate($query,$args) );
 }
 
 function webpress_home_is_static() {
@@ -53,33 +54,28 @@ function webpress_home_is_static() {
 }
 
 class WebpressTemplate {
-	var $query;
-	var $args;
-	var $request;
+	var $properties;
+	var $queryArgs;
 
 	function __construct(\WP_Query $query, $args) {
-		$this->query = new WebpressQuery($query);
-		$this->args = new WebpressTemplateArgs($query, $args);
-		$this->request = WebpressTemplate::requestFromArgs($args, $query);
-		//print_r($args);
-		//print_r(WebpressTemplate::requestFromArgs($args));
+		$this->properties = new WebpressTemplateArgs($query, $args);
+		$this->queryArgs = WebpressTemplate::requestFromArgs($args, $query);
 	}
 
 	private static function requestFromArgs($args, \WP_Query $query) {
 		$req = [];
 
 		// By slug
-		if(!$query->is_posts_page) {
+		if( !$query->is_posts_page ) {
 			$req['slug'] = array_key_exists('pagename',$args) ? $args['pagename'] : null;
-			if(array_key_exists('name',$args)) {
+			if ( array_key_exists('name',$args) ) {
 				$req['slug'] = $args['name'];
-			} else if(webpress_home_is_static() && $query->is_home) {
-				$req['slug'] = $query->post->post_name;
+			} else if( webpress_home_is_static() && $query->is_home ) {
+				$req['id'] = get_option('page_on_front');
 			}
 		}
 
 		// By other...
-
 		$req['author'] = array_key_exists('author',$args) ? $args['author'] : null;
 		$req['author_exclude'] = array_key_exists('author_exclude',$args) ? $args['author_exclude'] : null;
 		$req['exclude'] = array_key_exists('exclude',$args) ? $args['exclude'] : null;
@@ -183,7 +179,7 @@ class WebpressTemplateArgs {
 	private static function resolveFrontPageType(\WP_Query $query) {
 		if( !$query->is_home || $query->is_posts_page ) {
 			return 0;
-		} else if( $query->is_page ) {
+		} else if( webpress_home_is_static() ) {
 			return 2;
 		} else {
 			return 1;

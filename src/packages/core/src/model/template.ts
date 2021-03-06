@@ -1,128 +1,103 @@
-import { Query, QueryArgs } from "./Query"
+import { Query as GenericQuery, QueryArgs as GenericQueryArgs } from "./Query"
 import { Connection, Route } from "./Connection"
-import { Page } from "./Page"
 import { Retrievable } from "./Retrievable"
 import { Single } from "./Single"
+import { Page } from "./Page"
+import { Post } from "./Post"
 
-export interface TemplateContextual {
-    args: SingleTemplateQueryArgs
-    query: Query<Single>
-    hidden: boolean
-}
+export interface Template<T extends Single = Single> extends Retrievable<Template> { }
+export class Template<T extends Single = Single> implements Retrievable<Template>, Template.Properties {
+    constructor(readonly connection: Connection, protected json: Template.JSON) { }
 
-export enum TemplateType {
-    FrontPage = 1,
-    Search = 2,
-    Archive = 3,
-    Blog = 4,
-    Single = 5,
-    PageNotFound = 0
-}
-
-export enum TemplateSingleType {
-    Page = 1,
-    Post = 2,
-    Attachment = 3,
-    Custom = 4,
-    None = 0,
-}
-
-export enum TemplateFrontPageType {
-    Home = 1,
-    Page = 2,
-    None = 0,
-}
-
-export enum TemplateArchiveType {
-    Author,
-    Category,
-    CustomPostType,
-    Date,
-    Tag
-}
-
-export enum TemplateArchiveDateType {
-    None,
-    Year,
-    Month,
-    Day
-}
-
-export interface TemplateParams {
-    templateType: TemplateType
-    singleType?: TemplateSingleType
-    frontPageType?: TemplateFrontPageType
-    archiveType?: TemplateArchiveType 
-    archiveDateType?: TemplateArchiveDateType 
-
-    slug?: string
-    postType?: string
-    nicename?: string
-    id?: string
-    taxonomy?: string 
-    taxonomyTerm?: string
-}
-export class SingleTemplateQueryArgs extends QueryArgs<Single> implements TemplateParams { 
-    frontPageType? = TemplateFrontPageType.None
-    singleType? = TemplateSingleType.None
-
-    templateType: TemplateType
-    archiveType?: TemplateArchiveType 
-    archiveDateType?: TemplateArchiveDateType 
-
-    slug?: string
-    postType?: string
-    nicename?: string
-    id?: string
-    taxonomy?: string 
-    taxonomyTerm?: string
-
-    constructor(readonly params) {
-        super(Page, new Route("page"))
-        this.templateType = params.type
-        this.singleType = params.singleType ? params.singleType : TemplateSingleType.None
-        this.frontPageType = params.frontPageType ? params.frontPageType : TemplateFrontPageType.None
+    get globalQuery() : GenericQuery<T> {
+        return new GenericQuery(this.connection, Template.GlobalQueryArgs<T>(this.json))
     }
 
-    matchScore(template: TemplateParams) {
-        if(!template) {
-            return -1
+    get type() {
+        return this.json.properties.type
+    }
+
+    get frontPageType() {
+        return this.json.properties.frontPageType
+    }
+
+    get isSingle() {
+        return this.json.properties.type == Template.Type.Single
+    }
+
+    get isFrontPage() {
+        return this.json.properties.type == Template.Type.FrontPage
+    }
+}
+
+export namespace Template {
+    export const Resolve = (template : Template, contextuals : Template.Contextual<Single>[]) => {
+        var bestMatch = {
+            element: undefined, 
+            score: 0
         }
 
+        contextuals.map(contextual => {
+            let score = matchScore(template, contextual)
+            console.log("scoring...", contextual, score)
+            if (score > bestMatch.score) {
+                bestMatch = {
+                    score: score,
+                    element: contextual
+                }
+            }
+        })
+
+        return bestMatch.element
+    }
+
+    const matchScore = (template: Template, contextual: Template.Contextual<Single>) => {
+        if (!template) {
+            return -1
+        }
+        if (!contextual.definition) {
+            console.log("wp-template has no parameters")
+            return -99
+        }
+
+        let definition = contextual.definition
         let score = 0;
-        
-        switch (this.templateType) {
-            case TemplateType.Blog: {
-                if(template.templateType == TemplateType.Blog) {
+        console.log("template type", template, definition)
+        switch (template.type) {
+            case Template.Type.Blog: {
+                if (definition.type == Template.Type.Blog) {
                     score = 400;
                 }
             }
-            case TemplateType.FrontPage: {
-                if (this.frontPageType == TemplateFrontPageType.Home) {
-                    if(template.templateType != TemplateType.FrontPage) {
+            break;
+            case Template.Type.FrontPage: {
+                if (template.frontPageType == Template.FrontPageType.Home) {
+                    if (definition.type != Template.Type.FrontPage) {
                         score = -999
-                    } else if(template.frontPageType && template.frontPageType == this.frontPageType) {
+                    } else if(definition.frontPageType && definition.frontPageType == template.frontPageType) {
                         score = 40;
                     }
-                } else if(this.frontPageType == TemplateFrontPageType.Page) {
-                    if(template.templateType == TemplateType.Single && template.singleType && template.singleType == TemplateSingleType.Page) {
+                } else if(template.frontPageType == Template.FrontPageType.Page) {
+                    if (definition.singleType && definition.singleType == Template.SingleType.Page) {
                         score = 40;
                     }
-                    else if(template.frontPageType) {
+                    else if (definition.frontPageType == Template.FrontPageType.Page) {
                         score = 60;
                     }
                 }
             }
             break;
-            case TemplateType.Single: {
-                if(template.templateType != TemplateType.Single) {
+            case Template.Type.Single: {
+                if (definition.type != Template.Type.Single) {
                     return -999;
                 }
-                if(template.singleType && template.singleType !== this.singleType) {
+                if (definition.singleType && definition.singleType !== definition.singleType) {
                     score = -99
-                } else if(template.singleType != TemplateSingleType.None && template.singleType === this.singleType) {
+                } 
+                else if (definition.singleType != Template.SingleType.None && definition.singleType === definition.singleType) {
                     score = 20
-                } else {
+                } 
+                else {
                     score = 10
                 }
             }
@@ -131,65 +106,156 @@ export class SingleTemplateQueryArgs extends QueryArgs<Single> implements Templa
                 score = -99
             break;
         }
+
         return score;
     }
 }
 
-export interface Template extends Retrievable<Template> { }
-export class Template implements Retrievable<Template> {
-    args : SingleTemplateQueryArgs
-    request : any
-    link: string
-
-    constructor(readonly connection: Connection, json: any) { 
-        this.args = new SingleTemplateQueryArgs(json.args)
-        this.request = json.request
+// Template Query
+export namespace Template {
+    export interface QueryParams {
+        path,
     }
 
-    get globalQuery() : Query<Single> {
-        return new Query(this.connection, new SingleTemplateQueryArgs(this.args))
-    }
-}
+    export const QueryArgs = (params: QueryParams) => 
+        new GenericQueryArgs<Template, QueryParams>(Template, new Route("template"), params)
 
-
-
-interface TemplateQueryArgParams {
-    path: String
-}
-
-export class TemplateQueryArgs extends QueryArgs<Template, TemplateQueryArgParams> {
-    constructor(readonly params) { 
-        super(Template, new Route("template"))
-    }
-}
-
-export class TemplateQuery<T> extends Query<T> {
-    get params() {
-        return this.templateQuery.result.then(template => template.globalQuery)
-    }
-
-    private globalQuery : Query<T>
-    get results() : Promise<T[]> {
-        return new Promise(async (resolve) => {
-            let template = await this.templateQuery.result
-            if (!this.globalQuery) {
-                this.globalQuery = template.globalQuery as unknown as Query<T>
-            }
-            resolve(this.globalQuery.results)
-        })
-    }
-    get result() : Promise<T> {
-        return this.results.then(results => results[0])
-    }
-
-    private templateQuery : Query<Template>
-    get template() : Promise<Template> {
-        return this.templateQuery.result
-    }
-
-    constructor(connection : Connection, args : TemplateQueryArgs) { 
-        super(connection, undefined)
-        this.templateQuery = new Query<Template>(connection, args)
+    export class Query<T extends Single> extends GenericQuery<T> {
+        get params() {
+            return this.templateQuery.result.then(template => template.globalQuery)
+        }
+    
+        private globalQuery : Query<T>
+        get results() : Promise<T[]> {
+            return new Promise(async (resolve) => {
+                let template = await this.templateQuery.result
+                if (!this.globalQuery) {
+                    this.globalQuery = template.globalQuery as unknown as Query<T>
+                }
+                resolve(this.globalQuery.results)
+            })
+        }
+        get result() : Promise<T> {
+            return this.results.then(results => results[0])
+        }
+    
+        private templateQuery : GenericQuery<Template>
+        get template() : Promise<Template> {
+            return this.templateQuery.result
+        }
+    
+        constructor(connection : Connection, args : QueryParams) { 
+            super(connection, undefined)
+            this.templateQuery = new GenericQuery<Template>(connection, QueryArgs(args))
+        }
     }
 }
 
+// Global Query
+
+export namespace Template {
+    export interface Properties {
+        type: Template.Type
+        singleType?: Template.SingleType
+        frontPageType?: Template.FrontPageType
+        archiveType?: Template.ArchiveType 
+        archiveDateType?: Template.ArchiveDateType 
+
+        slug?: string
+        postType?: string
+        nicename?: string
+        id?: string
+        taxonomy?: string 
+        taxonomyTerm?: string
+    }
+
+    export interface JSON {
+        properties : Properties,
+        queryArgs : any
+    }
+    
+    export const GlobalQueryArgs = <T extends Single>(params: Template.JSON, type : Retrievable<T> = internalTypeFor<T>(params.properties) ) => 
+        new GenericQueryArgs<T, Template.JSON>(type, routeForType(params.properties), params.queryArgs)
+        
+    const internalTypeFor = <T>(properties: Template.Properties) : Retrievable<T> => {
+        var type
+        switch (properties.type) {
+            case Template.Type.Single:
+                if (properties.singleType == Template.SingleType.Page) {
+                    type = Page
+                } else {
+                    type = Post
+                }
+                break;
+            default:
+                break;
+        }
+        return type || Post
+    }
+
+    const routeForType = (properties: Template.Properties) : Route => {
+        var route
+        switch (properties.type) {
+            case Template.Type.Single:
+                if (properties.singleType == Template.SingleType.Page) {
+                    route = new Route("page")
+                } else {
+                    route = new Route("post")
+                }
+                break;
+            default:
+                break;
+        }
+        return route || new Route("page")
+    }
+}
+
+// Contextuals {
+export namespace Template {
+    export interface Contextual<T extends Single> {
+        definition: Template.Properties
+        query: Template.Query<T>
+        hidden: boolean
+    }
+}
+// Template Enums
+
+export namespace Template {
+    export enum Type {
+        FrontPage = 1,
+        Search = 2,
+        Archive = 3,
+        Blog = 4,
+        Single = 5,
+        PageNotFound = 0
+    }
+
+    export enum SingleType {
+        Page = 1,
+        Post = 2,
+        Attachment = 3,
+        Custom = 4,
+        None = 0,
+    }
+    
+    export enum FrontPageType {
+        Home = 1,
+        Page = 2,
+        None = 0,
+    }
+    
+    export enum ArchiveType {
+        Author,
+        Category,
+        CustomPostType,
+        Date,
+        Tag
+    }
+    
+    export enum ArchiveDateType {
+        None,
+        Year,
+        Month,
+        Day
+    }
+}

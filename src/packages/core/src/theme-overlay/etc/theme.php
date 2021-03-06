@@ -1,15 +1,16 @@
 <?php
 
-class WPContext {
-    var $root;
-    var $server;
+class WPGlobals {
+    var $context;
     var $theme;
 }
 
 class WPTheme {
     var $menus;
     var $dir;
-    function __construct() {
+    var $root;
+    function __construct($root) {
+        $this->root = $root;
         $this->menus = get_nav_menu_locations();
         $this->dir = get_template_directory_uri();
     }
@@ -18,7 +19,7 @@ class WPTheme {
 $json = file_get_contents( __DIR__ . "/../theme-definition.json");
 $decoded = json_decode($json);
     
-$WPContext = new WPContext();
+$WPContext = new WPGlobals();
 
 function loadWebpressTheme() {
     global $WPContext;
@@ -28,13 +29,12 @@ function loadWebpressTheme() {
     
     parseMenus($decoded->menus);
     parseFeatures($decoded->themeSupport);
-    $WPContext->theme = new WPTheme();
-    $WPContext->root = $decoded->root;
-    $WPContext->server = [ 
+    $WPContext->theme = new WPTheme($decoded->root);
+    $WPContext->context = [ 
         "apiUrl" => get_home_url() . '/wp-json'
     ];
 }
-add_action( 'init' , 'loadWebpressTheme');
+add_action( 'init' , 'loadWebpressTheme' );
 
 function parseMenus($menus) {
     foreach( $menus as $menu ) {

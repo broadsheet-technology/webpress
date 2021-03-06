@@ -7,9 +7,6 @@ export interface LinkedQueryParams {
 export class LinkedQueryArgs<T> extends QueryArgs<T, LinkedQueryParams> {
     readonly params;
     constructor(type : Retrievable<T>, readonly route : Route, id) {
-        super(type, route.string)
-        this.params = {
-            id: id
-        }
+        super(type, route.string, { id: id })
     }
 } 

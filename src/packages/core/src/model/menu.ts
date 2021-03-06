@@ -1,5 +1,5 @@
-import { TemplateType, TemplateFrontPageType } from "./Template";
-import { Single, Template } from "..";
+import { Template } from "./Template";
+import { Single } from "./Single";
 
 export enum MenuItemType {
     Page,
@@ -24,8 +24,8 @@ export class MenuItem {
 
     isActive(post : Single, template: Template) : boolean {
         if(this.type == MenuItemType.Page) {
-            let matchesPage = template.args.templateType == TemplateType.Single && this.objectId == post.id
-            let matchesHomepage = template.args.templateType == TemplateType.FrontPage && template.args.frontPageType == TemplateFrontPageType.Page && this.objectId == post.id
+            let matchesPage = template.isSingle && this.objectId == post.id
+            let matchesHomepage = template.isFrontPage && template.frontPageType == Template.FrontPageType.Page && this.objectId == post.id
             return matchesHomepage || matchesPage
         }
         return false

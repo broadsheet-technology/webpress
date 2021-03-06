@@ -29,9 +29,7 @@ export class Query<T> implements SingleQuery<T>, MultiQuery<T> {
     constructor(readonly connection : Connection, readonly args : QueryArgs<T, any>) { }
 }
 
-export abstract class QueryArgs<T,P = any> {
-    abstract params: P
-
-    constructor(readonly type : Retrievable<T>, readonly route : Route) { }
+export class QueryArgs<T,P = any> {
+    constructor(readonly type : Retrievable<T>, readonly route : Route, readonly params : P) { }
 }
 

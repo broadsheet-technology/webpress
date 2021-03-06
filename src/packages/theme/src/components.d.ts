@@ -5,10 +5,13 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Author, Media, MenuItem, Post, Single, WebpressContext } from "@webpress/core";
+import { Author, Connection, Media, MenuItem, Post, Single, Theme } from "@webpress/core";
 export namespace Components {
     interface WebpressTheme {
-        "context": WebpressContext;
+        "global": {
+    context: Connection.Context,
+    theme: Theme.Definition
+  };
     }
     interface WpAuthor {
         "author": Author;
@@ -120,7 +123,10 @@ declare global {
 }
 declare namespace LocalJSX {
     interface WebpressTheme {
-        "context"?: WebpressContext;
+        "global"?: {
+    context: Connection.Context,
+    theme: Theme.Definition
+  };
     }
     interface WpAuthor {
         "author"?: Author;
