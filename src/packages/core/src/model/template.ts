@@ -22,11 +22,11 @@ export class Template<T extends Single = Single> implements Retrievable<Template
     }
 
     get isSingle() {
-        return this.json.properties.type == Template.Type.Single
+        return this.json.properties.type == Template.TemplateType.Single
     }
 
     get isFrontPage() {
-        return this.json.properties.type == Template.Type.FrontPage
+        return this.json.properties.type == Template.TemplateType.FrontPage
     }
 }
 
@@ -56,23 +56,22 @@ export namespace Template {
             return -1
         }
         if (!contextual.definition) {
-            console.log("wp-template has no parameters")
             return -99
         }
 
         let definition = contextual.definition
         let score = 0;
-        console.log("template type", template, definition)
+
         switch (template.type) {
-            case Template.Type.Blog: {
-                if (definition.type == Template.Type.Blog) {
+            case Template.TemplateType.Blog: {
+                if (definition.type == Template.TemplateType.Blog) {
                     score = 400;
                 }
             }
             break;
-            case Template.Type.FrontPage: {
+            case Template.TemplateType.FrontPage: {
                 if (template.frontPageType == Template.FrontPageType.Home) {
-                    if (definition.type != Template.Type.FrontPage) {
+                    if (definition.type != Template.TemplateType.FrontPage) {
                         score = -999
                     } else if(definition.frontPageType && definition.frontPageType == template.frontPageType) {
                         score = 40;
@@ -87,8 +86,8 @@ export namespace Template {
                 }
             }
             break;
-            case Template.Type.Single: {
-                if (definition.type != Template.Type.Single) {
+            case Template.TemplateType.Single: {
+                if (definition.type != Template.TemplateType.Single) {
                     return -999;
                 }
                 if (definition.singleType && definition.singleType !== definition.singleType) {
@@ -112,6 +111,7 @@ export namespace Template {
 }
 
 // Template Query
+
 export namespace Template {
     export interface QueryParams {
         path,
@@ -120,7 +120,7 @@ export namespace Template {
     export const QueryArgs = (params: QueryParams) => 
         new GenericQueryArgs<Template, QueryParams>(Template, new Route("template"), params)
 
-    export class Query<T extends Single> extends GenericQuery<T> {
+    export class Query<T extends Single = Single> extends GenericQuery<T> {
         get params() {
             return this.templateQuery.result.then(template => template.globalQuery)
         }
@@ -155,7 +155,7 @@ export namespace Template {
 
 export namespace Template {
     export interface Properties {
-        type: Template.Type
+        type: Template.TemplateType
         singleType?: Template.SingleType
         frontPageType?: Template.FrontPageType
         archiveType?: Template.ArchiveType 
@@ -180,13 +180,15 @@ export namespace Template {
     const internalTypeFor = <T>(properties: Template.Properties) : Retrievable<T> => {
         var type
         switch (properties.type) {
-            case Template.Type.Single:
+            case Template.TemplateType.Single:
                 if (properties.singleType == Template.SingleType.Page) {
                     type = Page
                 } else {
                     type = Post
                 }
                 break;
+            case Template.TemplateType.Blog:
+                type = Post
             default:
                 break;
         }
@@ -196,13 +198,15 @@ export namespace Template {
     const routeForType = (properties: Template.Properties) : Route => {
         var route
         switch (properties.type) {
-            case Template.Type.Single:
+            case Template.TemplateType.Single:
                 if (properties.singleType == Template.SingleType.Page) {
                     route = new Route("page")
                 } else {
                     route = new Route("post")
                 }
                 break;
+            case Template.TemplateType.Blog:
+                route = new Route("post")
             default:
                 break;
         }
@@ -210,18 +214,20 @@ export namespace Template {
     }
 }
 
-// Contextuals {
+// Contextuals 
+
 export namespace Template {
-    export interface Contextual<T extends Single> {
+    export interface Contextual<T extends Single = Single> {
         definition: Template.Properties
         query: Template.Query<T>
         hidden: boolean
     }
 }
+
 // Template Enums
 
 export namespace Template {
-    export enum Type {
+    export enum TemplateType {
         FrontPage = 1,
         Search = 2,
         Archive = 3,

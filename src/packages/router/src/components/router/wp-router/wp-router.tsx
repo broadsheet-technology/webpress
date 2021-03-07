@@ -1,12 +1,12 @@
 import { Component, Element, h, Prop } from '@stencil/core'
-import { Template, Single } from '@webpress/core'
+import { Template } from '@webpress/core'
 
 @Component({
   tag: 'wp-router',
 })
 export class Router {
   @Element() el!: HTMLElement;
-  @Prop() query : Template.Query<Single>
+  @Prop() query : Template.Query
 
   private template : Template
 
@@ -42,7 +42,7 @@ export class Router {
   }
 
   private get templateComponents() {
-    return Array.from(this.el.children as unknown as Template.Contextual<Single>[])
+    return Array.from(this.el.children as unknown as Template.Contextual[])
   }
 
   
