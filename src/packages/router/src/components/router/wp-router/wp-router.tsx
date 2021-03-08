@@ -10,16 +10,10 @@ export class Router {
 
   private template : Template
 
-  async componentWillLoad() {
-    return this.componentWillUpdate()
-  }
-
-  async componentDidLoad() {
-    this.template = await this.query.template
-    return this.componentDidUpdate()
-  }
-
-  async componentWillUpdate() {
+  async componentWillRender() {
+    if (!this.query) {
+      return
+    }
     this.template = await this.query.template
     this.templateComponents.map(templateComponent => {
       templateComponent.hidden = true
@@ -28,14 +22,19 @@ export class Router {
   }
   
   render() {
+    if (!this.query) {
+      console.log("Router has no Query")
+    }
 	  return this.query ? <slot /> : <div hidden={true} ><slot /></div>
   }
   
-  async componentDidUpdate() {
-    if(!this.query) {
+  async componentDidRender() {
+    if (!this.query) {
+      console.log("router has no query")
       return
     }
     
+    console.log("router template args", this.templateComponents)
     let matchedTemplate = Template.Resolve(this.template, this.templateComponents)
     matchedTemplate.query = this.query
     matchedTemplate.hidden = false
@@ -44,6 +43,4 @@ export class Router {
   private get templateComponents() {
     return Array.from(this.el.children as unknown as Template.Contextual[])
   }
-
-  
 }

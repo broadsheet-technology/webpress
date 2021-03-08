@@ -13,6 +13,7 @@ export namespace Components {
     interface WpTemplate {
         "component": string;
         "definition": Template.Properties;
+        "query": Template.Query;
     }
 }
 declare global {
@@ -40,6 +41,7 @@ declare namespace LocalJSX {
     interface WpTemplate {
         "component"?: string;
         "definition"?: Template.Properties;
+        "query"?: Template.Query;
     }
     interface IntrinsicElements {
         "wp-router": WpRouter;

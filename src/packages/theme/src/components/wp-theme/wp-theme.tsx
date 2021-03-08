@@ -1,5 +1,5 @@
 import { Component, Prop, Element, State, h, Listen } from '@stencil/core';
-import { Connection, Theme, Query, Template } from '@webpress/core';
+import { Connection, Theme, Template } from '@webpress/core';
 
 @Component({
     tag: 'webpress-theme',
@@ -30,7 +30,7 @@ export class WebpressTheme {
     })
   }
 
-  async componentWillLoad() {
+  async componentWillRender() {
     this.connection = new Connection(this.global.context)
     this.query = new Template.Query(this.connection, {
       path: window.location.pathname 
@@ -38,7 +38,7 @@ export class WebpressTheme {
   }
 
   render() {
-    if(!this.global.context) {
+    if (!this.global.context) {
       return
     }
     const ThemeRoot = this.global.theme.root
@@ -49,26 +49,5 @@ export class WebpressTheme {
       />
     )
   }
-
-  componentDidRender() {
-    propagateQuery(Array.from(this.el.children), this.query)
-  }
 }
-
-//
-// Sets .query on all children elements recursively
-//
-// Warnings:
-//   - Heavy handed. Ideally refactored to deliver queries only active elements, and elements expecting/subscribed to a query.
-//
-const propagateQuery = (children : Array<any>, query : Query<any>) => children.map(child => {
-    if(!child.query) {
-      /// If no query is set, propegate the global query
-      child.query = query
-      propagateQuery(Array.from(child.children), query)
-    } else {
-      /// Otherwise, propegate the overridden query
-      propagateQuery(Array.from(child.children), child.query)
-    }
-  })
 

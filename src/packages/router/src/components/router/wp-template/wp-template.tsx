@@ -1,13 +1,14 @@
 import { Component, h, Prop } from '@stencil/core';
-import { Template, Single } from '@webpress/core'
+import { Template } from '@webpress/core'
 
 @Component({
   tag: 'wp-template',
 })
 
-export class WPTemplate<T extends Single> implements Template.Contextual<T> {
-  query: Template.Query<T>;
+export class WPTemplate implements Template.Contextual {
   hidden: boolean;
+
+  @Prop() query: Template.Query;
   @Prop() definition: Template.Properties
   @Prop() component: string 
 

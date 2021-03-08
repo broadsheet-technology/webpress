@@ -31,7 +31,7 @@ export class Template<T extends Single = Single> implements Retrievable<Template
 }
 
 export namespace Template {
-    export const Resolve = (template : Template, contextuals : Template.Contextual<Single>[]) => {
+    export const Resolve = (template : Template, contextuals : Template.Contextual[]) => {
         var bestMatch = {
             element: undefined, 
             score: 0
@@ -51,7 +51,7 @@ export namespace Template {
         return bestMatch.element
     }
 
-    const matchScore = (template: Template, contextual: Template.Contextual<Single>) => {
+    const matchScore = (template: Template, contextual: Template.Contextual) => {
         if (!template) {
             return -1
         }
@@ -217,9 +217,9 @@ export namespace Template {
 // Contextuals 
 
 export namespace Template {
-    export interface Contextual<T extends Single = Single> {
+    export interface Contextual {
         definition: Template.Properties
-        query: Template.Query<T>
+        query: Template.Query
         hidden: boolean
     }
 }
