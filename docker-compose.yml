@@ -1,68 +1,73 @@
 version: "3"
 
 services:
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    container_name: webpress.test-proxy
+  nginx:
+    build:
+      context: docker/nginx
+    container_name: webpress-nginx
+    links:
+      - wordpress
     ports:
-      - "80:80"
+      - 80:80
+      - 443:443
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - webpress-wp:/var/www/html 
+      - ./bin/wp-content:/var/www/html/wp-content/
+      - ./${WP_UPLOADS_DIR}:/var/www/html/wp-content/uploads
+    environment: 
+      DOMAIN: ${DOMAIN_NAME}
 
-  db_node_domain:
+  mariadb:
+    container_name: webpress-mysql
     image: mariadb
     volumes:
-      - webpress.test-mysql:/var/lib/mysql:rw
+      - ./server/sql/install/:/docker-entrypoint-initdb.d
+      - ./server/sql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - webpress-mysql:/var/lib/mysql:rw
     restart: always
-    env_file:
-      - server.env
-    container_name: webpress.test-mysql
-
-  adminer:
-    image: adminer
-    restart: always
-    volumes:
-      - webpress.test-mysql:/var/lib/mysql
     expose:
-      - 8080
-    environment:
-      VIRTUAL_HOST: db.webpress.test
-      ADMINER_DEFAULT_SERVER: db_node_domain:3306
-    container_name: webpress.test-adminer
+      - 3306
+    environment: 
+      MYSQL_USER: ${MYSQL_WORDPRESS_USER}
+      MYSQL_PASSWORD: ${MYSQL_WORDPRESS_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_WORDPRESS_DATABASE}
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
 
   wordpress:
+    container_name: webpress-wordpress
     depends_on:
-      - db_node_domain
+      - mariadb
     image: wordpress:latest
     expose:
       - 80
     restart: always
-    env_file:
-      - server.env
     volumes: 
-      - ./server/wp-content/:/var/www/html/wp-content/
+      - webpress-wp:/var/www/html
+      - ./server/wp-content/themes:/var/www/html/wp-content/themes/
+      - ./server/app:/var/www/html/app
     environment:
-      VIRTUAL_HOST: webpress.test
-      WORDPRESS_DB_HOST: db_node_domain:3306
-    container_name: webpress.test-wordpress
-
-  stencil:
-    image: nginx:latest
-    container_name: webpress.test-stencil
-    environment:
-      VIRTUAL_HOST: app.webpress.test
-    expose:
-      - 80
-    volumes:
-      - ./server/nginx.conf:/etc/nginx/nginx.conf
-      - ./server/error.log:/etc/nginx/error_log.log
-      - ./www:/usr/share/nginx/html
+      WORDPRESS_DB_HOST: ${MYSQL_WORDPRESS_HOST}
+      WORDPRESS_DB_USER: ${MYSQL_WORDPRESS_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_WORDPRESS_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_WORDPRESS_DATABASE}
+      WORDPRESS_CONFIG_EXTRA: | 
+        /* Domain */
+        define("WP_HOME","https://${DOMAIN_NAME}/");
+        define("WP_SITEURL","https://${DOMAIN_NAME}/");
+        define('WP_CACHE',true);
+        define('WP_MEMORY_LIMIT','128M');
+        $$memcached_servers = array(
+          'default' => array(
+            'memcached:11211',
+          )
+        );
 
 volumes: 
-  webpress.test-mysql:
-    
+  webpress-mysql:
+  webpress-wp:
+
 networks:
   default:
     external:
-      name: webpress.test-network
-
+      name: webpress-network
+    

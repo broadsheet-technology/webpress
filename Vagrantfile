@@ -1,36 +1,42 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# todo: https://stackoverflow.com/questions/13065576/override-vagrant-configuration-settings-locally-per-dev
-
 Vagrant.configure("2") do |config|
-
   config.vm.box = "debian/contrib-buster64"
 
-  ## Forward ssh config
+  # Forward ssh config
   config.ssh.forward_agent = true
+
+  # Provision
+  #  - This maps an alternate location for node_modules, 
+  #    to avoid install conflicts with the host machine
+  #
   config.vm.provision "shell", inline: <<-SHELL
-    sudo apt-get update
-    sudo apt-get install -y git
-    mkdir -p ~/.ssh
-    chmod 700 ~/.ssh
-    ssh-keyscan -H github.com >> ~/.ssh/known_hosts    
+    mkdir -p ~/node_modules
+    mkdir -p ~/vagrant/webpress
+    mkdir -p ~/webpress/node_modules
+    chown vagrant:www-data ~/node_modules
+    mount --bind ~/node_modules /home/vagrant/webpress/node_modules
   SHELL
 
-  ## Install Puppet
-  config.vm.provision :shell, path: "server/provision.sh", privileged: false
+  # Run production provisioning script
+  #
+  config.vm.provision :shell, path: "provision.sh", privileged: true
 
   # Hostname
-  config.vm.network :private_network, :ip => "192.168.19.75"
+  # 
+  config.vm.network :private_network, :ip => "192.168.19.74"
   config.vm.network "private_network", type: "dhcp"
 
-  # Mount vagrant 
-  config.vm.synced_folder ".", "/home/vagrant/webpress.test", :group => "www-data", :mount_options => ['dmode=775','fmode=664']
+  # Mount directory
+  # 
+  config.vm.synced_folder ".", "/home/vagrant/webpress", :group => "www-data", :mount_options => ['dmode=775','fmode=664']
   
   # Performance improvements
   #  1. Assign a quarter of host memory and all available CPU's to VM
   #     Depending on host OS this has to be done differently.
   #  2. set --natdnshostresolver1 & --natdnsproxy1 to speed up external connections
+  #
   config.vm.provider :virtualbox do |vb|
     host = RbConfig::CONFIG['host_os']
 
@@ -42,7 +48,7 @@ Vagrant.configure("2") do |config|
         cpus = `nproc`.to_i
         mem = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
 
-    # Windows...
+    # windows:
     else
         cpus = 4
         mem = 2048
