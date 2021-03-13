@@ -1,15 +1,16 @@
 const baseScheme = [
-    Array('src/packages/core'),
-    Array('src/packages/theme','src/packages/router')
+    'src/packages/core',
+    'src/packages/theme',
+    'src/packages/router',
+    'src/themes/starter'
    ];
 
 async function compile(package) {
-    let scheme = schemeForPackage(package)
-    return await scheme.reduce( async (previousPromise, nextScheme) => {
-        await previousPromise;
-        return Promise.all(nextScheme.map(scheme => 
-            buildTask(scheme)
-        ))
+    let schemes = schemeForPackage(package)
+    console.log("schemes here", schemes)
+    return await schemes.reduce( async (previousPromise, nextScheme) => {
+        await previousPromise
+        return buildTask(scheme)
     }, Promise.resolve());
 }
 
@@ -20,11 +21,7 @@ function buildTask(scheme) {
 
         var spawn = require('child_process').spawn;
 
-        if(scheme === 'packages/badgerherald.org') {
-            var ls = spawn('npm', ['run','build','--dev'], { cwd: scheme });
-        } else {
-            var ls = spawn('npm', ['run','build'], { cwd: scheme });
-        }
+        var ls = spawn('npm', ['run','build'], { cwd: scheme });
 
         ls.stdout.on('data', function (data) {
             console.log(data.toString().replace(/(\r\n|\n|\r)/gm,""));
@@ -44,20 +41,14 @@ function buildTask(scheme) {
 }
 
 function schemeForPackage(package) {
-    var scheme = Array()
-    baseScheme.map(schemePackages => {
-        if(scheme.length > 0) {
-            scheme.push(schemePackages)
+    var needCompile = Array()
+    baseScheme.map(scheme => {
+        if(scheme == package || needCompile.length > 0) {
+            needCompile.push(scheme)
             return
         }
-        schemePackages.map(schemePackage => {
-            if(package === schemePackage) {
-                scheme.push([package])
-                return
-            }
-        })
     })
-    return scheme
+    return needCompile
 }
 
-compile(process.argv[2] || 'packages/core')
+compile('src/packages/core')

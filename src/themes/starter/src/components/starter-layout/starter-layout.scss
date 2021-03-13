@@ -1,0 +1,31 @@
+
+starter-layout {
+    display: grid;
+    grid-template-columns:  
+        [page-start]
+        400fr
+        [sidebar-end]
+        4fr
+        [page-start]
+        800fr 
+        [page-end]
+        4fr
+        ;
+    
+    [slot=sidebar] {
+        background: #efdbc7;
+        grid-column: page-start / sidebar-end;
+        position: relative;
+        display: block;
+        padding-left: 30px;
+        padding-right: 40px;
+        height: 100vh;
+    }
+    [slot=page] {
+        padding-left: 30px;
+        padding-right: 120px;
+        display: block;
+        background: #fbfbfb;
+        grid-column: sidebar-end / page-end;
+    }
+}

@@ -5,7 +5,7 @@ import { Component } from '@stencil/core';
 })
 export class WebpressDebug {
   render() {
-    return "Webpress v0.0.1 "
+    return "Webpress v0.0.1"
   }
 }
  

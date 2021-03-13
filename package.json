@@ -1,27 +1,14 @@
 {
-  "name": "@webpress/global",
+  "name": "webpress",
   "private": true,
   "license": "GPLv2",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@webpress/core": [
-        "src/packages/core/src"
-      ],
-      "@webpress/theme": [
-        "src/packages/theme/src"
-      ],
-      "@webpress/router": [
-        "src/packages/router/src"
-      ]
-    }
-  },
   "devDependencies": {
-    "@stencil/core": "^2.4.0",
-    "@stencil/sass": "^1.4.1",
+    "@stencil/core": "file:../../ionic-team/stencil",
+    "@stencil/sass": "^1.1.1",
     "@types/wpapi": "^1.1.0",
     "lerna": "^3.22.1",
-    "rollup-plugin-copy": "^3.1.0"
+    "rollup-plugin-copy": "^3.1.0",
+    "watch": "^1.0.2"
   },
   "scripts": {
     "build": "stencil build",
@@ -36,6 +23,8 @@
     "run": "node scripts/watch.js --watch"
   },
   "dependencies": {
-    "@badgerherald/hepta": "file:src/themes/badgerherald.org"
+    "@webpress/core": "file:src/packages/core",
+    "@webpress/router": "file:src/packages/router",
+    "@webpress/theme": "file:src/packages/theme"
   }
 }

@@ -12,7 +12,7 @@ services:
       - 443:443
     volumes:
       - webpress-wp:/var/www/html 
-      - ./bin/wp-content:/var/www/html/wp-content/
+      - ./${WP_CONTENT_DIR}:/var/www/html/wp-content/
       - ./${WP_UPLOADS_DIR}:/var/www/html/wp-content/uploads
     environment: 
       DOMAIN: ${DOMAIN_NAME}
@@ -21,8 +21,8 @@ services:
     container_name: webpress-mysql
     image: mariadb
     volumes:
-      - ./server/sql/install/:/docker-entrypoint-initdb.d
-      - ./server/sql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/sql/install/:/docker-entrypoint-initdb.d
+      - ./docker/sql/my.cnf:/etc/mysql/conf.d/my.cnf
       - webpress-mysql:/var/lib/mysql:rw
     restart: always
     expose:
@@ -43,8 +43,7 @@ services:
     restart: always
     volumes: 
       - webpress-wp:/var/www/html
-      - ./server/wp-content/themes:/var/www/html/wp-content/themes/
-      - ./server/app:/var/www/html/app
+      - ./${WP_CONTENT_DIR}/themes:/var/www/html/wp-content/themes/
     environment:
       WORDPRESS_DB_HOST: ${MYSQL_WORDPRESS_HOST}
       WORDPRESS_DB_USER: ${MYSQL_WORDPRESS_USER}

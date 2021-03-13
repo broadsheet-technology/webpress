@@ -5,14 +5,17 @@ import { Connection, Theme, Template } from '@webpress/core';
     tag: 'webpress-theme',
 })
 export class WebpressTheme {
-  @Prop() global: {
+  @Prop() global: { // json set externally by index.php
     context: Connection.Context,
     theme: Theme.Definition
-  } // json set externally by WordPress theme
+  } 
 
-  @Element() el: HTMLElement
-  @State() query : Template.Query
   private connection : Connection
+  @State() query : Template.Query
+
+  async componentWillLoad() {
+    this.connection = new Connection(this.global.context)
+  }
 
   @Listen('webpressRouterNavigation') 
   async updateTemplate(event : any) {
@@ -31,7 +34,6 @@ export class WebpressTheme {
   }
 
   async componentWillRender() {
-    this.connection = new Connection(this.global.context)
     this.query = new Template.Query(this.connection, {
       path: window.location.pathname 
     })

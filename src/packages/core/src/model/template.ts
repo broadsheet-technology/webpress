@@ -174,12 +174,14 @@ export namespace Template {
         queryArgs : any
     }
     
-    export const GlobalQueryArgs = <T extends Single>(params: Template.JSON, type : Retrievable<T> = internalTypeFor<T>(params.properties) ) => 
+    export const GlobalQueryArgs = <T extends Single>(params: Template.JSON, type : Retrievable<T> = typeForProperties<T>(params.properties) ) => 
         new GenericQueryArgs<T, Template.JSON>(type, routeForType(params.properties), params.queryArgs)
         
-    const internalTypeFor = <T>(properties: Template.Properties) : Retrievable<T> => {
+    const typeForProperties = <T>(properties: Template.Properties) : Retrievable<T> => {
         var type
         switch (properties.type) {
+            case Template.TemplateType.FrontPage:
+                type = typeForFrontPage(properties.frontPageType)
             case Template.TemplateType.Single:
                 if (properties.singleType == Template.SingleType.Page) {
                     type = Page
@@ -195,9 +197,22 @@ export namespace Template {
         return type || Post
     }
 
+    const typeForFrontPage = <T>(frontPageType : FrontPageType) : Retrievable<T> => {
+        var type
+        switch (frontPageType) {
+            case Template.FrontPageType.Home:
+                type = Post
+            case Template.FrontPageType.Page:
+                type = Page
+        }
+        return type
+    }
+
     const routeForType = (properties: Template.Properties) : Route => {
         var route
         switch (properties.type) {
+            case Template.TemplateType.FrontPage:
+                route = routeForFrontPage(properties.frontPageType)
             case Template.TemplateType.Single:
                 if (properties.singleType == Template.SingleType.Page) {
                     route = new Route("page")
@@ -211,6 +226,17 @@ export namespace Template {
                 break;
         }
         return route || new Route("page")
+    }
+
+    const routeForFrontPage = <T>(frontPageType : FrontPageType) : Retrievable<T> => {
+        var type
+        switch (frontPageType) {
+            case Template.FrontPageType.Home:
+                type = new Route("post")
+            case Template.FrontPageType.Page:
+                type = new Route("page")
+        }
+        return type
     }
 }
 

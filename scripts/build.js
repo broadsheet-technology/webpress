@@ -1,8 +1,10 @@
 
+
 const buildScheme = [
     'src/packages/core',
     'src/packages/theme',
-    'src/packages/router'
+    'src/packages/router',
+    'src/themes/starter'
    ];
 
 buildScheme.reduce( async (previousPromise, nextScheme) => {

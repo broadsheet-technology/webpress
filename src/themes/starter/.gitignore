@@ -1,6 +1,7 @@
 dist/
-/www/
-!/src/www/
+www/
+loader/
+
 *~
 *.sw[mnpcod]
 *.log
@@ -11,18 +12,15 @@ log.txt
 *.sublime-project
 *.sublime-workspace
 
+.stencil/
 .idea/
 .vscode/
 .sass-cache/
 .versions/
 node_modules/
 $RECYCLE.BIN/
-bin/
 
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
 .env
-badgerherald.org/
-
-.vagrant

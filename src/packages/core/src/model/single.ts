@@ -1,7 +1,7 @@
-import { Media } from "./media";
+import { Media } from "./Media";
 import { Connection, Route } from "./Connection";
 import { Retrievable } from "./Retrievable";
-import { Author } from "./author";
+import { Author } from "./Author";
 import { Query } from "./Query";
 import { LinkedQueryArgs } from "./Linked";
 

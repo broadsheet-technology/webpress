@@ -1,8 +1,9 @@
 
 const baseScheme = [
     Array('src/packages/core'),
-    Array('src/packages/theme','src/packages/router')
-   ];
+    Array('src/packages/theme','src/packages/router'),
+    Array('src/themes/starter')
+];
    
 const watch = require('watch');
 
@@ -22,6 +23,7 @@ function triggerCompile(package) {
 
     return ls;
 }
+
 function main() { 
     baseScheme.map(schemePackages => schemePackages.map(package => watch.watchTree(package + '/src', {ignoreDirectoryPattern: /node_modules|dist|\.stencil/}, (f, curr, prev) => {
         if (typeof f == "object" && prev === null && curr === null) {
@@ -34,8 +36,9 @@ function main() {
         currentBuildProcess.kill('SIGINT');
         currentBuildProcess = triggerCompile(package)
     })));
-    currentBuildProcess = triggerCompile('packages/core');
+    currentBuildProcess = triggerCompile('src/packages/core');
 }
+
 
 main()
 

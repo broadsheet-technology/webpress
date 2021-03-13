@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
 
   # Mount directory
   # 
-  config.vm.synced_folder ".", "/home/vagrant/webpress", :group => "www-data", :mount_options => ['dmode=775','fmode=664']
+  config.vm.synced_folder ".", "/home/vagrant/webpress", :group => "www-data", :mount_options => ['dmode=775','fmode=664'], rsync__exclude: ['./node_modules*', '**/node_module*']
   
   # Performance improvements
   #  1. Assign a quarter of host memory and all available CPU's to VM
