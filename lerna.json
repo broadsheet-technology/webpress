@@ -2,8 +2,7 @@
   "packages": [
     "src/packages/core",
     "src/packages/router",
-    "src/packages/theme",
-    "src/themes/starter"
+    "src/packages/theme"
   ],
   "version": "0.0.11"
 }

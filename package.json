@@ -17,14 +17,15 @@
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate",
     "bootstrap": "lerna bootstrap",
-    "legacycompile": "node scripts/build.js",
-    "compile": "node scripts/compile.js",
+    "compile": "node scripts/build.js",
     "watch": "node scripts/watch.js",
-    "run": "node scripts/watch.js --watch"
+    "run": "node scripts/watch.js --watch",
+    "scss": "node-sass ./src/themes/starter/src/global/scss/editor-style.scss ./bin/wp-content/themes/starter/editor-style.css"
   },
   "dependencies": {
     "@webpress/core": "file:src/packages/core",
     "@webpress/router": "file:src/packages/router",
-    "@webpress/theme": "file:src/packages/theme"
+    "@webpress/theme": "file:src/packages/theme",
+    "node-sass": "^5.0.0"
   }
 }

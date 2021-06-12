@@ -1,4 +1,5 @@
 import { Connection } from "./Connection";
+import { Menu } from "./Menu";
 import { Query } from "./Query";
 
 export interface QueryContextual {
@@ -8,17 +9,16 @@ export interface QueryContextual {
 export class Theme {
     constructor(readonly connection : Connection, readonly definition : Theme.Definition) { }
 
-    async getMenu(_menu : string) {
-       // let json = await this.connection.getMenu(this.definition.menus[menu])
-       // return new Menu(json)
-       return //todo
+    /// Deprecated:
+    getMenu(menu : string) : Query<Menu> {
+       return new Query(this.connection, Menu.QueryArgs({ id: this.definition.menus[menu] }))
     }
 }
 
 export namespace Theme {
     export interface Definition {
         root : any
-        menus : any[] 
+        menus : Map<string, number>
         sidebar : any[]
         dir : string
     }

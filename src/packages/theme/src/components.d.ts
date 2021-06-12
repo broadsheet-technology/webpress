@@ -5,7 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Author, Connection, Media, Post, Single, Theme } from "@webpress/core";
+import { Author, Connection, Media, Menu, MenuItem, Post, Query, Single, Theme } from "@webpress/core";
+import { WebpressMenuOptions } from "./components/wp-menu/wp-menu";
 export namespace Components {
     interface WebpressTheme {
         "global": { // json set externally by index.php
@@ -24,8 +25,16 @@ export namespace Components {
     interface WpExcerptCopy {
         "post": Single;
     }
+    interface WpLink {
+        "object": Single | MenuItem;
+        "path": string;
+    }
     interface WpMedia {
         "media": Media;
+    }
+    interface WpMenu {
+        "options": WebpressMenuOptions;
+        "query": Query<Menu>;
     }
     interface WpRunningCopy {
         "content": string;
@@ -66,11 +75,23 @@ declare global {
         prototype: HTMLWpExcerptCopyElement;
         new (): HTMLWpExcerptCopyElement;
     };
+    interface HTMLWpLinkElement extends Components.WpLink, HTMLStencilElement {
+    }
+    var HTMLWpLinkElement: {
+        prototype: HTMLWpLinkElement;
+        new (): HTMLWpLinkElement;
+    };
     interface HTMLWpMediaElement extends Components.WpMedia, HTMLStencilElement {
     }
     var HTMLWpMediaElement: {
         prototype: HTMLWpMediaElement;
         new (): HTMLWpMediaElement;
+    };
+    interface HTMLWpMenuElement extends Components.WpMenu, HTMLStencilElement {
+    }
+    var HTMLWpMenuElement: {
+        prototype: HTMLWpMenuElement;
+        new (): HTMLWpMenuElement;
     };
     interface HTMLWpRunningCopyElement extends Components.WpRunningCopy, HTMLStencilElement {
     }
@@ -95,7 +116,9 @@ declare global {
         "wp-author": HTMLWpAuthorElement;
         "wp-date": HTMLWpDateElement;
         "wp-excerpt-copy": HTMLWpExcerptCopyElement;
+        "wp-link": HTMLWpLinkElement;
         "wp-media": HTMLWpMediaElement;
+        "wp-menu": HTMLWpMenuElement;
         "wp-running-copy": HTMLWpRunningCopyElement;
         "wp-subhead": HTMLWpSubheadElement;
         "wp-title": HTMLWpTitleElement;
@@ -119,8 +142,17 @@ declare namespace LocalJSX {
     interface WpExcerptCopy {
         "post"?: Single;
     }
+    interface WpLink {
+        "object"?: Single | MenuItem;
+        "onWebpressRouterNavigation"?: (event: CustomEvent<{ url }>) => void;
+        "path"?: string;
+    }
     interface WpMedia {
         "media"?: Media;
+    }
+    interface WpMenu {
+        "options"?: WebpressMenuOptions;
+        "query"?: Query<Menu>;
     }
     interface WpRunningCopy {
         "content"?: string;
@@ -140,7 +172,9 @@ declare namespace LocalJSX {
         "wp-author": WpAuthor;
         "wp-date": WpDate;
         "wp-excerpt-copy": WpExcerptCopy;
+        "wp-link": WpLink;
         "wp-media": WpMedia;
+        "wp-menu": WpMenu;
         "wp-running-copy": WpRunningCopy;
         "wp-subhead": WpSubhead;
         "wp-title": WpTitle;
@@ -154,7 +188,9 @@ declare module "@stencil/core" {
             "wp-author": LocalJSX.WpAuthor & JSXBase.HTMLAttributes<HTMLWpAuthorElement>;
             "wp-date": LocalJSX.WpDate & JSXBase.HTMLAttributes<HTMLWpDateElement>;
             "wp-excerpt-copy": LocalJSX.WpExcerptCopy & JSXBase.HTMLAttributes<HTMLWpExcerptCopyElement>;
+            "wp-link": LocalJSX.WpLink & JSXBase.HTMLAttributes<HTMLWpLinkElement>;
             "wp-media": LocalJSX.WpMedia & JSXBase.HTMLAttributes<HTMLWpMediaElement>;
+            "wp-menu": LocalJSX.WpMenu & JSXBase.HTMLAttributes<HTMLWpMenuElement>;
             "wp-running-copy": LocalJSX.WpRunningCopy & JSXBase.HTMLAttributes<HTMLWpRunningCopyElement>;
             "wp-subhead": LocalJSX.WpSubhead & JSXBase.HTMLAttributes<HTMLWpSubheadElement>;
             "wp-title": LocalJSX.WpTitle & JSXBase.HTMLAttributes<HTMLWpTitleElement>;

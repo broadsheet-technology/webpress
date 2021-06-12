@@ -5,6 +5,7 @@ include 'etc/theme.php';
 include 'etc/menus.php';
 include 'etc/social.php';
 include 'etc/subheads.php';
+include 'etc/gutenberg.php';
 
 if ( file_exists( dirname(__FILE__) . '/functions/functions.php' ) ) {
     include 'functions/functions.php'; 

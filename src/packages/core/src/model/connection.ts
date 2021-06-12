@@ -13,7 +13,7 @@ export class Connection {
         let request = routeToWPRequest(this.wp, args.route)
         let Constructor = args.type
 
-        if (args.params.id) {
+        if (args.params.id && request.id) {
             request.id(args.params.id)
         } else {
             Object.keys(args.params).map( key => {
@@ -52,5 +52,8 @@ const routeToWPRequest = (wp : WPAPI, route: Route) : WPAPI.WPRequest => {
             case "template":
                 wp.template = wp.registerRoute('webpress/v1', '/template/(?P<url>)');
                 return wp.template()
+            case "menu":
+                wp.menu = wp.registerRoute('wp-api-menus/v2', '/menus/(?P<id>)');
+                return wp.menu()
         }
     }
