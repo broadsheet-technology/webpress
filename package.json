@@ -23,9 +23,9 @@
     "scss": "node-sass ./src/themes/starter/src/global/scss/editor-style.scss ./bin/wp-content/themes/starter/editor-style.css"
   },
   "dependencies": {
-    "@webpress/core": "file:src/packages/core",
-    "@webpress/router": "file:src/packages/router",
-    "@webpress/theme": "file:src/packages/theme",
+    "@webpress/core": "0.0.12",
+    "@webpress/router": "0.0.12",
+    "@webpress/theme": "0.0.12",
     "node-sass": "^5.0.0"
   }
 }

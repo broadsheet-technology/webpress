@@ -1,7 +1,7 @@
 {
   "name": "@webpress/theme",
   "version": "0.0.12",
-  "description": "webpress theme",
+  "description": "webpress theme components",
   "main": "dist/index.cjs.js",
   "module": "dist/index.mjs",
   "types": "dist/types/index.d.ts",
