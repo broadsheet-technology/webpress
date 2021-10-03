@@ -1,6 +1,6 @@
 {
 	"name": "@webpress/features",
-	"version": "0.1.0",
+	"version": "0.0.15",
 	"description": "WordPress features for webpress themes",
 	"license": "GPL-2.0-or-later",
 	"main": "src/index.tsx",
