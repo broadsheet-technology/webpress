@@ -1,6 +1,9 @@
 {
 	"folders": [
 		{
+			"path": "../../badgerherald/badgerherald.com"
+		},
+		{
 			"name": "core/src",
 			"path": "src/packages/core/src"
 		},
@@ -13,12 +16,10 @@
 			"path": "src/packages/router/src"
 		},
 		{
-			"name": "badgerherald.org/src",
-			"path": "src/themes/badgerherald.org/src"
+			"name": "features/",
+			"path": "src/packages/features/"
 		},
-		{
-			"path": "../wjh.dev"
-		}
+		
 	],
 	"settings": {}
 }

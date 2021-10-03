@@ -1,15 +1,17 @@
+import { Connection } from "./Connection";
+import { Retrievable } from "./Retrievable";
 
+export interface Author extends Retrievable<Author> { }
 export class Author {
-    static route = "authors"
+    constructor(readonly connection: Connection, protected json: any) { }
     
-    constructor(private author) { }
     link: string;
     
     get name() {
-        return this.author.name
+        return this.json.name
     }
     get avatarSrc() : string {
-        return this.author.avatar_urls["96"]
+        return this.json.avatar_urls["96"]
     }
     url: string;
 

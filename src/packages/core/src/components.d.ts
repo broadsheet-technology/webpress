@@ -5,8 +5,16 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { Connection, Theme } from "./model/Index";
 export namespace Components {
     interface WebpressDebug {
+    }
+    interface WpGutenbergMedia {
+        "global": {
+    // json set externally by index.php
+    context: Connection.Context;
+    theme: Theme.Definition;
+  };
     }
 }
 declare global {
@@ -16,15 +24,30 @@ declare global {
         prototype: HTMLWebpressDebugElement;
         new (): HTMLWebpressDebugElement;
     };
+    interface HTMLWpGutenbergMediaElement extends Components.WpGutenbergMedia, HTMLStencilElement {
+    }
+    var HTMLWpGutenbergMediaElement: {
+        prototype: HTMLWpGutenbergMediaElement;
+        new (): HTMLWpGutenbergMediaElement;
+    };
     interface HTMLElementTagNameMap {
         "webpress-debug": HTMLWebpressDebugElement;
+        "wp-gutenberg-media": HTMLWpGutenbergMediaElement;
     }
 }
 declare namespace LocalJSX {
     interface WebpressDebug {
     }
+    interface WpGutenbergMedia {
+        "global"?: {
+    // json set externally by index.php
+    context: Connection.Context;
+    theme: Theme.Definition;
+  };
+    }
     interface IntrinsicElements {
         "webpress-debug": WebpressDebug;
+        "wp-gutenberg-media": WpGutenbergMedia;
     }
 }
 export { LocalJSX as JSX };
@@ -32,6 +55,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "webpress-debug": LocalJSX.WebpressDebug & JSXBase.HTMLAttributes<HTMLWebpressDebugElement>;
+            "wp-gutenberg-media": LocalJSX.WpGutenbergMedia & JSXBase.HTMLAttributes<HTMLWpGutenbergMediaElement>;
         }
     }
 }

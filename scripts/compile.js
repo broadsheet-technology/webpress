@@ -10,7 +10,7 @@ async function compile(package) {
     console.log("schemes here", schemes)
     return await schemes.reduce( async (previousPromise, nextScheme) => {
         await previousPromise
-        return buildTask(scheme)
+        return buildTask(nextScheme)
     }, Promise.resolve());
 }
 

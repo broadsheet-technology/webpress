@@ -6,6 +6,11 @@ include 'etc/menus.php';
 include 'etc/social.php';
 include 'etc/subheads.php';
 include 'etc/gutenberg.php';
+include 'etc/mediaCredit.php';
+
+if ( file_exists( dirname(__FILE__) . '/etc/features.php' ) ) {
+    include 'etc/features.php'; 
+}
 
 if ( file_exists( dirname(__FILE__) . '/functions/functions.php' ) ) {
     include 'functions/functions.php'; 

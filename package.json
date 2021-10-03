@@ -2,14 +2,6 @@
   "name": "webpress",
   "private": true,
   "license": "GPLv2",
-  "devDependencies": {
-    "@stencil/core": "file:../../ionic-team/stencil",
-    "@stencil/sass": "^1.1.1",
-    "@types/wpapi": "^1.1.0",
-    "lerna": "^3.22.1",
-    "rollup-plugin-copy": "^3.1.0",
-    "watch": "^1.0.2"
-  },
   "scripts": {
     "build": "stencil build",
     "start": "stencil build --dev --watch --serve",
@@ -22,10 +14,12 @@
     "run": "node scripts/watch.js --watch",
     "scss": "node-sass ./src/themes/starter/src/global/scss/editor-style.scss ./bin/wp-content/themes/starter/editor-style.css"
   },
+  "devDependencies": {
+    "@stencil/core": "^2.7.1",
+    "@stencil/sass": "^1.4.1",
+    "lerna": "^4.0.0"
+  },
   "dependencies": {
-    "@webpress/core": "0.0.12",
-    "@webpress/router": "0.0.12",
-    "@webpress/theme": "0.0.12",
-    "node-sass": "^5.0.0"
+    "watch": "^0.18.0"
   }
 }
