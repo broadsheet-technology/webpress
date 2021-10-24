@@ -1,17 +1,14 @@
-import { Component, Element, Prop, h, State } from '@stencil/core';
-import { LinkedQueryArgs } from '../../model/Linked';
-import { Connection, Media, Query, Route, Theme } from './../../model/Index'
-
-
-
+import { Component, Element, Prop, State, h } from '@stencil/core';
+import { Connection, Query, Theme, Route, Media, LinkedQueryArgs } from '@webpress/core'
 declare const exa: any
+
 @Component({
-    tag: 'wp-gutenberg-media',
+    tag: 'wp-block-image-decorator',
     styles: ".media-byline { \
       display:block; \
     }"
 })
-export class WebpressGutenbergMedia {
+export class WebpressBlockImageDecorator {
   @Prop() global: {
     // json set externally by index.php
     context: Connection.Context;

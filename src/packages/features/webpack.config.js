@@ -3,14 +3,13 @@ const defaultConfig = require("@wordpress/scripts/config/webpack.config");
 
 module.exports = {
 	...defaultConfig,
-	entry: "./src/index.tsx",
+	entry: "./src/wordpress-script/index.tsx",
 	module: {
 		...defaultConfig.module,
 		rules: [
 			{
 				test: /\.tsx?$/,
-				use: "ts-loader",
-				exclude: /node_modules/,
+				use: "ts-loader"
 			},
 			...defaultConfig.module.rules,
 		],
@@ -24,6 +23,6 @@ module.exports = {
 	output: {
 		...defaultConfig.output,
 		filename: "index.js",
-		path:  path.resolve(__dirname, "dist"),
+		path:  path.resolve(__dirname, "dist-script"),
 	},
 };

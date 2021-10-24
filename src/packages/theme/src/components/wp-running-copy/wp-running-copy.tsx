@@ -5,7 +5,6 @@ import { Single } from '@webpress/core'
   tag: 'wp-running-copy'
 })
 export class WebpressRunningCopy {
-
   @Prop() post : Single 
   @Prop() content : string
 
