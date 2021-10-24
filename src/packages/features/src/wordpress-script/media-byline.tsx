@@ -5,7 +5,7 @@ import { InspectorControls } from "@wordpress/block-editor";
 import { PanelBody, TextControl, SelectControl, withFilters } from "@wordpress/components";
 
 import * as React from "react";
-import { MediaByline } from "./../model";
+import { MediaByline } from "../model";
 
 declare const ajaxurl: any;
 declare const exa_user_select: any;

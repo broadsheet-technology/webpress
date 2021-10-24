@@ -4,8 +4,19 @@ declare const exa: any
 
 @Component({
     tag: 'wp-block-image-decorator',
-    styles: ".media-byline { \
-      display:block; \
+
+    /**
+     * z-index: makes caption selectable on floated images
+     * width: resets block's given column width
+     */
+    styles: " \
+    wp-block-image-decorator { \
+      z-index: 1; \
+      width: inherit; \
+      display: inherit; \
+    } \
+    .media-byline { \
+      display: block; \
     }"
 })
 export class WebpressBlockImageDecorator {
@@ -19,7 +30,7 @@ export class WebpressBlockImageDecorator {
 
   @State() id: number
 
-  private media: Media
+  @State() media: Media
   private connection : Connection
 
   async componentWillLoad() {
@@ -32,9 +43,15 @@ export class WebpressBlockImageDecorator {
         this.id = Number.parseInt(cls.substr(9),10)
       }
     })
+  }
 
+  async componentDidLoad() {
     if (this.id && !this.media) {
-      this.media = await (new Query(this.connection, new LinkedQueryArgs(Media, new Route("media"), this.id))).result
+      try {
+        this.media = await (new Query(this.connection, new LinkedQueryArgs(Media, new Route("media"), this.id))).result
+      } catch {
+        
+      }
     }
   }
 
