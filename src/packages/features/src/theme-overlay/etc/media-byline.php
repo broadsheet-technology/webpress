@@ -34,9 +34,9 @@ function _webpress_media_byline_wrap_core_image_block( $block_content, $block ) 
 	}
 
 	// Override the image block to add media credit
-	$return  = '<wp-block-image-decorator class="webpress-contextual">';
-	$return .= $block_content;
-	$return .= '</wp-block-image-decorator>';
+//	$return  = '<wp-block-image-decorator class="webpress-contextual">';
+	$return = $block_content;
+//	$return .= '</wp-block-image-decorator>';
 
 	return $return;
 }

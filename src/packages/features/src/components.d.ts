@@ -7,7 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Connection, Theme } from "@webpress/core";
 export namespace Components {
-    interface WpBlockImageDecorator {
+    interface WpBlocksDecorator {
         "global": {
     // json set externally by index.php
     context: Connection.Context;
@@ -16,18 +16,18 @@ export namespace Components {
     }
 }
 declare global {
-    interface HTMLWpBlockImageDecoratorElement extends Components.WpBlockImageDecorator, HTMLStencilElement {
+    interface HTMLWpBlocksDecoratorElement extends Components.WpBlocksDecorator, HTMLStencilElement {
     }
-    var HTMLWpBlockImageDecoratorElement: {
-        prototype: HTMLWpBlockImageDecoratorElement;
-        new (): HTMLWpBlockImageDecoratorElement;
+    var HTMLWpBlocksDecoratorElement: {
+        prototype: HTMLWpBlocksDecoratorElement;
+        new (): HTMLWpBlocksDecoratorElement;
     };
     interface HTMLElementTagNameMap {
-        "wp-block-image-decorator": HTMLWpBlockImageDecoratorElement;
+        "wp-blocks-decorator": HTMLWpBlocksDecoratorElement;
     }
 }
 declare namespace LocalJSX {
-    interface WpBlockImageDecorator {
+    interface WpBlocksDecorator {
         "global"?: {
     // json set externally by index.php
     context: Connection.Context;
@@ -35,14 +35,14 @@ declare namespace LocalJSX {
   };
     }
     interface IntrinsicElements {
-        "wp-block-image-decorator": WpBlockImageDecorator;
+        "wp-blocks-decorator": WpBlocksDecorator;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "wp-block-image-decorator": LocalJSX.WpBlockImageDecorator & JSXBase.HTMLAttributes<HTMLWpBlockImageDecoratorElement>;
+            "wp-blocks-decorator": LocalJSX.WpBlocksDecorator & JSXBase.HTMLAttributes<HTMLWpBlocksDecoratorElement>;
         }
     }
 }

@@ -11,7 +11,7 @@ add_action( 'after_setup_theme', 'webpress_gutenberg_css' );
  * Enable a subset of blocks that are known to work
  */
 function webpress_gutenberg_filter_allowed_block_types( $allowed_block_types, $post ) {
-    return array( 'core/paragraph', 'core/image', 'core/heading' );
+    return array( 'core/paragraph', 'core/image', 'core/heading', 'core/separator' );
 
     // immediate todos: pullquote, shortcode, gallery, List, etc
 }
