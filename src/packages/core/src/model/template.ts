@@ -1,53 +1,53 @@
-import { GenericQuery, GenericQueryArgs } from "./Query"
 import { Connection, Route } from "./Connection"
 import { Retrievable } from "./Retrievable"
 import { Single } from "./Single"
 import { Page } from "./Page"
 import { Post } from "./Post"
+import { Queryable, Query as InternalQuery } from ".."
 
-export interface Template<T extends Single = Single> extends Retrievable<Template> { }
-export class Template<T extends Single = Single> implements Retrievable<Template>, Template.Properties {
-    constructor(readonly connection: Connection, protected json: Template.JSON) { }
+export class Template<T extends Single> extends Queryable<Template<T>> implements Template.Properties {
+    static QueryArgs = (params: Template.Args) => InternalQuery.ArgBuilder(Template, params);
+    static Route = () => Connection.RouteBuilder("media");
 
     get globalQuery() : Global.Query<T> {
-        return new Global.Query(this.connection, new Global.QueryArgs(this.json))
+        return //new Global.Query(this.response.connection, new Global.QueryArgs(this.json))
     }
 
     get type() {
-        return this.json.properties.type
+        return this.response.json.properties.type
     }
 
     get frontPageType() {
-        return this.json.properties.frontPageType
+        return this.response.json.properties.frontPageType
     }
 
     get isSingle() {
-        return this.json.properties.type == Template.TemplateType.Single
+        return this.response.json.properties.type == Template.TemplateType.Single
     }
 
     get isFrontPage() {
-        return this.json.properties.type == Template.TemplateType.FrontPage
+        return this.response.json.properties.type == Template.TemplateType.FrontPage
     }
 
     get slug() {
-        return this.json.properties.slug
+        return this.response.json.properties.slug
     }
 
     get singleType() {
-        return this.json.properties.singleType
+        return this.response.json.properties.singleType
     }
 }
-
+/*
 export namespace Global {
-    export class Query<T extends Single> extends GenericQuery<T, Template.JSON> { }
+    export class Query<T extends Single> extends Query<T, Template.JSON> { }
 
-    export class QueryArgs<T extends Single> extends GenericQueryArgs<T> {
+    export class QueryArgs<T extends Single> extends QueryArgs<T> {
         constructor(params: Template.JSON, type : Retrievable<T> = typeForProperties<T>(params.properties)) {
             super(type, routeForType(params.properties), params.queryArgs)
         }
     }
 }
-
+*/
 export namespace Template {
     export const Resolve = (template : Template, contextuals : Template.Contextual[]) => {
         var bestMatch = {
@@ -131,18 +131,12 @@ export namespace Template {
 // Template Query
 
 export namespace Template {
-    export interface QueryParams {
+    export type Args = {
         path,
     }
-
-    export class QueryArgs extends GenericQueryArgs<Template, QueryParams> {
-        constructor(params: QueryParams) {
-            super(Template, new Route("template"), params)
-        }
-    }
     
-    export class Query<T extends Single = Single> extends GenericQuery<T> {
-        constructor(connection : Connection, args : QueryParams) { 
+    export class Query<T extends Single = Single> extends InternalQuery<T> {
+        constructor(connection : Connection, args : Template.Args) { 
             super(connection, undefined)
             this.templateQuery = new TemplateQuery(connection, new QueryArgs(args))
         }
@@ -172,7 +166,7 @@ export namespace Template {
         }
     }
 
-    class TemplateQuery extends GenericQuery<Template> { }
+    class TemplateQuery extends Query<Template> { }
 }
 
 // Global Query

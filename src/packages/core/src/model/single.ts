@@ -17,7 +17,7 @@ export abstract class Single<T extends Single<any> = Single<any>> extends Querya
     }
 
     get featuredMedia() : Media.Query {
-        return Linked.Query(this.response.connection, Linked.QueryArgs(Media, this.response.json.featured_media))
+        return Linked.Query(this.response.connection, Linked.QueryArgs<Media>(Media, this.response.json.featured_media))
     }
 
     get date() : Date {
@@ -29,7 +29,7 @@ export abstract class Single<T extends Single<any> = Single<any>> extends Querya
     } 
     
     get author() : Author.Query {
-        return Linked.Query(this.response.connection, Linked.QueryArgs(Author, this.response.json.author))
+        return Linked.Query(this.response.connection, Linked.QueryArgs<Author>(Author, this.response.json.author))
     }    
 
     get id() : number {

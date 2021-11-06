@@ -1,10 +1,10 @@
 import { Connection } from "./Connection";
 import { Linked } from "./Linked";
 import { Author } from "./Author";
-import { Query, Queryable } from "..";
+import { Query as InternalQuery, Queryable } from "..";
 
 export class Media extends Queryable<Media, Media.Args> {
-    static QueryArgs = (params: Media.Args) => Query.ArgBuilder(Media, params);
+    static QueryArgs = (params: Media.Args) => InternalQuery.ArgBuilder(Media, params);
     static Route = () => Connection.RouteBuilder("media");
 
     get src() {
@@ -27,5 +27,5 @@ export namespace Media {
     export type Args = {
         id: number;
     };
-    export type Query = ReturnType<typeof Media.Query>
+    export type Query = InternalQuery<Media>
 }

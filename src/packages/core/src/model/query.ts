@@ -90,7 +90,7 @@ export abstract class Queryable<T extends QueriedOject, A = any, J = any>
             constructor(connection: Connection, args: QueryArgs<T, A>) {
                 super(connection, args);
             }
-        })(connection, args);
+        })(connection, args) as Query<T>;
 }
 
 export namespace Query {
@@ -103,4 +103,5 @@ export namespace Query {
                 super(type, args);
             }
         })(type, args) as QueryArgs<T, A>;
+
 }
