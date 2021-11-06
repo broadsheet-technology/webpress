@@ -141,9 +141,7 @@ class WebpressTemplateArgs {
 		$this->singleType = WebpressTemplateArgs::resolveSingleType($query); 
 		$this->frontPageType = WebpressTemplateArgs::resolveFrontPageType($query); 
 
-		if(array_key_exists('pagename',$args)) {
-			$this->slug = $args['pagename'];
-		}
+		$this->slug = $args['pagename'];
 	}
 
 	private static function resolveType(\WP_Query $query) {

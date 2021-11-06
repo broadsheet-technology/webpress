@@ -1,4 +1,4 @@
-import { Query as GenericQuery, QueryArgs as GenericQueryArgs } from "./Query"
+import { GenericQuery, GenericQueryArgs } from "./Query"
 import { Connection, Route } from "./Connection"
 import { Retrievable } from "./Retrievable"
 import { Single } from "./Single"
@@ -9,8 +9,8 @@ export interface Template<T extends Single = Single> extends Retrievable<Templat
 export class Template<T extends Single = Single> implements Retrievable<Template>, Template.Properties {
     constructor(readonly connection: Connection, protected json: Template.JSON) { }
 
-    get globalQuery() : GenericQuery<T> {
-        return new GenericQuery(this.connection, Template.GlobalQueryArgs<T>(this.json))
+    get globalQuery() : Global.Query<T> {
+        return new Global.Query(this.connection, new Global.QueryArgs(this.json))
     }
 
     get type() {
@@ -27,6 +27,24 @@ export class Template<T extends Single = Single> implements Retrievable<Template
 
     get isFrontPage() {
         return this.json.properties.type == Template.TemplateType.FrontPage
+    }
+
+    get slug() {
+        return this.json.properties.slug
+    }
+
+    get singleType() {
+        return this.json.properties.singleType
+    }
+}
+
+export namespace Global {
+    export class Query<T extends Single> extends GenericQuery<T, Template.JSON> { }
+
+    export class QueryArgs<T extends Single> extends GenericQueryArgs<T> {
+        constructor(params: Template.JSON, type : Retrievable<T> = typeForProperties<T>(params.properties)) {
+            super(type, routeForType(params.properties), params.queryArgs)
+        }
     }
 }
 
@@ -93,9 +111,9 @@ export namespace Template {
                 if (definition.singleType && definition.singleType !== definition.singleType) {
                     score = -99
                 } 
-                else if (definition.singleType != Template.SingleType.None && definition.singleType === definition.singleType) {
+                else if (definition.singleType != Template.SingleType.None && definition.singleType === template.singleType) {
                     score = 20
-                } 
+                }
                 else {
                     score = 10
                 }
@@ -117,15 +135,24 @@ export namespace Template {
         path,
     }
 
-    export const QueryArgs = (params: QueryParams) => 
-        new GenericQueryArgs<Template, QueryParams>(Template, new Route("template"), params)
-
+    export class QueryArgs extends GenericQueryArgs<Template, QueryParams> {
+        constructor(params: QueryParams) {
+            super(Template, new Route("template"), params)
+        }
+    }
+    
     export class Query<T extends Single = Single> extends GenericQuery<T> {
+        constructor(connection : Connection, args : QueryParams) { 
+            super(connection, undefined)
+            this.templateQuery = new TemplateQuery(connection, new QueryArgs(args))
+        }
+
         get params() {
             return this.templateQuery.result.then(template => template.globalQuery)
         }
     
         private globalQuery : Query<T>
+        
         get results() : Promise<T[]> {
             return new Promise(async (resolve) => {
                 let template = await this.templateQuery.result
@@ -139,16 +166,13 @@ export namespace Template {
             return this.results.then(results => results[0])
         }
     
-        private templateQuery : GenericQuery<Template>
+        private templateQuery : TemplateQuery
         get template() : Promise<Template> {
             return this.templateQuery.result
         }
-    
-        constructor(connection : Connection, args : QueryParams) { 
-            super(connection, undefined)
-            this.templateQuery = new GenericQuery<Template>(connection, QueryArgs(args))
-        }
     }
+
+    class TemplateQuery extends GenericQuery<Template> { }
 }
 
 // Global Query
@@ -168,75 +192,10 @@ export namespace Template {
         taxonomy?: string 
         taxonomyTerm?: string
     }
-
+ 
     export interface JSON {
         properties : Properties,
         queryArgs : any
-    }
-    
-    export const GlobalQueryArgs = <T extends Single>(params: Template.JSON, type : Retrievable<T> = typeForProperties<T>(params.properties) ) => 
-        new GenericQueryArgs<T, Template.JSON>(type, routeForType(params.properties), params.queryArgs)
-        
-    const typeForProperties = <T>(properties: Template.Properties) : Retrievable<T> => {
-        var type
-        switch (properties.type) {
-            case Template.TemplateType.FrontPage:
-                type = typeForFrontPage(properties.frontPageType)
-            case Template.TemplateType.Single:
-                if (properties.singleType == Template.SingleType.Page) {
-                    type = Page
-                } else {
-                    type = Post
-                }
-                break;
-            case Template.TemplateType.Blog:
-                type = Post
-            default:
-                break;
-        }
-        return type || Post
-    }
-
-    const typeForFrontPage = <T>(frontPageType : FrontPageType) : Retrievable<T> => {
-        var type
-        switch (frontPageType) {
-            case Template.FrontPageType.Home:
-                type = Post
-            case Template.FrontPageType.Page:
-                type = Page
-        }
-        return type
-    }
-
-    const routeForType = (properties: Template.Properties) : Route => {
-        var route
-        switch (properties.type) {
-            case Template.TemplateType.FrontPage:
-                route = routeForFrontPage(properties.frontPageType)
-            case Template.TemplateType.Single:
-                if (properties.singleType == Template.SingleType.Page) {
-                    route = new Route("page")
-                } else {
-                    route = new Route("post")
-                }
-                break;
-            case Template.TemplateType.Blog:
-                route = new Route("post")
-            default:
-                break;
-        }
-        return route || new Route("page")
-    }
-
-    const routeForFrontPage = <T>(frontPageType : FrontPageType) : Retrievable<T> => {
-        var type
-        switch (frontPageType) {
-            case Template.FrontPageType.Home:
-                type = new Route("post")
-            case Template.FrontPageType.Page:
-                type = new Route("page")
-        }
-        return type
     }
 }
 
@@ -290,4 +249,68 @@ export namespace Template {
         Month,
         Day
     }
+}
+
+
+
+const typeForProperties = <T>(properties: Template.Properties) : Retrievable<T> => {
+    var type
+    switch (properties.type) {
+        case Template.TemplateType.FrontPage:
+            type = typeForFrontPage(properties.frontPageType)
+        case Template.TemplateType.Single:
+            if (properties.singleType == Template.SingleType.Page) {
+                type = Page
+            } else {
+                type = Post
+            }
+            break;
+        case Template.TemplateType.Blog:
+            type = Post
+        default:
+            break;
+    }
+    return type || Post
+}
+
+const typeForFrontPage = <T>(frontPageType : Template.FrontPageType) : Retrievable<T> => {
+    var type
+    switch (frontPageType) {
+        case Template.FrontPageType.Home:
+            type = Post
+        case Template.FrontPageType.Page:
+            type = Page
+    }
+    return type
+}
+
+const routeForType = (properties: Template.Properties) : Route => {
+    var route
+    switch (properties.type) {
+        case Template.TemplateType.FrontPage:
+            route = routeForFrontPage(properties.frontPageType)
+        case Template.TemplateType.Single:
+            if (properties.singleType == Template.SingleType.Page) {
+                route = new Route("page")
+            } else {
+                route = new Route("post")
+            }
+            break;
+        case Template.TemplateType.Blog:
+            route = new Route("post")
+        default:
+            break;
+    }
+    return route || new Route("page")
+}
+
+const routeForFrontPage = <T>(frontPageType : Template.FrontPageType) : Retrievable<T> => {
+    var type
+    switch (frontPageType) {
+        case Template.FrontPageType.Home:
+            type = new Route("post")
+        case Template.FrontPageType.Page:
+            type = new Route("page")
+    }
+    return type
 }

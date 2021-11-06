@@ -1,22 +1,16 @@
 import { Single } from "./Single"
-import { Connection, Route } from "./Connection"
-import { Retrievable } from "./Retrievable"
-import { QueryArgs } from "./Query"
+import { Connection } from "./Connection"
+import { Query } from "./Query"
 
-export interface PageQueryParams {
-    id? : String,
-    slug? : String
+export class Page extends Single<Page> {
+    static QueryArgs = (params: Page.Args) => Query.ArgBuilder(Page, params);
+    static Route = () => Connection.RouteBuilder("media");
 }
 
-export class PageQueryArgs extends QueryArgs<Page, PageQueryParams> {
-    constructor(params) {
-        super(Page, new Route("page"), params)
-    } 
-}
-
-export interface Page extends Retrievable<Page> { }
-export class Page extends Single {
-    constructor(connection: Connection, json: any) { 
-        super(connection, json)
+namespace Page {
+    export type Args = {
+        id? : String,
+        slug? : String
     }
 }
+

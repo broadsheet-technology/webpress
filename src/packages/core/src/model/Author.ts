@@ -1,18 +1,22 @@
 import { Connection } from "./Connection";
-import { Retrievable } from "./Retrievable";
+import { Query, Queryable } from "./Query"
 
-export interface Author extends Retrievable<Author> { }
-export class Author {
-    constructor(readonly connection: Connection, protected json: any) { }
+export class Author extends Queryable<Author, Author.Args> {
+    static QueryArgs = (params: Author.Args) => Query.ArgBuilder(Author, params);
+    static Route = () => Connection.RouteBuilder("author");
     
     link: string;
     
     get name() {
-        return this.json.name
+        return this.response.json.name
     }
     get avatarSrc() : string {
-        return this.json.avatar_urls["96"]
+        return this.response.json.avatar_urls["96"]
     }
     url: string;
+}
 
+export namespace Author {
+    export type Args = any
+    export type Query = ReturnType<typeof Author.Query>
 }

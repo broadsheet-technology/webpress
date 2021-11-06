@@ -1,48 +1,42 @@
 import { Media } from "./Media";
-import { Connection, Route } from "./Connection";
-import { Retrievable } from "./Retrievable";
 import { Author } from "./Author";
-import { Query } from "./Query";
-import { LinkedQueryArgs } from "./Linked";
+import { Linked } from "./Linked";
+import { Queryable } from "..";
 
-export interface Single extends Retrievable<Single> { }
-export abstract class Single {
-    constructor(readonly connection: Connection, protected json: any) { }
-
+export abstract class Single<T extends Single<any> = Single<any>> extends Queryable<T> {
     get title() : string {
-        return this.json.title.rendered
+        return this.response.json.title.rendered
     }
 
     get excerpt() : string {
-        return this.json.excerpt.rendered
+        return this.response.json.excerpt.rendered
     }
 
     get subhead() : string {
-        return this.json.subhead
+        return this.response.json.subhead
     }
 
-    get featuredMedia() : Promise<Media> {
-        return new Query(this.connection, new LinkedQueryArgs(Media, new Route("media"), this.json.featured_media)).result
+    get featuredMedia() : Media.Query {
+        return Linked.Query(this.response.connection, Linked.QueryArgs(Media, this.response.json.featured_media))
     }
 
     get date() : Date {
-        return new Date(this.json.date)
+        return new Date(this.response.json.date)
     }
 
     get link() : string {
-        return this.json.link
+        return this.response.json.link
     } 
     
-    get author() : Promise<Author> {
-        let args = new LinkedQueryArgs(Author, new Route("author"), this.json.author_id)
-        return new Query(this.connection, args).result
+    get author() : Author.Query {
+        return Linked.Query(this.response.connection, Linked.QueryArgs(Author, this.response.json.author))
     }    
 
     get id() : number {
-        return parseInt(this.json.ID,10)
+        return parseInt(this.response.json.ID,10)
     }
 
     get content() : string {
-        return this.json.content.rendered
+        return this.response.json.content.rendered
     }
 }

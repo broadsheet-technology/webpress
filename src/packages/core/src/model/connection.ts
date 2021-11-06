@@ -10,7 +10,7 @@ export class Connection {
     constructor(private context : Connection.Context) { }
 
     public async request<T>(args: QueryArgs<T>) { 
-        let request = routeToWPRequest(this.wp, args.route)
+        let request = routeToWPRequest(this.wp, args.type.Route())
         let Constructor = args.type
 
         if (args.params.id && request.id) {
@@ -25,9 +25,15 @@ export class Connection {
         var object
 
         if (args.params.id) {
-            object = [new Constructor(this, json)]
+            object = [new Constructor({
+                json: json,
+                connection: this
+            })]
         } else {
-            object = json.map(objectJson => new Constructor(this, objectJson))
+            object = json.map(json => new Constructor({
+                json: json,
+                connection: this
+            }))
         }
         return object
     }
@@ -37,6 +43,8 @@ export namespace Connection {
     export interface Context {
         apiUrl : string
     }
+
+    export const RouteBuilder = (name) => new Route(name)
 }
 
 const routeToWPRequest = (wp : WPAPI, route: Route) : WPAPI.WPRequest => {
