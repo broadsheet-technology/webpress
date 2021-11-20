@@ -1,12 +1,11 @@
 import { Connection, Route } from "./Connection"
-import { Retrievable } from "./Retrievable"
 import { Single } from "./Single"
 import { Page } from "./Page"
 import { Post } from "./Post"
-import { Queryable, Query as InternalQuery } from ".."
+import { Queryable, Query as InternalQuery, QueryArgs } from ".."
 
-export class Template<T extends Single> extends Queryable<Template<T>> implements Template.Properties {
-    static QueryArgs = (params: Template.Args) => InternalQuery.ArgBuilder(Template, params);
+export class Template<T extends Single = Single> extends Queryable<Template<T>> implements Template.Properties {
+    static QueryArgs = (params: Template.Args) => QueryArgs.ArgBuilder(Template, params);
     static Route = () => Connection.RouteBuilder("media");
 
     get globalQuery() : Global.Query<T> {
@@ -136,11 +135,6 @@ export namespace Template {
     }
     
     export class Query<T extends Single = Single> extends InternalQuery<T> {
-        constructor(connection : Connection, args : Template.Args) { 
-            super(connection, undefined)
-            this.templateQuery = new TemplateQuery(connection, new QueryArgs(args))
-        }
-
         get params() {
             return this.templateQuery.result.then(template => template.globalQuery)
         }

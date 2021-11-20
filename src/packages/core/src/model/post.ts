@@ -1,9 +1,9 @@
 import { Single } from './Single'
 import { Connection } from './Connection';
-import { Query } from './Query';
+import { QueryArgs } from './Query';
 
 export class Post extends Single<Post> {
-    static QueryArgs = (params: Post.Args) => Query.ArgBuilder(Post, params);
+    static QueryArgs = (params: Post.Args) => QueryArgs.ArgBuilder(Post, params);
     static Route = () => Connection.RouteBuilder("post");
 
     get subhead() {
@@ -17,3 +17,5 @@ namespace Post {
         slug? : String
     }
 }
+
+new Post(undefined).author

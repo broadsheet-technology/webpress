@@ -1,9 +1,9 @@
 import { Single } from "./Single"
 import { Connection } from "./Connection"
-import { Query } from "./Query"
+import { QueryArgs } from "./Query"
 
 export class Page extends Single<Page> {
-    static QueryArgs = (params: Page.Args) => Query.ArgBuilder(Page, params);
+    static QueryArgs = (params: Page.Args) => QueryArgs.ArgBuilder(Page, params);
     static Route = () => Connection.RouteBuilder("media");
 }
 

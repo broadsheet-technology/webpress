@@ -1,6 +1,6 @@
 import { Template } from "./Template";
 import { Single } from "./Single";
-import { Query, Queryable } from "./Query";
+import { Queryable, QueryArgs} from "./Query";
 import { Connection } from "./Connection";
 
 // Params—
@@ -16,7 +16,7 @@ namespace Menu {
 
 // Bootstrapped Class—
 export class Menu extends Queryable<Menu, Menu.Args> {
-    static QueryArgs = (params: Menu.Args) => Query.ArgBuilder(Menu, params);
+    static QueryArgs = (params: Menu.Args) => QueryArgs.ArgBuilder(Menu, params);
     static Route = () => Connection.RouteBuilder("menu");
 
     // Exposed properties—

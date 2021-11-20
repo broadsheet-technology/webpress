@@ -1,10 +1,35 @@
 import { Connection, QueriedOject } from "..";
-import { QueryArgs, Query as GenericQuery, Queryable, Retrievable } from "./query";
+import { QueryArgs as InternalQueryArgs, Query, Queryable, Retrievable } from "./query";
 
+export class Linked {
+    /**
+     * Factory method for instanciating a Query for a Linked WordPress entity
+     *
+     * @param connection Connection to execute this Query on
+     * @param args QueryArgs returned by Linked.QueryArgs
+     * @returns a Query for the linked entity
+     */
+    static Query = <Type extends QueriedOject>(
+        connection: Connection,
+        args: InternalQueryArgs<Type, { id: number }>
+    ) => Queryable.Query(connection, args) as Query<Type>;
+}
 
 export namespace Linked {
-    export function QueryArgs<T extends QueriedOject>(type: Retrievable<T>, id: number) : QueryArgs<T, { id: number }> {
-        return GenericQuery.ArgBuilder<T, {id: number}>(type, { id: id }) as QueryArgs<T, { id: number}>
+    /**
+     * Factory method for instanciating QueryArgs for querying
+     * a Linked WordPress entity
+     *
+     * @param type type of the entity (Post, Page, Media, etc.)
+     * @param id id of the entity to load
+     * @returns QueryArgs to create a Query for the linked entity
+     */
+    export function QueryArgs<Type extends QueriedOject>(
+        type: Retrievable<Type>,
+        id: number
+    ): InternalQueryArgs<Type, { id: number }> {
+        return InternalQueryArgs.ArgBuilder<Type, { id: number }>(type, {
+            id: id,
+        }) as InternalQueryArgs<Type, { id: number }>;
     }
-    export const Query = <T extends QueriedOject>(connection: Connection, args: QueryArgs<T, { id: number }>) => Queryable.Query(connection, args) as GenericQuery<T>
 }
