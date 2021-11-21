@@ -28,6 +28,14 @@ export class Template<T extends Single = Single> implements Retrievable<Template
     get isFrontPage() {
         return this.json.properties.type == Template.TemplateType.FrontPage
     }
+
+    get slug() {
+        return this.json.properties.slug
+    }
+
+    get objectid() {
+        return this.json.properties.id
+    }
 }
 
 export namespace Template {
