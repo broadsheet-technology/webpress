@@ -60,6 +60,21 @@ function _webpress_media_byline_enqueue_features_js() {
 		'editor_style' => 'my-custom-block-editor-style',
 		'style' => 'my-custom-block-frontend-style',
 	));
+
+    $userObjects = get_users( array( 
+        'fields' => array('ID','display_name'),
+    )
+    );
+
+    $users;
+
+    foreach ($userObjects as $u) {
+		$users[] = array(
+			'label' => $u->display_name,
+			'value' => $u->ID
+			);
+	}
+	wp_localize_script('webpress-features', 'webpress_users', array('users' => $users));
 }
 add_action( 'init', '_webpress_media_byline_enqueue_features_js' );
 

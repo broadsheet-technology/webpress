@@ -2,15 +2,18 @@ import { addFilter } from "@wordpress/hooks";
 import { createHigherOrderComponent, compose } from "@wordpress/compose";
 import { Fragment, useState } from "@wordpress/element";
 import { InspectorControls } from "@wordpress/block-editor";
-import { PanelBody, TextControl, SelectControl, withFilters } from "@wordpress/components";
+import {
+  PanelBody,
+  TextControl,
+  SelectControl,
+  withFilters,
+} from "@wordpress/components";
 
 import * as React from "react";
 import { MediaByline } from "../model";
 
 declare const ajaxurl: any;
-declare const exa_user_select: any;
-
-
+declare const webpress_users: any;
 
 interface MediaCreditManagerSubscriber {
   valueDidChange(newByline: MediaByline);
@@ -36,20 +39,23 @@ class MediaCreditManager {
 
   saveDebounced = this.debounce(() => this.saveAll(), 500);
 
-  async subscribe(attachmentId: string, subscriber: MediaCreditManagerSubscriber) {
+  async subscribe(
+    attachmentId: string,
+    subscriber: MediaCreditManagerSubscriber
+  ) {
     let figures = document.querySelectorAll("figure.wp-block-image");
 
-    figures.forEach(async figure => {
-      let imgTag = figure.querySelector("img")
-      if(!imgTag) {
-        return
+    figures.forEach(async (figure) => {
+      let imgTag = figure.querySelector("img");
+      if (!imgTag) {
+        return;
       }
-      let bylineTag = this.installByline(figure)
-      let credit = await this.creditForUrl(imgTag.src)
+      let bylineTag = this.installByline(figure);
+      let credit = await this.creditForUrl(imgTag.src);
       if (credit) {
-        this.updateByline(bylineTag, credit)
+        this.updateByline(bylineTag, credit);
       }
-    })
+    });
   }
 
   debounce(cb, duration) {
@@ -77,9 +83,8 @@ class MediaCreditManager {
 
       this.cache.set(key, response);
       this.saveOperations.delete(key);
-
     });
-    this.subscribe(undefined,undefined)
+    this.subscribe(undefined, undefined);
   }
 
   async save(mediaId, bylineId, creditLine) {
@@ -97,7 +102,6 @@ class MediaCreditManager {
 
   async creditForUrl(url: string) {
     if (!this.urlMap.has(url)) {
-
       const data = new URLSearchParams();
       data.append("src", url);
       data.append("readonly", "1");
@@ -108,11 +112,11 @@ class MediaCreditManager {
       }).then((response) => response.json());
       this.urlMap.set(url, promise);
 
-      let mediaId = (await this.urlMap.get(url) as any).media
-      this.cache.set(mediaId, this.urlMap.get(url))
+      let mediaId = ((await this.urlMap.get(url)) as any).media;
+      this.cache.set(mediaId, this.urlMap.get(url));
     }
 
-    let mediaId = (await this.urlMap.get(url) as any).media
+    let mediaId = ((await this.urlMap.get(url)) as any).media;
     return this.load(mediaId);
   }
 
@@ -121,7 +125,6 @@ class MediaCreditManager {
       return undefined;
     }
     if (!this.cache.has(mediaId)) {
-
       const data = new URLSearchParams();
       data.append("id", mediaId);
       data.append("readonly", "1");
@@ -162,7 +165,7 @@ class MediaCreditManager {
       return;
     }
 
-    let existingByline = dom.querySelector(".byline")
+    let existingByline = dom.querySelector(".byline");
 
     if (existingByline != undefined) {
       return existingByline;
@@ -173,7 +176,7 @@ class MediaCreditManager {
 
     dom.append(byline);
 
-    return byline
+    return byline;
   }
 }
 
@@ -189,7 +192,7 @@ const addBylineAttributesToImageBlock = (settings) => {
     },
     edit: (props) => (
       <ImageWrapper id={props.attributes.id} attributes={props.attributes}>
-        {new settings.edit(props).render()}
+        {settings.edit(props)}
       </ImageWrapper>
     ),
   };
@@ -201,15 +204,13 @@ addFilter(
   addBylineAttributesToImageBlock
 );
 
-class ImageWrapper
-  extends React.Component<any, { byline: MediaByline }>
-{
+class ImageWrapper extends React.Component<any, { byline: MediaByline }> {
   render() {
     return this.props.children;
   }
 
   componentDidUpdate() {
-    MediaCreditManager.shared.subscribe(undefined, undefined)
+    MediaCreditManager.shared.subscribe(undefined, undefined);
   }
 }
 
@@ -229,13 +230,11 @@ const addAttributionToBlockImageBlockEditor = createHigherOrderComponent(
       const [byline, setByline] = useState<MediaByline>(undefined);
 
       if (attributes.id && !byline) {
-        mediaManager
-          .creditForUrl(attributes.url)
-          .then((loadedByline) => {
-            if (!byline) {
-              setByline(loadedByline);
-            }
-          });
+        mediaManager.creditForUrl(attributes.url).then((loadedByline) => {
+          if (!byline) {
+            setByline(loadedByline);
+          }
+        });
       }
 
       return (
@@ -246,7 +245,7 @@ const addAttributionToBlockImageBlockEditor = createHigherOrderComponent(
               <SelectControl
                 label="Byline User"
                 value={byline ? byline.author_id : ""}
-                options={[{ label: "", value: "" }, ...exa_user_select.users]}
+                options={[{ label: "", value: "" }, ...webpress_users.users]}
                 onChange={async (newBylineId) => {
                   setByline({
                     ...byline,
@@ -272,11 +271,7 @@ const addAttributionToBlockImageBlockEditor = createHigherOrderComponent(
                 onClick={async (_) => {
                   setByline(undefined);
                   setUserLocked(false);
-                  MediaCreditManager.shared.save(
-                    attributes.id,
-                    "",
-                    ""
-                  );
+                  MediaCreditManager.shared.save(attributes.id, "", "");
                 }}
               >
                 Remove byline
