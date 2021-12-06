@@ -147,6 +147,9 @@ class WebpressTemplateArgs {
 	}
 
 	private static function resolveType(\WP_Query $query) {
+		if ( $query->is_404() ) {
+			return -1;
+		}
 		if( $query->is_posts_page ){
 			return 4;
 		} else if( $query->is_home() ) {
@@ -158,7 +161,7 @@ class WebpressTemplateArgs {
 		} else if( $query->is_singular() ) {
 			return 5;
 		}
-		return 0;
+		return -1;
 	}
 
 	private static function resolveSingleType(\WP_Query $query) {

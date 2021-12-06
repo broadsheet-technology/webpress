@@ -267,7 +267,7 @@ export namespace Template {
         Archive = 3,
         Blog = 4,
         Single = 5,
-        PageNotFound = 0
+        PageNotFound = -1
     }
 
     export enum SingleType {
