@@ -62,7 +62,6 @@ export namespace Hierarchy {
         private lazyResolve() {
             switch (this.template.type) {
                 case Template.TemplateType.Single:
-                    console.log("it is a single")
                     return this.resolveSingular()   
                 case Template.TemplateType.FrontPage:
                     if(this.hierarchy.frontPage) {
@@ -84,7 +83,6 @@ export namespace Hierarchy {
         private resolveSingular() : TemplateDefinition {
             let singular = this.hierarchy.singular
             if (!singular) {
-                console.log("NO SINGULAR ON THE THINGGLY", this.hierarchy)
                 return this.hierarchy.index
             }
 

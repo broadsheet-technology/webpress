@@ -1,4 +1,4 @@
-import { Component, Element, h, Prop } from "@stencil/core";
+import { Component, Element, Prop } from "@stencil/core";
 import { Template } from "@webpress/core";
 import { Hierarchy } from "../../../model/Hierarchy";
 
@@ -21,22 +21,11 @@ export class Router {
 
   render() {
     if (!this.query || !this.hiearchy) {
-      console.log("Router has no Query and/or Hiearchy");
       return;
     }
 
     let definition = Hierarchy.Resolve(this.hiearchy, this.template);
 
-    if (!definition) {
-      console.error("No template resolved!");
-    }
-
-    console.log("def", definition);
-
-    let Component =
-      definition instanceof Object ? definition.component : definition;
-    let props = definition instanceof Object ? definition.props || [] : [];
-
-    return <Component {...props} query={this.query} />;
+    return definition;
   }
 }
