@@ -2,6 +2,8 @@ import { Component, Element, Prop, h, State } from '@stencil/core';
 import { LinkedQueryArgs } from '../../model/Linked';
 import { Connection, Media, Query, Route, Theme } from './../../model/Index'
 
+
+
 declare const exa: any
 @Component({
     tag: 'wp-gutenberg-media',
@@ -48,19 +50,20 @@ export class WebpressGutenbergMedia {
       return
     }
 
-    var caption = this.el.querySelector('figcaption')
+    var caption = this.el.querySelector('figure')
+    
     if (!caption) {
-      caption = document.createElement("figcaption", {})
-      this.el.querySelector('figure').append(caption)
+      return
     }
+
     let credit = document.createElement("span", {})
-    credit.classList.add("media-byline")
+    credit.classList.add("byline")
     credit.append(this.media.byline.author)
     
     if (this.media.byline.creditLine) {
       let creditLine = document.createElement("span", {})
-      creditLine.classList.add("media-creditline")
-      creditLine.append("/" + this.media.byline.creditLine)
+      creditLine.classList.add("creditline")
+      creditLine.append(this.media.byline.creditLine)
       credit.append(creditLine)
     }
 

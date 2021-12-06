@@ -1,3 +1,3 @@
 
 export * from "./featured-video";
-export * from "./media-credit";
+export * from "./media-byline";

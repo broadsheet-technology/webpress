@@ -2,7 +2,7 @@ const baseScheme = [
     'src/packages/core',
     'src/packages/theme',
     'src/packages/router',
-    'src/themes/starter'
+    'src/packages/features'
    ];
 
 async function compile(package) {

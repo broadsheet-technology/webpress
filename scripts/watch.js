@@ -2,7 +2,7 @@
 const baseScheme = [
     Array('src/packages/core'),
     Array('src/packages/theme','src/packages/router'),
-    Array('src/themes/starter')
+    Array('src/packages/features')
 ];
    
 const watch = require('watch');

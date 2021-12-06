@@ -6,8 +6,13 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Template } from "@webpress/core";
+import { Hierarchy } from "./model/Hierarchy";
 export namespace Components {
     interface WpRouter {
+        "query": Template.Query;
+    }
+    interface WpRouterTwo {
+        "hiearchy": Hierarchy.TemplateHierarchy;
         "query": Template.Query;
     }
     interface WpTemplate {
@@ -23,6 +28,12 @@ declare global {
         prototype: HTMLWpRouterElement;
         new (): HTMLWpRouterElement;
     };
+    interface HTMLWpRouterTwoElement extends Components.WpRouterTwo, HTMLStencilElement {
+    }
+    var HTMLWpRouterTwoElement: {
+        prototype: HTMLWpRouterTwoElement;
+        new (): HTMLWpRouterTwoElement;
+    };
     interface HTMLWpTemplateElement extends Components.WpTemplate, HTMLStencilElement {
     }
     var HTMLWpTemplateElement: {
@@ -31,11 +42,16 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "wp-router": HTMLWpRouterElement;
+        "wp-router-two": HTMLWpRouterTwoElement;
         "wp-template": HTMLWpTemplateElement;
     }
 }
 declare namespace LocalJSX {
     interface WpRouter {
+        "query"?: Template.Query;
+    }
+    interface WpRouterTwo {
+        "hiearchy"?: Hierarchy.TemplateHierarchy;
         "query"?: Template.Query;
     }
     interface WpTemplate {
@@ -45,6 +61,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "wp-router": WpRouter;
+        "wp-router-two": WpRouterTwo;
         "wp-template": WpTemplate;
     }
 }
@@ -53,6 +70,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "wp-router": LocalJSX.WpRouter & JSXBase.HTMLAttributes<HTMLWpRouterElement>;
+            "wp-router-two": LocalJSX.WpRouterTwo & JSXBase.HTMLAttributes<HTMLWpRouterTwoElement>;
             "wp-template": LocalJSX.WpTemplate & JSXBase.HTMLAttributes<HTMLWpTemplateElement>;
         }
     }

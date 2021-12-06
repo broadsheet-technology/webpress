@@ -5,9 +5,15 @@
 	  "module": "commonjs",
 	  "noImplicitAny": false,
 	  "allowJs": true,
-	  "allowSyntheticDefaultImports": true
+	  "allowSyntheticDefaultImports": true,
+	  "experimentalDecorators": true,
 	},
 	"include": [
 	  "src"
+	],
+	"exclude": [
+		"src/components"
 	]
   }
+
+  
