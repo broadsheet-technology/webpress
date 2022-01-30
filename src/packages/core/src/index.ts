@@ -1,1 +1,1 @@
-export * from './model/Index'
+export * from "./model/Index";

@@ -7,9 +7,9 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type                                       | Default     |
-| -------- | --------- | ----------- | ------------------------------------------ | ----------- |
-| `global` | --        |             | `{ context: Context; theme: Definition; }` | `undefined` |
+| Property | Attribute | Description | Type      | Default     |
+| -------- | --------- | ----------- | --------- | ----------- |
+| `global` | --        |             | `Context` | `undefined` |
 
 
 ----------------------------------------------

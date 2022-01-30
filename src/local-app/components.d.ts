@@ -5,15 +5,29 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Author, Connection, Media, Menu, MenuItem, Post, Query, Single } from "@webpress/core";
-import { WebpressMenuOptions } from "./components/wp-menu/wp-menu";
+import { Author, Connection, Media, Menu, MenuItem, Post, Query, Single, Template, Theme } from "@webpress/core";
+import { Connection as Connection1, Theme as Theme1 } from "../packages/core/src/model/Index";
+import { WebpressMenuOptions } from "../packages/theme/src/components/wp-menu/wp-menu";
+import { Hierarchy } from "../packages/router/src/model/Hierarchy";
 export namespace Components {
+    interface WebpressDebug {
+    }
     interface WebpressTheme {
-        "global": Connection.Context;
+        "global": { // json set externally by index.php
+    context: Connection.Context,
+    theme: Theme.Definition
+  };
     }
     interface WpAuthor {
         "author": Author;
         "permalink": boolean;
+    }
+    interface WpBlocksDecorator {
+        "global": {
+    // json set externally by index.php
+    context: Connection.Context;
+    theme: Theme.Definition;
+  };
     }
     interface WpDate {
         "el": string;
@@ -21,6 +35,13 @@ export namespace Components {
     }
     interface WpExcerptCopy {
         "post": Single;
+    }
+    interface WpGutenbergMedia {
+        "global": {
+    // json set externally by index.php
+    context: Connection.Context;
+    theme: Theme.Definition;
+  };
     }
     interface WpLink {
         "object": Single | MenuItem;
@@ -33,6 +54,13 @@ export namespace Components {
         "options": WebpressMenuOptions;
         "query": Query<Menu>;
     }
+    interface WpRouter {
+        "query": Template.Query;
+    }
+    interface WpRouterTwo {
+        "hiearchy": Hierarchy.TemplateHierarchy;
+        "query": Template.Query;
+    }
     interface WpRunningCopy {
         "content": string;
         "post": Single;
@@ -41,6 +69,11 @@ export namespace Components {
         "el": string;
         "post": Post;
     }
+    interface WpTemplate {
+        "component": string;
+        "definition": Template.Properties;
+        "query": Template.Query;
+    }
     interface WpTitle {
         "el": string;
         "permalink": boolean;
@@ -48,6 +81,12 @@ export namespace Components {
     }
 }
 declare global {
+    interface HTMLWebpressDebugElement extends Components.WebpressDebug, HTMLStencilElement {
+    }
+    var HTMLWebpressDebugElement: {
+        prototype: HTMLWebpressDebugElement;
+        new (): HTMLWebpressDebugElement;
+    };
     interface HTMLWebpressThemeElement extends Components.WebpressTheme, HTMLStencilElement {
     }
     var HTMLWebpressThemeElement: {
@@ -60,6 +99,12 @@ declare global {
         prototype: HTMLWpAuthorElement;
         new (): HTMLWpAuthorElement;
     };
+    interface HTMLWpBlocksDecoratorElement extends Components.WpBlocksDecorator, HTMLStencilElement {
+    }
+    var HTMLWpBlocksDecoratorElement: {
+        prototype: HTMLWpBlocksDecoratorElement;
+        new (): HTMLWpBlocksDecoratorElement;
+    };
     interface HTMLWpDateElement extends Components.WpDate, HTMLStencilElement {
     }
     var HTMLWpDateElement: {
@@ -71,6 +116,12 @@ declare global {
     var HTMLWpExcerptCopyElement: {
         prototype: HTMLWpExcerptCopyElement;
         new (): HTMLWpExcerptCopyElement;
+    };
+    interface HTMLWpGutenbergMediaElement extends Components.WpGutenbergMedia, HTMLStencilElement {
+    }
+    var HTMLWpGutenbergMediaElement: {
+        prototype: HTMLWpGutenbergMediaElement;
+        new (): HTMLWpGutenbergMediaElement;
     };
     interface HTMLWpLinkElement extends Components.WpLink, HTMLStencilElement {
     }
@@ -90,6 +141,18 @@ declare global {
         prototype: HTMLWpMenuElement;
         new (): HTMLWpMenuElement;
     };
+    interface HTMLWpRouterElement extends Components.WpRouter, HTMLStencilElement {
+    }
+    var HTMLWpRouterElement: {
+        prototype: HTMLWpRouterElement;
+        new (): HTMLWpRouterElement;
+    };
+    interface HTMLWpRouterTwoElement extends Components.WpRouterTwo, HTMLStencilElement {
+    }
+    var HTMLWpRouterTwoElement: {
+        prototype: HTMLWpRouterTwoElement;
+        new (): HTMLWpRouterTwoElement;
+    };
     interface HTMLWpRunningCopyElement extends Components.WpRunningCopy, HTMLStencilElement {
     }
     var HTMLWpRunningCopyElement: {
@@ -102,6 +165,12 @@ declare global {
         prototype: HTMLWpSubheadElement;
         new (): HTMLWpSubheadElement;
     };
+    interface HTMLWpTemplateElement extends Components.WpTemplate, HTMLStencilElement {
+    }
+    var HTMLWpTemplateElement: {
+        prototype: HTMLWpTemplateElement;
+        new (): HTMLWpTemplateElement;
+    };
     interface HTMLWpTitleElement extends Components.WpTitle, HTMLStencilElement {
     }
     var HTMLWpTitleElement: {
@@ -109,25 +178,43 @@ declare global {
         new (): HTMLWpTitleElement;
     };
     interface HTMLElementTagNameMap {
+        "webpress-debug": HTMLWebpressDebugElement;
         "webpress-theme": HTMLWebpressThemeElement;
         "wp-author": HTMLWpAuthorElement;
+        "wp-blocks-decorator": HTMLWpBlocksDecoratorElement;
         "wp-date": HTMLWpDateElement;
         "wp-excerpt-copy": HTMLWpExcerptCopyElement;
+        "wp-gutenberg-media": HTMLWpGutenbergMediaElement;
         "wp-link": HTMLWpLinkElement;
         "wp-media": HTMLWpMediaElement;
         "wp-menu": HTMLWpMenuElement;
+        "wp-router": HTMLWpRouterElement;
+        "wp-router-two": HTMLWpRouterTwoElement;
         "wp-running-copy": HTMLWpRunningCopyElement;
         "wp-subhead": HTMLWpSubheadElement;
+        "wp-template": HTMLWpTemplateElement;
         "wp-title": HTMLWpTitleElement;
     }
 }
 declare namespace LocalJSX {
+    interface WebpressDebug {
+    }
     interface WebpressTheme {
-        "global"?: Connection.Context;
+        "global"?: { // json set externally by index.php
+    context: Connection.Context,
+    theme: Theme.Definition
+  };
     }
     interface WpAuthor {
         "author"?: Author;
         "permalink"?: boolean;
+    }
+    interface WpBlocksDecorator {
+        "global"?: {
+    // json set externally by index.php
+    context: Connection.Context;
+    theme: Theme.Definition;
+  };
     }
     interface WpDate {
         "el"?: string;
@@ -135,6 +222,13 @@ declare namespace LocalJSX {
     }
     interface WpExcerptCopy {
         "post"?: Single;
+    }
+    interface WpGutenbergMedia {
+        "global"?: {
+    // json set externally by index.php
+    context: Connection.Context;
+    theme: Theme.Definition;
+  };
     }
     interface WpLink {
         "object"?: Single | MenuItem;
@@ -148,6 +242,13 @@ declare namespace LocalJSX {
         "options"?: WebpressMenuOptions;
         "query"?: Query<Menu>;
     }
+    interface WpRouter {
+        "query"?: Template.Query;
+    }
+    interface WpRouterTwo {
+        "hiearchy"?: Hierarchy.TemplateHierarchy;
+        "query"?: Template.Query;
+    }
     interface WpRunningCopy {
         "content"?: string;
         "post"?: Single;
@@ -156,21 +257,32 @@ declare namespace LocalJSX {
         "el"?: string;
         "post"?: Post;
     }
+    interface WpTemplate {
+        "component"?: string;
+        "definition"?: Template.Properties;
+        "query"?: Template.Query;
+    }
     interface WpTitle {
         "el"?: string;
         "permalink"?: boolean;
         "post"?: Single;
     }
     interface IntrinsicElements {
+        "webpress-debug": WebpressDebug;
         "webpress-theme": WebpressTheme;
         "wp-author": WpAuthor;
+        "wp-blocks-decorator": WpBlocksDecorator;
         "wp-date": WpDate;
         "wp-excerpt-copy": WpExcerptCopy;
+        "wp-gutenberg-media": WpGutenbergMedia;
         "wp-link": WpLink;
         "wp-media": WpMedia;
         "wp-menu": WpMenu;
+        "wp-router": WpRouter;
+        "wp-router-two": WpRouterTwo;
         "wp-running-copy": WpRunningCopy;
         "wp-subhead": WpSubhead;
+        "wp-template": WpTemplate;
         "wp-title": WpTitle;
     }
 }
@@ -178,15 +290,21 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "webpress-debug": LocalJSX.WebpressDebug & JSXBase.HTMLAttributes<HTMLWebpressDebugElement>;
             "webpress-theme": LocalJSX.WebpressTheme & JSXBase.HTMLAttributes<HTMLWebpressThemeElement>;
             "wp-author": LocalJSX.WpAuthor & JSXBase.HTMLAttributes<HTMLWpAuthorElement>;
+            "wp-blocks-decorator": LocalJSX.WpBlocksDecorator & JSXBase.HTMLAttributes<HTMLWpBlocksDecoratorElement>;
             "wp-date": LocalJSX.WpDate & JSXBase.HTMLAttributes<HTMLWpDateElement>;
             "wp-excerpt-copy": LocalJSX.WpExcerptCopy & JSXBase.HTMLAttributes<HTMLWpExcerptCopyElement>;
+            "wp-gutenberg-media": LocalJSX.WpGutenbergMedia & JSXBase.HTMLAttributes<HTMLWpGutenbergMediaElement>;
             "wp-link": LocalJSX.WpLink & JSXBase.HTMLAttributes<HTMLWpLinkElement>;
             "wp-media": LocalJSX.WpMedia & JSXBase.HTMLAttributes<HTMLWpMediaElement>;
             "wp-menu": LocalJSX.WpMenu & JSXBase.HTMLAttributes<HTMLWpMenuElement>;
+            "wp-router": LocalJSX.WpRouter & JSXBase.HTMLAttributes<HTMLWpRouterElement>;
+            "wp-router-two": LocalJSX.WpRouterTwo & JSXBase.HTMLAttributes<HTMLWpRouterTwoElement>;
             "wp-running-copy": LocalJSX.WpRunningCopy & JSXBase.HTMLAttributes<HTMLWpRunningCopyElement>;
             "wp-subhead": LocalJSX.WpSubhead & JSXBase.HTMLAttributes<HTMLWpSubheadElement>;
+            "wp-template": LocalJSX.WpTemplate & JSXBase.HTMLAttributes<HTMLWpTemplateElement>;
             "wp-title": LocalJSX.WpTitle & JSXBase.HTMLAttributes<HTMLWpTitleElement>;
         }
     }

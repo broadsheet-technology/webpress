@@ -1,8 +1,8 @@
 <?php
 
 class WPGlobals {
-    var $context;
     var $theme;
+    var $serverInfo;
 }
 
 class WPTheme {
@@ -30,7 +30,7 @@ function loadWebpressTheme() {
     parseMenus($decoded->menus);
     parseFeatures($decoded->themeSupport);
     $WPContext->theme = new WPTheme($decoded->root);
-    $WPContext->context = [ 
+    $WPContext->serverInfo = [ 
         "apiUrl" => get_home_url() . '/wp-json'
     ];
 }

@@ -1,14 +1,12 @@
-import { Config } from '@stencil/core';
+import { Config } from "@stencil/core";
 
 export const config: Config = {
-  namespace: 'webpresscore',
+  namespace: "webpresscore",
   outputTargets: [
     {
-      type: 'dist',
-      esmLoaderPath: '../loader',
-      copy: [
-        { src: 'theme-overlay' },
-      ]
-    }
-  ]
+      type: "dist",
+      esmLoaderPath: "../loader",
+      copy: [{ src: "theme-overlay" }],
+    },
+  ],
 };

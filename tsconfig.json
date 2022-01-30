@@ -9,15 +9,28 @@
       "dom",
       "es2017"
     ],
+    
+    "baseUrl": ".",
+    "paths": {
+      "@webpress/core":["src/packages/core/src"],
+      "@webpress/features":["src/packages/features/src"],
+      "@webpress/router":["src/packages/router/src"],
+      "@webpress/theme":["src/packages/theme/src"]
+    },
+    "noResolve": true,
     "moduleResolution": "node",
     "module": "esnext",
     "target": "es2017",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "jsx": "react",
-    "jsxFactory": "h"
+    "jsxFactory": "h",
   },
   "include": [
-    "./src",
-  ]
+    "./src/packages/core/src",
+    "./src/packages/theme/src",
+    "./src/packages/router/src",
+    "./src/packages/features/src",
+    "./src/local-app",
+  ],"exclude": ["./src/packages/core/dist"]
 }

@@ -5,16 +5,12 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Connection, Theme } from "./model/Index";
+import { Connection } from "./model/Index";
 export namespace Components {
     interface WebpressDebug {
     }
     interface WpGutenbergMedia {
-        "global": {
-    // json set externally by index.php
-    context: Connection.Context;
-    theme: Theme.Definition;
-  };
+        "global": Connection.Context;
     }
 }
 declare global {
@@ -39,11 +35,7 @@ declare namespace LocalJSX {
     interface WebpressDebug {
     }
     interface WpGutenbergMedia {
-        "global"?: {
-    // json set externally by index.php
-    context: Connection.Context;
-    theme: Theme.Definition;
-  };
+        "global"?: Connection.Context;
     }
     interface IntrinsicElements {
         "webpress-debug": WebpressDebug;
