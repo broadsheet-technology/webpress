@@ -5,14 +5,10 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Connection, Theme } from "@webpress/core";
+import { Connection } from "@webpress/core";
 export namespace Components {
     interface WpBlocksDecorator {
-        "global": {
-    // json set externally by index.php
-    context: Connection.Context;
-    theme: Theme.Definition;
-  };
+        "global": Connection.Context;
     }
 }
 declare global {
@@ -28,11 +24,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface WpBlocksDecorator {
-        "global"?: {
-    // json set externally by index.php
-    context: Connection.Context;
-    theme: Theme.Definition;
-  };
+        "global"?: Connection.Context;
     }
     interface IntrinsicElements {
         "wp-blocks-decorator": WpBlocksDecorator;

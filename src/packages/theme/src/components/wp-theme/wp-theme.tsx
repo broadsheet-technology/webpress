@@ -37,7 +37,7 @@ export class WebpressTheme {
   }
 
   render() {
-    if (!this.global.context) {
+    if (!this.global.theme) {
       return;
     }
     const ThemeRoot = this.global.theme.root;
