@@ -7,4 +7,3 @@ include 'webpress-core/menus.php';
 include 'webpress-core/social.php';
 include 'webpress-core/subheads.php';
 include 'webpress-core/gutenberg.php';
-include 'webpress-core/media-byline.php';
