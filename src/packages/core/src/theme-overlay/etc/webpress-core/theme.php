@@ -16,7 +16,7 @@ class WPTheme {
     }
 }
 
-$json = file_get_contents( __DIR__ . "/../theme-definition.json");
+$json = file_get_contents( __DIR__ . "/../../theme-definition.json");
 $decoded = json_decode($json);
     
 $WPContext = new WPGlobals();
@@ -24,7 +24,7 @@ $WPContext = new WPGlobals();
 function loadWebpressTheme() {
     global $WPContext;
 
-    $json = file_get_contents( __DIR__ . "/../theme-definition.json");
+    $json = file_get_contents( __DIR__ . "/../../theme-definition.json");
     $decoded = json_decode($json);
     
     parseMenus($decoded->menus);

@@ -7,6 +7,11 @@ function _webpress_print_wp_head() {
     $varParam;
     if ($json) {
         $decoded = json_decode($json);
+
+        if (!defined('WEBPRESS_STENCIL_NAMESPACE')) {
+            define(WEBPRESS_STENCIL_NAMESPACE , $decoded->app->namespace);
+        }
+
         $varParam = "?v=" . substr(md5($decoded->timestamp),0,8);
     } else {
         $varParam = "";

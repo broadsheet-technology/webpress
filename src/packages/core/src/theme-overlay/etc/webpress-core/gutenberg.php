@@ -26,7 +26,6 @@ function _webpress_gutenberg_disable_custom_color_picker() {
     add_theme_support( 'disable-custom-font-sizes' );
     add_theme_support( 'disable-custom-gradients' );
 }
-add_action( 'init', '_webpress_gutenberg_disable_custom_color_picker' );
 add_action( 'after_setup_theme', '_webpress_gutenberg_disable_custom_color_picker' );
 
 
@@ -44,13 +43,13 @@ add_filter('block_editor_settings', '_webpress_gutenberg_disable_drop_cap');
  * Remove the UI element that allows users to resize images in gutenberg
  */
 function _webpress_gutenberg_hack_to_remove_image_resizing_ui( $hook ) { 
-?> 
-    <style>
-	/** Restrict image sizes to known/defined sizes */
-	.block-editor-image-size-control {
-  		display: none;
-	}
-	</style>
+?>
+<style>
+/** Restrict image sizes to known/defined sizes */
+.block-editor-image-size-control {
+    display: none;
+}
+</style>
 <?php
 }
 add_action('admin_head', '_webpress_gutenberg_hack_to_remove_image_resizing_ui');
