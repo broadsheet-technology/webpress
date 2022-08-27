@@ -1,9 +1,9 @@
 <?php 
 
-include 'webpress-core/wp-head.php';
-include 'webpress-core/template.php';
-include 'webpress-core/theme.php';
-include 'webpress-core/menus.php';
-include 'webpress-core/social.php';
-include 'webpress-core/subheads.php';
-include 'webpress-core/gutenberg.php';
+include __DIR__ . '/webpress-core/wp-head.php';
+include __DIR__ . '/webpress-core/template.php';
+include __DIR__ . '/webpress-core/theme.php';
+include __DIR__ . '/webpress-core/menus.php';
+include __DIR__ . '/webpress-core/social.php';
+include __DIR__ . '/webpress-core/subheads.php';
+include __DIR__ . '/webpress-core/gutenberg.php';

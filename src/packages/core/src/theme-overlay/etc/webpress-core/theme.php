@@ -15,26 +15,33 @@ class WPTheme {
         $this->dir = get_template_directory_uri();
     }
 }
-
-$json = file_get_contents( __DIR__ . "/../../theme-definition.json");
-$decoded = json_decode($json);
     
-$WPContext = new WPGlobals();
+$WPContext;
 
 function loadWebpressTheme() {
     global $WPContext;
 
-    $json = file_get_contents( __DIR__ . "/../../theme-definition.json");
-    $decoded = json_decode($json);
+    $compileTime = filemtime( __DIR__ . "/../../theme-definition.json" );
+    if ( ! $context = wp_cache_get("webpress-context-" . $compileTime) ) {
+        $context = new WPGlobals();
+        $json = file_get_contents( __DIR__ . "/../../theme-definition.json");
+        $decoded = json_decode($json);
     
-    parseMenus($decoded->menus);
-    parseFeatures($decoded->themeSupport);
-    $WPContext->theme = new WPTheme($decoded->root);
-    $WPContext->serverInfo = [ 
-        "apiUrl" => get_home_url() . '/wp-json'
-    ];
+        parseMenus($decoded->menus);
+        parseFeatures($decoded->themeSupport);
+
+        $context->theme = new WPTheme($decoded->root);
+        $context->serverInfo = [ 
+            "apiUrl" => get_home_url() . '/wp-json'
+        ];
+    
+        wp_cache_set("webpress-context-" . $compileTime, $context, '', 0);
+    }   
+
+    $WPContext = $context;
 }
 add_action( 'init' , 'loadWebpressTheme' );
+add_action( 'admin_init' , 'loadWebpressTheme' );
 
 function parseMenus($menus) {
     foreach( $menus as $menu ) {
