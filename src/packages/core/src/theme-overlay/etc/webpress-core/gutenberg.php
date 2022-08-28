@@ -17,7 +17,6 @@ function webpress_gutenberg_filter_allowed_block_types( $allowed_block_types, $p
 }
 add_filter( 'allowed_block_types', 'webpress_gutenberg_filter_allowed_block_types', 10, 2 );
 
-
 /**
  * Disable the custom color picker.
  */
