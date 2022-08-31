@@ -4,6 +4,7 @@ include __DIR__ . '/webpress-core/stencil-stats.php';
 include __DIR__ . '/webpress-core/theme-definition.php';
 
 include __DIR__ . '/webpress-core/context.php';
+include __DIR__ . '/webpress-core/init.php';
 include __DIR__ . '/webpress-core/wp-head.php';
 include __DIR__ . '/webpress-core/template.php';
 

@@ -28,11 +28,11 @@ function webpress_get_theme_definition() : ThemeDefinition {
  * loaded from theme-definition.json
  */
 class ThemeDefinition {
-    public ?array $menus;
-    public ?array $features;
     public string $root;
+    public array $menus;
+    public ?array $features;
 
-    function __construct($root, $menus) {
+    function __construct($root, $menus, $features) {
         $this->root = $root;
         $this->menus = $menus;
         $this->features = $features;
@@ -41,10 +41,12 @@ class ThemeDefinition {
 
 
 class MenuDefinition {
-    public string $name;
-    public string $autoLoad;
-    function __construct($name, $autoLoad) {
-        $this->name = $name;
+    public string $location;
+    public string $description;
+    public bool $autoLoad;
+    function __construct(string $location, ?string $description, ?bool $autoLoad = true) {
+        $this->location = $location;
+        $this->description = $description ? $description : $location;
         $this->autoLoad = $autoLoad;
     }
 }
@@ -58,17 +60,17 @@ function _webpress_try_load_theme_definition() : ?ThemeDefinition {
     $decoded = json_decode($json);
 
     $root = $decoded->root;
-    $menus = $decoded->menus;
+    $menus = _webpress_parse_menus($decoded->menus);
     $features = $decoded->features;
 
-    return new ThemeDefinition($root, $features);
+    return new ThemeDefinition($root, $menus, $features);
 };
 
 
 function _webpress_parse_menus($json) : array { 
     $toRet = [];
     foreach ($json as $menu) {
-        $toRet[] = new MenuDefinition($menu->name, $menu->autoLoad);
+        $toRet[] = new MenuDefinition( $menu->location, $menu->description, $menu->autoLoad ? $menu->autoLoad : true );
     }
     return $toRet;
 };

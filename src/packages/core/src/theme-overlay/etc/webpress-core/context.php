@@ -12,6 +12,8 @@ class WebpressContext {
     public array $theme;
     public array $serverInfo;
 
+    public WebpressAutoload $autoloaded;
+
     function __construct(ThemeDefinition $theme, ?StencilStats $stats) {
         $this->namespace = $stats->namespace ? $stats->namespace : WEBPRESS_STENCIL_NAMESPACE;
         $this->theme = [ 
