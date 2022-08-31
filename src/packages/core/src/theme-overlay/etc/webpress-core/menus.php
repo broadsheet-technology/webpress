@@ -90,7 +90,12 @@ class WebpressMenuRoute {
             $rest_menus[ $i ]['meta']['links']['self']       = $rest_url . $menu['term_id'];
             $i ++;
         endforeach;
-        return apply_filters( 'rest_menus_format_menus', $rest_menus );
+
+        // Set headers.
+        $rest_menus = new WP_REST_Response( $rest_menu, '200');
+        $rest_menus->set_headers(array('Cache-Control' => 'max-age=1800')); 
+
+        return $rest_menus;
     }
     
     /**
@@ -119,12 +124,10 @@ class WebpressMenuRoute {
             $rest_menu['meta']['links']['collection'] = $rest_url;
             $rest_menu['meta']['links']['self']       = $rest_url . $id;
         endif;
-        if (false) {
-            $response = new WP_REST_Response( $rest_menu, '200');
-        } else {
-            $response = new WP_REST_Response( array($rest_menu), '200');
-        }
+        
+       
         // Set headers.
+        $response = new WP_REST_Response( $rest_menu, '200');
         $response->set_headers(array('Cache-Control' => 'max-age=1800')); 
         
         return $response;
