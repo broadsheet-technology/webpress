@@ -11,6 +11,7 @@ class WebpressContext {
     public string $namespace;
     public array $theme;
     public array $serverInfo;
+    public string $buildHash;
 
     public WebpressAutoload $autoloaded;
 
@@ -23,6 +24,7 @@ class WebpressContext {
         $this->serverInfo = [ 
             "apiUrl" => get_home_url() . '/wp-json'
         ];
+        $this->buildHash = $stats->buildHash;
     }
 }
 
