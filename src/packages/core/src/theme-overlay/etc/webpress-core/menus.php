@@ -92,7 +92,7 @@ class WebpressMenuRoute {
         endforeach;
 
         // Set headers.
-        $rest_menus = new WP_REST_Response( $rest_menu, '200');
+        $rest_menus = new WP_REST_Response( $rest_menus, '200');
         $rest_menus->set_headers(array('Cache-Control' => 'max-age=1800')); 
 
         return $rest_menus;
