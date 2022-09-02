@@ -1,6 +1,6 @@
 {
   "name": "@webpress/router",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "description": "webpress router",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@stencil/core": "^2.3.0",
-    "@webpress/core": "^0.0.25",
+    "@webpress/core": "^0.0.26",
     "fs": "0.0.1-security",
     "link": "^0.1.5",
     "rollup-plugin-node-resolve": "^5.2.0",
