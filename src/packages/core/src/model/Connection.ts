@@ -8,7 +8,10 @@ export class Route {
 
 export class Connection {
   readonly wp = new WPAPI({ endpoint: this.serverInfo.apiUrl });
-  constructor(private serverInfo: Connection.ServerInfo) {}
+  constructor(
+    private serverInfo: Connection.ServerInfo,
+    private preloaded: []
+  ) {}
 
   public async request<T>(args: QueryArgs<T>) {
     let request = routeToWPRequest(this.wp, args.route);
@@ -21,7 +24,19 @@ export class Connection {
       });
     }
 
-    let response = await request;
+    let url = request.toString().substring(this.serverInfo.apiUrl.length);
+    console.log(request, url);
+
+    if (request && this.preloaded[url]) {
+      console.log("WE DID THE PRELOAD THING");
+    } else {
+      console.log("NO PRELOAD...", this.preloaded, request.toString());
+    }
+
+    let response = JSON.parse(this.preloaded[url]) || (await request);
+
+    console.log(response);
+
     return response;
   }
 }
@@ -30,6 +45,7 @@ export namespace Connection {
   export interface Context {
     serverInfo: Connection.ServerInfo;
     theme: Theme.Definition;
+    preloaded: [];
   }
   export interface ServerInfo {
     apiUrl: string;

@@ -5,6 +5,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * pre-load menus
+ */
+add_filter( "webpress_preloaded", function( $array ) {
+    $theme = webpress_get_theme_definition();
+    
+    foreach( $theme->menus as $menu ) { 
+        $params=[];   
+        $params['location']=$menu->location;
+        $array["/webpress/v1/menus?location=" . $menu->location] = json_encode( (new WebpressMenuRoute())->get_menus_for_params($params)->data );
+    }
+    
+    return $array;
+});
+
+/**
  * Init JSON REST API Menu routes.
  */
 add_action( 'init', function () {
@@ -54,9 +69,16 @@ class WebpressMenuRoute {
      */
     public function get_menus( $request ) {
         $params = $request->get_params();
+        return $this->get_menus_for_params( $params );
+    }
+
+    /**
+     * Get menus.
+     */
+    public function get_menus_for_params( $params ) {
         $rest_url = trailingslashit( get_rest_url() . self::get_plugin_namespace() . '/menus/' );
         
-        $location   = $params['location'];
+        $location = $params['location'];
         if ( $location ) {
             $locations  = get_nav_menu_locations();
 

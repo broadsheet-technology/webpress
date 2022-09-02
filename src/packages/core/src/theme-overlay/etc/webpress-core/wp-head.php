@@ -2,6 +2,7 @@
 
 function _webpress_print_wp_head() {
     $context = get_webpress_context();
+    $context->preloaded = apply_filters("webpress_preloaded",[])
     ?>
 
 <script type="text/javascript">

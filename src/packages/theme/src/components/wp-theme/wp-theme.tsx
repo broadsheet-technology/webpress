@@ -11,7 +11,10 @@ export class WebpressTheme {
   @State() query: Template.Query;
 
   async componentWillLoad() {
-    this.connection = new Connection(this.global.serverInfo);
+    this.connection = new Connection(
+      this.global.serverInfo,
+      this.global.preloaded
+    );
   }
 
   @Listen("webpressRouterNavigation")

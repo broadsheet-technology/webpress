@@ -31,7 +31,7 @@ export class WebpressBlockImageDecorator {
 
   async componentWillLoad() {
     if (!this.connection) {
-      this.connection = new Connection(this.global.serverInfo);
+      this.connection = new Connection(this.global.serverInfo, []);
     }
 
     this.el.querySelectorAll("img").forEach((img) => {

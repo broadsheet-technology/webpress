@@ -21,7 +21,7 @@ export class WebpressGutenbergMedia {
 
   async componentWillLoad() {
     if (!this.connection) {
-      this.connection = new Connection(this.global.serverInfo);
+      this.connection = new Connection(this.global.serverInfo, []);
     }
 
     this.el.querySelector("img").classList.forEach((cls) => {

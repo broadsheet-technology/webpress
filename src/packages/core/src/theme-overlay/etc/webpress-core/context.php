@@ -12,6 +12,7 @@ class WebpressContext {
     public array $theme;
     public array $serverInfo;
     public string $buildHash;
+    public array $preloaded;
 
     public WebpressAutoload $autoloaded;
 
