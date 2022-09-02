@@ -11,9 +11,15 @@ add_filter( "webpress_preloaded", function( $array ) {
     $theme = webpress_get_theme_definition();
     
     foreach( $theme->menus as $menu ) { 
-        $params=[];   
+        $params=[]; 
         $params['location']=$menu->location;
-        $array["/webpress/v1/menus?location=" . $menu->location] = json_encode( (new WebpressMenuRoute())->get_menus_for_params($params)->data );
+
+        if ( ! $menuData = wp_cache_get("webpress-menu-" . $menu->location) ) {
+            $menuData = json_encode( (new WebpressMenuRoute())->get_menus_for_params($params)->data );
+            wp_cache_set("webpress-menu-" . $menu->location, $menuData, '', 0);
+        }
+
+        $array["/webpress/v1/menus?location=" . $menu->location] = $menuData;
     }
     
     return $array;
