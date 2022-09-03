@@ -11,6 +11,10 @@
 add_action('wp_head', function() {
 	global $post;
 
+	if ( webpress_get_theme_definition()->features->socialTags == false ) {
+		return;
+	}
+	
 	if ( !$post ) {
         return;
     }
@@ -24,8 +28,10 @@ add_action('wp_head', function() {
 
 	/* 2. Description (string) */
 
-	$excerpt = htmlspecialchars(get_the_excerpt( $post ));
-	$output .= '<meta property="og:description" content="'.$excerpt.'" />'."\n";
+	if ( is_single() ) {
+		$excerpt = htmlspecialchars(get_the_excerpt( $post ));
+		$output .= '<meta property="og:description" content="' . $excerpt . '" />'."\n";
+	}
 
 	/* 3. Site (string) */
 
@@ -33,13 +39,10 @@ add_action('wp_head', function() {
 	$output .= "<meta property='og:site_name' content='$site' />\n";
 
 	/* 4. Type (enum) */
-	
-	// is_single: When any single Post (or attachment, or custom Post Type) page is being displayed. 
-	// (todo) type of profile is also valid.
 
 	if( is_single() ) {
 
-		// type (enum)
+		// type
 		$output .= "<meta property='og:type' content='article' />\n";
 
 		// article:published_time (datetime)
@@ -71,7 +74,7 @@ add_action('wp_head', function() {
 		// $output .= "<meta property='og:article:author' content='' />\n";
 
 	} else {
-		// type (enum)
+		// type
 		$output .= "<meta property='og:type' content='website' />\n";
 	}
 
@@ -91,8 +94,6 @@ add_action('wp_head', function() {
 	}
 
 	/* 7. Finish up */
-
-	$output .= "\n";
 	echo $output;
 });
 
@@ -105,9 +106,12 @@ add_action('wp_head', function() {
  * @see https://dev.twitter.com/cards/
  */
 add_action('wp_head', function() {
-
+	if ( webpress_get_theme_definition()->features->socialTags == false ) {
+		return;
+	}
+	
 	global $post;
-
+	
 	if(!$post)
 		return;
 
@@ -158,8 +162,5 @@ add_action('wp_head', function() {
 	endif;
 
 	/* 6. Finish up */
-
-	$output .= "\n";
 	echo $output;
-
 });

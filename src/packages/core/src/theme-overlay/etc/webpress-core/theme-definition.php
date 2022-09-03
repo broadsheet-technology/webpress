@@ -23,6 +23,27 @@ function webpress_get_theme_definition() : ThemeDefinition {
     return $ThemeDefinition;
 }
 
+
+class JSONObject {
+    public function __construct($json = false) {
+        if ($json) $this->set(json_decode($json, true));
+    }
+
+    public function set($data) {
+        foreach ($data AS $key => $value) {
+            if (is_array($value)) {
+                $sub = new JSONObject;
+                $sub->set($value);
+                $value = $sub;
+            }
+            $this->{$key} = $value;
+        }
+    }
+}
+
+class WebpressFeatureConfiguration extends JSONObject { }
+    
+
 /**
  * The server representation of theme
  * loaded from theme-definition.json
@@ -30,12 +51,12 @@ function webpress_get_theme_definition() : ThemeDefinition {
 class ThemeDefinition {
     public string $root;
     public array $menus;
-    public ?array $features;
+    public $features;
 
     function __construct($root, $menus, $features) {
         $this->root = $root;
         $this->menus = $menus;
-        $this->features = $features;
+        $this->features = new WebpressFeatureConfiguration($features);
     }
 }
 
