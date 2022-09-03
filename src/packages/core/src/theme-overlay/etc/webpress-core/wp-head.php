@@ -10,10 +10,10 @@ var webpress = <?php echo json_encode($context); ?>
 </script>
 
 <script type="module"
-    src="<?php echo get_template_directory_uri() . '/app/' . WEBPRESS_STENCIL_NAMESPACE . '.esm.js?v=' . $context->buildHash ?>">
+    src="<?php echo get_template_directory_uri() . '/app/' . $context->namespace . '.esm.js?v=' . $context->buildHash ?>">
 </script>
 <script nomodule
-    src="<?php echo get_template_directory_uri() . '/app/' . WEBPRESS_STENCIL_NAMESPACE . '.js?v=' . $context->buildHash ?>">
+    src="<?php echo get_template_directory_uri() . '/app/' . $context->namespace . '.js?v=' . $context->buildHash ?>">
 </script>
 
 <?php

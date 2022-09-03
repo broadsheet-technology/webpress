@@ -23,27 +23,10 @@ function webpress_get_theme_definition() : ThemeDefinition {
     return $ThemeDefinition;
 }
 
-
-class JSONObject {
-    public function __construct($json = false) {
-        if ($json) $this->set(json_decode($json, true));
-    }
-
-    public function set($data) {
-        foreach ($data AS $key => $value) {
-            if (is_array($value)) {
-                $sub = new JSONObject;
-                $sub->set($value);
-                $value = $sub;
-            }
-            $this->{$key} = $value;
-        }
-    }
+class WebpressFeatureConfiguration { 
+    public bool $socialTags;
 }
-
-class WebpressFeatureConfiguration extends JSONObject { }
     
-
 /**
  * The server representation of theme
  * loaded from theme-definition.json
@@ -56,7 +39,7 @@ class ThemeDefinition {
     function __construct($root, $menus, $features) {
         $this->root = $root;
         $this->menus = $menus;
-        $this->features = new WebpressFeatureConfiguration($features);
+        $this->features = $features;
     }
 }
 
@@ -91,7 +74,7 @@ function _webpress_try_load_theme_definition() : ?ThemeDefinition {
 function _webpress_parse_menus($json) : array { 
     $toRet = [];
     foreach ($json as $menu) {
-        $toRet[] = new MenuDefinition( $menu->location, $menu->description, $menu->autoLoad ? $menu->autoLoad : true );
+        $toRet[] = new MenuDefinition( $menu->location, $menu->description, property_exists($menu, 'autoLoad') ? $menu->autoLoad : true );
     }
     return $toRet;
 };
