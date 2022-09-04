@@ -25,17 +25,9 @@ export class Connection {
     }
 
     let url = request.toString().substring(this.serverInfo.apiUrl.length);
-    console.log(request, url);
-
-    if (request && this.preloaded[url]) {
-      console.log("WE DID THE PRELOAD THING");
-    } else {
-      console.log("NO PRELOAD...", this.preloaded, request.toString());
-    }
-
-    let response = JSON.parse(this.preloaded[url]) || (await request);
-
-    console.log(response);
+    let response = this.preloaded[url]
+      ? JSON.parse(this.preloaded[url])
+      : await request;
 
     return response;
   }
