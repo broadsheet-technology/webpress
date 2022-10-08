@@ -46,6 +46,6 @@ export namespace Post {
     tags_exclude?;
   }
 
-  export const QueryArgs = (params: QueryParams) =>
-    new GlobalQueryArgs<Post, QueryParams>(Post, new Route("post"), params);
+  export const QueryArgs = <Params extends QueryParams>(params: Params) =>
+    new GlobalQueryArgs<Post, Params>(Post, new Route("post"), params);
 }

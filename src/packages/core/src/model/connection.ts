@@ -62,5 +62,10 @@ const routeToWPRequest = (wp: WPAPI, route: Route): WPAPI.WPRequest => {
     case "menu":
       wp.menu = wp.registerRoute("webpress/v1", "/menus/(?P<id>)");
       return wp.menu();
+    case "advanced-search":
+      wp.menu = wp.registerRoute("webpress/v1", "/advanced-search", {
+        params: ["s", "page"],
+      });
+      return wp.menu();
   }
 };
