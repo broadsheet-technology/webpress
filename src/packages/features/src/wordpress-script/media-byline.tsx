@@ -180,7 +180,7 @@ class MediaCreditManager {
   }
 }
 
-const addBylineAttributesToImageBlock = (settings) => {
+addFilter("blocks.registerBlockType", "example/filter-blocks", (settings) => {
   if (settings.name !== "core/image") {
     return settings;
   }
@@ -197,12 +197,7 @@ const addBylineAttributesToImageBlock = (settings) => {
     ),
   };
   return newSettings;
-};
-addFilter(
-  "blocks.registerBlockType",
-  "example/filter-blocks",
-  addBylineAttributesToImageBlock
-);
+});
 
 class ImageWrapper extends React.Component<any, { byline: MediaByline }> {
   render() {
@@ -214,12 +209,16 @@ class ImageWrapper extends React.Component<any, { byline: MediaByline }> {
   }
 }
 
-// Edit...
-const addAttributionToBlockImageBlockEditor = createHigherOrderComponent(
-  (BlockEdit) => {
+console.log("hasdfasdf");
+addFilter(
+  "editor.BlockEdit",
+  "webpress/media-credit",
+  createHigherOrderComponent((BlockEdit) => {
     let mediaManager = MediaCreditManager.shared;
 
     return (props) => {
+      console.log((props as unknown as any).name);
+
       if ("core/image" !== (props as unknown as any).name) {
         return <BlockEdit {...props} />;
       }
@@ -297,16 +296,9 @@ const addAttributionToBlockImageBlockEditor = createHigherOrderComponent(
         </Fragment>
       );
     };
-  },
-  "withInspectorControl"
+  }, "withInspectorControl")
 );
-
-addFilter(
-  "editor.BlockEdit",
-  "webpress/media-credit",
-  addAttributionToBlockImageBlockEditor
-);
-
+/*
 addFilter(
   "blocks.getSaveElement",
   "webpress/media-credit",
@@ -318,3 +310,4 @@ addFilter(
     return element;
   }
 );
+*/

@@ -119,7 +119,6 @@ add_action("rest_api_init", "_webpress_media_byline_meta");
  */
 function _webpress_media_byline_ajax_save()
 {
-
     $attachment_id = $_POST["id"];
 
     if (!$attachment_id) {
