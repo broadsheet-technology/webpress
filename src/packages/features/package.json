@@ -25,7 +25,8 @@
   "dependencies": {
     "@types/classnames": "^2.3.1",
     "@webpress/core": "^0.0.31",
-    "@webpress/theme": "^0.0.31"
+    "@webpress/theme": "^0.0.31",
+    "@wordpress/core-data": "^5.2.0"
   },
   "devDependencies": {
     "@stencil/core": "^2.4.0",
