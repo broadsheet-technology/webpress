@@ -1,6 +1,25 @@
 <?php
 
 /**
+ * Adds media credit to the wordpress front-end
+ */
+add_filter('render_block', function ($block_content = '', $block = []) {
+    if (isset($block['blockName']) && 'core/image' === $block['blockName']) {
+        $defaults = ['size' => 'regular'];
+        $args = wp_parse_args($block['attrs'], $defaults);
+
+        $html = str_replace(
+            '</figcaption>',
+            '</figcaption>Will Haynes',
+            $block_content
+        );
+
+        return $html;
+    }
+    return $block_content;
+}, 10, 2);
+
+/**
  * Returns byline author's name for the passed $attachment identifier
  */
 function get_webpress_media_byline_author_name($attachment)
@@ -90,21 +109,30 @@ add_action('init', '_webpress_media_byline_enqueue_features_js');
 function _webpress_media_byline_meta()
 {
     register_meta(
-        "media",
+        "attachment",
         "_webpress_byline_author",
         [
-            "type"         => "string",
+            "type"         => 'boolean',
+            "description" => 'If true, overrides feature image to display a YouTube video.',
             "single"       => true,
-            "show_in_rest" => true
+            "show_in_rest" => true,
+            "auth_callback" => function () {
+                return current_user_can('edit_posts');
+            }
         ]
     );
+
     register_meta(
-        "media",
+        "attachment",
         "_webpress_byline_credit_line",
         [
-            "type"         => "string",
+            "type"         => 'boolean',
+            "description" => 'If true, overrides feature image to display a YouTube video.',
             "single"       => true,
-            "show_in_rest" => true
+            "show_in_rest" => true,
+            "auth_callback" => function () {
+                return current_user_can('edit_posts');
+            }
         ]
     );
 }
@@ -117,8 +145,7 @@ add_action("rest_api_init", "_webpress_media_byline_meta");
  * Used by client-side by the gutenberg editor (in feature code) to store AND load byline
  * details from the database
  */
-function _webpress_media_byline_ajax_save()
-{
+add_action('wp_ajax_webpress_save_byline', function () {
     $attachment_id = $_POST["id"];
 
     if (!$attachment_id) {
@@ -150,16 +177,19 @@ function _webpress_media_byline_ajax_save()
         $byline_credit_line = get_post_meta($attachment_id, '_webpress_byline_credit_line', 1);
     }
 
+    $byline_author = is_null($byline_author) ? "" : $byline_author;
+    $byline_credit_line = is_null($byline_credit_line) ? "" : $byline_credit_line;
+
     wp_send_json(array(
         "media" => $attachment_id,
-        "author" => is_null($byline_author) ? "" : $byline_author,
+        "author" =>  $byline_author,
         "author_id" => is_null($byline_user_id) ? "" : $byline_user_id,
-        "creditLine" => is_null($byline_credit_line) ? "" : $byline_credit_line
+        "creditLine" => $byline_credit_line,
+        "innerHtml" => "<div class='byline'>" . $byline_author . "/" . $byline_credit_line . "</div>"
     ));
 
     die();
-}
-add_action('wp_ajax_webpress_save_byline', '_webpress_media_byline_ajax_save');
+});
 
 /**
  * Returns attachment_id for an image src, including

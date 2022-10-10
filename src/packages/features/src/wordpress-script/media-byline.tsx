@@ -2,6 +2,7 @@ import { addFilter } from "@wordpress/hooks";
 import { createHigherOrderComponent, compose } from "@wordpress/compose";
 import { Fragment, useState } from "@wordpress/element";
 import { InspectorControls } from "@wordpress/block-editor";
+import { useEntityProp } from "@wordpress/core-data";
 import {
   PanelBody,
   TextControl,
@@ -87,16 +88,14 @@ class MediaCreditManager {
     this.subscribe(undefined, undefined);
   }
 
-  async save(mediaId, bylineId, creditLine) {
-    if (!bylineId || !creditLine) {
-      return;
-    }
-
-    this.saveOperations.set(mediaId, {
+  async save(mediaId, bylineId, creditLine, url) {
+    let byline = {
       id: mediaId,
       byline_author: bylineId,
       byline_credit_line: creditLine,
-    });
+    };
+    this.saveOperations.set(mediaId, byline);
+    this.urlMap.delete(url);
     this.saveDebounced();
   }
 
@@ -144,14 +143,7 @@ class MediaCreditManager {
     }
 
     byline.textContent = null;
-    byline.append(credit.author);
-
-    if (credit.creditLine) {
-      let creditLine = document.createElement("span", {});
-      creditLine.classList.add("creditline");
-      creditLine.append(credit.creditLine);
-      byline.append(creditLine);
-    }
+    byline.innerHTML = credit.innerHtml;
   }
 
   installByline(dom: Element) {
@@ -165,14 +157,14 @@ class MediaCreditManager {
       return;
     }
 
-    let existingByline = dom.querySelector(".byline");
+    let existingByline = dom.querySelector(".byline-wrapper");
 
     if (existingByline != undefined) {
       return existingByline;
     }
 
     let byline = document.createElement("span", {});
-    byline.classList.add("byline");
+    byline.classList.add("byline-wrapper");
 
     dom.append(byline);
 
@@ -209,7 +201,6 @@ class ImageWrapper extends React.Component<any, { byline: MediaByline }> {
   }
 }
 
-console.log("hasdfasdf");
 addFilter(
   "editor.BlockEdit",
   "webpress/media-credit",
@@ -217,8 +208,6 @@ addFilter(
     let mediaManager = MediaCreditManager.shared;
 
     return (props) => {
-      console.log((props as unknown as any).name);
-
       if ("core/image" !== (props as unknown as any).name) {
         return <BlockEdit {...props} />;
       }
@@ -228,13 +217,25 @@ addFilter(
 
       const [byline, setByline] = useState<MediaByline>(undefined);
 
-      if (attributes.id && !byline) {
+      const [meta, setMeta] = useEntityProp(
+        "postType",
+        "attachment",
+        "meta",
+        attributes.id
+      );
+
+      console.log("METTAAA", meta);
+      /*
+      if ( && !byline) {
         mediaManager.creditForUrl(attributes.url).then((loadedByline) => {
           if (!byline) {
             setByline(loadedByline);
           }
         });
+
+        return <Fragment>"loading..."</Fragment>;
       }
+      */
 
       return (
         <Fragment>
@@ -246,16 +247,18 @@ addFilter(
                 value={byline ? byline.author_id : ""}
                 options={[{ label: "", value: "" }, ...webpress_users.users]}
                 onChange={async (newBylineId) => {
-                  setByline({
-                    ...byline,
-                    author_id: newBylineId,
-                  });
-                  setUserLocked(true);
                   MediaCreditManager.shared.save(
                     attributes.id,
                     newBylineId,
-                    "The Badger Herald"
+                    "The Badger Herald",
+                    attributes.url
                   );
+                  setByline({
+                    ...byline,
+                    author_id: newBylineId,
+                    author: "The Badger Herald",
+                  });
+                  setUserLocked(true);
                 }}
               />
 
@@ -270,7 +273,12 @@ addFilter(
                 onClick={async (_) => {
                   setByline(undefined);
                   setUserLocked(false);
-                  MediaCreditManager.shared.save(attributes.id, "", "");
+                  MediaCreditManager.shared.save(
+                    attributes.id,
+                    "",
+                    "",
+                    attributes.url
+                  );
                 }}
               >
                 Remove byline
@@ -284,7 +292,8 @@ addFilter(
                   MediaCreditManager.shared.save(
                     attributes.id,
                     "",
-                    newCreditLine
+                    newCreditLine,
+                    attributes.url
                   );
                 }}
                 type="text"
@@ -298,16 +307,3 @@ addFilter(
     };
   }, "withInspectorControl")
 );
-/*
-addFilter(
-  "blocks.getSaveElement",
-  "webpress/media-credit",
-  (element, block, attributes) => {
-    if ("core/image" !== block.name) {
-      return element;
-    }
-
-    return element;
-  }
-);
-*/
