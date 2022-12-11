@@ -23,7 +23,6 @@ addFilter(
         _featured_image_video_url: string;
       }) => {
         const [meta, setMeta] = useEntityProp("postType", "post", "meta");
-        console.log("metta setter", meta);
 
         const setFeaturedImageIsVideo = (value) =>
           setMeta(
@@ -57,17 +56,15 @@ addFilter(
 );
 
 function FeaturedVideoToggle({
-  // These two props are passed by applyWithSelect().
   isVideo,
   videoUrl,
-  // Whereas these are passed by applyWithDispatch().
   onSetIsVideo,
   onSetVideoUrl,
 }) {
   return (
     <>
       <CheckboxControl
-        label="Replace thumbnail with YouTube ideo"
+        label="Replace with YouTube Video?"
         checked={isVideo}
         onChange={onSetIsVideo}
       />

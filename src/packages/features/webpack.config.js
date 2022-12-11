@@ -23,7 +23,7 @@ module.exports = {
   output: {
     ...defaultConfig.output,
     filename: "index.js",
-    //path:  path.resolve(__dirname, "dist-script"),
-    path: "/Users/wjh/GitHub/badgerherald/badgerherald.com/src/theme/scripts",
+    path: path.resolve(__dirname, "dist-script"),
+    //path: "/Users/wjh/GitHub/badgerherald/badgerherald.com/src/theme/scripts",
   },
 };
