@@ -14,7 +14,10 @@ export interface MultiQuery<T> extends Query<T> {
 }
 
 export class Query<T> implements SingleQuery<T>, MultiQuery<T> {
-  private response: Promise<any> = this.connection.request(this.args);
+  private response: Promise<any> =
+    this.args != null
+      ? this.connection.request(this.args)
+      : Promise.resolve(null);
 
   get results(): Promise<T[]> {
     return this.response.then((response) => {

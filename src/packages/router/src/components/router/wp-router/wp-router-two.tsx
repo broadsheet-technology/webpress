@@ -1,5 +1,5 @@
-import { Component, Element, Prop } from "@stencil/core";
-import { Template } from "@webpress/core";
+import { Component, Element, Prop, h } from "@stencil/core";
+import { Query, Template } from "@webpress/core";
 import { Hierarchy } from "../../../model/Hierarchy";
 
 @Component({
@@ -7,7 +7,7 @@ import { Hierarchy } from "../../../model/Hierarchy";
 })
 export class Router {
   @Element() el!: HTMLElement;
-  @Prop() query: Template.Query;
+  @Prop() query: Query<Template>;
   @Prop() hiearchy: Hierarchy.TemplateHierarchy;
 
   private template: Template;
@@ -16,7 +16,7 @@ export class Router {
     if (!this.query) {
       return;
     }
-    this.template = await this.query.template;
+    this.template = await this.query.result;
   }
 
   render() {
@@ -25,7 +25,11 @@ export class Router {
     }
 
     let definition = Hierarchy.Resolve(this.hiearchy, this.template);
+    let query = { query: this.template.globalQuery };
 
-    return definition;
+    return h(definition.component, {
+      ...query,
+      ...definition.props,
+    });
   }
 }

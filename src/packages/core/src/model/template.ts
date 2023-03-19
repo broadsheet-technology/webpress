@@ -1,4 +1,4 @@
-import { Query as GenericQuery, QueryArgs as GenericQueryArgs } from "./Query";
+import { Query, QueryArgs as GenericQueryArgs } from "./Query";
 import { Connection, Route } from "./Connection";
 import { Retrievable } from "./Retrievable";
 import { Single } from "./Single";
@@ -12,11 +12,8 @@ export class Template<T extends Single = Single>
 {
   constructor(readonly connection: Connection, protected json: Template.JSON) {}
 
-  get globalQuery(): GenericQuery<T> {
-    return new GenericQuery(
-      this.connection,
-      Template.GlobalQueryArgs<T>(this.json)
-    );
+  get globalQuery(): Query<T> {
+    return new Query(this.connection, Template.GlobalQueryArgs<T>(this.json));
   }
 
   get type() {
@@ -154,39 +151,6 @@ export namespace Template {
       new Route("template"),
       params
     );
-
-  export class Query<T extends Single = Single> extends GenericQuery<T> {
-    get params() {
-      return this.templateQuery.result.then((template) => template.globalQuery);
-    }
-
-    private globalQuery: Query<T>;
-    get results(): Promise<T[]> {
-      return new Promise(async (resolve) => {
-        let template = await this.templateQuery.result;
-        if (!this.globalQuery) {
-          this.globalQuery = template.globalQuery as unknown as Query<T>;
-        }
-        resolve(this.globalQuery.results);
-      });
-    }
-    get result(): Promise<T> {
-      return this.results.then((results) => results[0]);
-    }
-
-    private templateQuery: GenericQuery<Template>;
-    get template(): Promise<Template> {
-      return this.templateQuery.result;
-    }
-
-    constructor(connection: Connection, args: QueryParams) {
-      super(connection, undefined);
-      this.templateQuery = new GenericQuery<Template>(
-        connection,
-        QueryArgs(args)
-      );
-    }
-  }
 }
 
 // Global Query
@@ -296,7 +260,7 @@ export namespace Template {
 export namespace Template {
   export interface Contextual {
     definition: Template.Properties;
-    query: Template.Query;
+    query: Query<Template>;
     hidden: boolean;
   }
 }

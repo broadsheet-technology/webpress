@@ -5,20 +5,20 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Template } from "@webpress/core";
+import { Query, Template } from "@webpress/core";
 import { Hierarchy } from "./model/Hierarchy";
 export namespace Components {
     interface WpRouter {
-        "query": Template.Query;
+        "query": Query<Template>;
     }
     interface WpRouterTwo {
         "hiearchy": Hierarchy.TemplateHierarchy;
-        "query": Template.Query;
+        "query": Query<Template>;
     }
     interface WpTemplate {
         "component": string;
         "definition": Template.Properties;
-        "query": Template.Query;
+        "query": Query<Template>;
     }
 }
 declare global {
@@ -48,16 +48,16 @@ declare global {
 }
 declare namespace LocalJSX {
     interface WpRouter {
-        "query"?: Template.Query;
+        "query"?: Query<Template>;
     }
     interface WpRouterTwo {
         "hiearchy"?: Hierarchy.TemplateHierarchy;
-        "query"?: Template.Query;
+        "query"?: Query<Template>;
     }
     interface WpTemplate {
         "component"?: string;
         "definition"?: Template.Properties;
-        "query"?: Template.Query;
+        "query"?: Query<Template>;
     }
     interface IntrinsicElements {
         "wp-router": WpRouter;

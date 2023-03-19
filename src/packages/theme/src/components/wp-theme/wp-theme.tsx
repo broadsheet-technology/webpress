@@ -1,5 +1,5 @@
 import { Component, Prop, State, h, Listen } from "@stencil/core";
-import { Connection, Theme, Template } from "@webpress/core";
+import { Connection, Theme, Template, Query } from "@webpress/core";
 
 @Component({
   tag: "webpress-theme",
@@ -8,7 +8,7 @@ export class WebpressTheme {
   @Prop() global: Connection.Context;
 
   private connection: Connection;
-  @State() query: Template.Query;
+  @State() query: Query<Template>;
 
   async componentWillLoad() {
     this.connection = new Connection(
@@ -21,22 +21,31 @@ export class WebpressTheme {
   async updateTemplate(event: any) {
     let path = event.detail.url;
     window.history.pushState(path, "here!!", path);
-    this.query = new Template.Query(this.connection, {
-      path: path,
-    });
+    this.query = new Query(
+      this.connection,
+      Template.QueryArgs({
+        path: path,
+      })
+    );
   }
 
   @Listen("popstate", { target: "window" })
   async handleBackButton(event) {
-    this.query = new Template.Query(this.connection, {
-      path: event.state,
-    });
+    this.query = new Query(
+      this.connection,
+      Template.QueryArgs({
+        path: event.state,
+      })
+    );
   }
 
   async componentWillRender() {
-    this.query = new Template.Query(this.connection, {
-      path: window.location.pathname,
-    });
+    this.query = new Query(
+      this.connection,
+      Template.QueryArgs({
+        path: window.location.pathname,
+      })
+    );
   }
 
   render() {
