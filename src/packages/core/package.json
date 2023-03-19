@@ -1,6 +1,6 @@
 {
   "name": "@webpress/core",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "description": "webpress core",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.js",

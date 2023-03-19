@@ -1,6 +1,6 @@
 {
   "name": "@webpress/theme",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "description": "webpress theme components",
   "main": "dist/index.cjs.js",
   "module": "dist/index.mjs",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@stencil/core": "^2.3.0",
-    "@webpress/core": "^0.0.32",
+    "@webpress/core": "^0.0.33",
     "fs": "0.0.1-security",
     "wpapi": "^1.2.1"
   },
