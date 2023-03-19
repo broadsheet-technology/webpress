@@ -40,7 +40,7 @@ export abstract class Single {
     let args = new LinkedQueryArgs(
       Author,
       new Route("author"),
-      this.json.author_id
+      this.json.author
     );
     return new Query(this.connection, args).result;
   }
