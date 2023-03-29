@@ -8,7 +8,7 @@ export namespace Hierarchy {
     | {
         index: TemplateDefinition;
         archive?: TemplateDefinition;
-        singular?: TemplateDefinition | SinglularOverrides;
+        singular?: TemplateDefinition | SingularTemplateTypeOverrides;
         frontPage?: TemplateDefinition;
         blogPage?: TemplateDefinition;
         error404?: TemplateDefinition;
@@ -18,7 +18,7 @@ export namespace Hierarchy {
     | {
         index?: TemplateDefinition;
         archive: TemplateDefinition;
-        singular: TemplateDefinition | SinglularOverrides;
+        singular: TemplateDefinition | SingularTemplateTypeOverrides;
         frontPage: TemplateDefinition;
         blogPage: TemplateDefinition;
         error404: TemplateDefinition;
@@ -32,13 +32,20 @@ export namespace Hierarchy {
     disableReuse?: boolean;
   };
 
-  export type SinglularOverrides = {
+  export type SingularTemplateTypeOverrides = {
+    post: TemplateDefinition | PostOverrides;
+    page: TemplateDefinition | PageOverrides;
+  };
+
+  export type PageOverrides = {
     index: TemplateDefinition;
     slug?: Record<string, TemplateDefinition>;
     id?: Map<string, TemplateDefinition>;
   };
 
-  export interface ArchiveOverrides {
+  export type PostOverrides = {};
+
+  export interface ArchiveTypes {
     author?: TemplateDefinition;
     category?: CategoryArchiveTemplateComponent;
   }
@@ -95,13 +102,41 @@ export namespace Hierarchy {
 
     private resolveSingular(): TemplateDefinition {
       let singular = this.hierarchy.singular;
-      if (!singular) {
-        return this.hierarchy.index;
+
+      if (isTemplateDefinition(singular)) {
+        return singular;
       }
 
-      let slugs = (singular as SinglularOverrides).slug;
-      let ids = (singular as SinglularOverrides).id;
-      let index = (singular as SinglularOverrides).index;
+      if (isSingularTemplateTypeOverrides(singular)) {
+        switch (this.template.singleType) {
+          case Template.SingleType.Page:
+            return this.resolvePage(singular.page);
+          case Template.SingleType.Post:
+            return this.resolvePost(singular.post);
+        }
+      }
+    }
+
+    private resolvePost(post: TemplateDefinition | PostOverrides) {
+      if (isTemplateDefinition(post)) {
+        return post;
+      }
+
+      throw new Error("not implemented");
+    }
+
+    private resolvePage(
+      page: TemplateDefinition | PageOverrides
+    ): TemplateDefinition {
+      if (isTemplateDefinition(page)) {
+        return page;
+      }
+
+      page = page as PageOverrides;
+
+      let slugs = page.slug;
+      let ids = page.id;
+      let index = page.index;
 
       if (slugs) {
         for (const slug in slugs) {
@@ -122,8 +157,19 @@ export namespace Hierarchy {
       if (index) {
         return index;
       }
-
-      return singular as TemplateDefinition;
     }
+  }
+
+  function isTemplateDefinition(node: any): node is TemplateDefinition {
+    return (node as TemplateDefinition).component !== undefined;
+  }
+
+  function isSingularTemplateTypeOverrides(
+    singular: TemplateDefinition | SingularTemplateTypeOverrides
+  ): singular is SingularTemplateTypeOverrides {
+    return (
+      (singular as SingularTemplateTypeOverrides).post !== undefined ||
+      (singular as SingularTemplateTypeOverrides).page !== undefined
+    );
   }
 }

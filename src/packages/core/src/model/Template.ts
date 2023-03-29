@@ -24,6 +24,10 @@ export class Template<T extends Single = Single>
     return this.json.properties.frontPageType;
   }
 
+  get singleType() {
+    return this.json.properties.singleType;
+  }
+
   get isSingle() {
     return this.json.properties.type == Template.TemplateType.Single;
   }

@@ -33,6 +33,10 @@ export namespace Components {
         "options": WebpressMenuOptions;
         "query": Query<Menu>;
     }
+    interface WpModified {
+        "el": string;
+        "post": Single;
+    }
     interface WpRunningCopy {
         "content": string;
         "post": Single;
@@ -90,6 +94,12 @@ declare global {
         prototype: HTMLWpMenuElement;
         new (): HTMLWpMenuElement;
     };
+    interface HTMLWpModifiedElement extends Components.WpModified, HTMLStencilElement {
+    }
+    var HTMLWpModifiedElement: {
+        prototype: HTMLWpModifiedElement;
+        new (): HTMLWpModifiedElement;
+    };
     interface HTMLWpRunningCopyElement extends Components.WpRunningCopy, HTMLStencilElement {
     }
     var HTMLWpRunningCopyElement: {
@@ -116,6 +126,7 @@ declare global {
         "wp-link": HTMLWpLinkElement;
         "wp-media": HTMLWpMediaElement;
         "wp-menu": HTMLWpMenuElement;
+        "wp-modified": HTMLWpModifiedElement;
         "wp-running-copy": HTMLWpRunningCopyElement;
         "wp-subhead": HTMLWpSubheadElement;
         "wp-title": HTMLWpTitleElement;
@@ -148,6 +159,10 @@ declare namespace LocalJSX {
         "options"?: WebpressMenuOptions;
         "query"?: Query<Menu>;
     }
+    interface WpModified {
+        "el"?: string;
+        "post"?: Single;
+    }
     interface WpRunningCopy {
         "content"?: string;
         "post"?: Single;
@@ -169,6 +184,7 @@ declare namespace LocalJSX {
         "wp-link": WpLink;
         "wp-media": WpMedia;
         "wp-menu": WpMenu;
+        "wp-modified": WpModified;
         "wp-running-copy": WpRunningCopy;
         "wp-subhead": WpSubhead;
         "wp-title": WpTitle;
@@ -185,6 +201,7 @@ declare module "@stencil/core" {
             "wp-link": LocalJSX.WpLink & JSXBase.HTMLAttributes<HTMLWpLinkElement>;
             "wp-media": LocalJSX.WpMedia & JSXBase.HTMLAttributes<HTMLWpMediaElement>;
             "wp-menu": LocalJSX.WpMenu & JSXBase.HTMLAttributes<HTMLWpMenuElement>;
+            "wp-modified": LocalJSX.WpModified & JSXBase.HTMLAttributes<HTMLWpModifiedElement>;
             "wp-running-copy": LocalJSX.WpRunningCopy & JSXBase.HTMLAttributes<HTMLWpRunningCopyElement>;
             "wp-subhead": LocalJSX.WpSubhead & JSXBase.HTMLAttributes<HTMLWpSubheadElement>;
             "wp-title": LocalJSX.WpTitle & JSXBase.HTMLAttributes<HTMLWpTitleElement>;

@@ -7,7 +7,9 @@ import { LinkedQueryArgs } from "./Linked";
 
 export interface Single extends Retrievable<Single> {}
 export abstract class Single {
-  constructor(readonly connection: Connection, protected json: any) {}
+  constructor(readonly connection: Connection, protected json: any) {
+    console.log(json);
+  }
 
   get title(): string {
     return this.json.title.rendered;
@@ -30,6 +32,10 @@ export abstract class Single {
 
   get date(): Date {
     return new Date(this.json.date);
+  }
+
+  get modified(): Date {
+    return new Date(this.json.modified);
   }
 
   get link(): string {
