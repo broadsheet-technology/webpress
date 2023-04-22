@@ -4,7 +4,7 @@
  * Registers theme menus and features from
  * theme-defition.json
  */
-function _init_webpress()
+function _webpress_after_setup_theme()
 {
     $theme = webpress_get_theme_definition();
 
@@ -16,4 +16,4 @@ function _init_webpress()
         add_theme_support($feature);
     }
 }
-add_action('after_setup_theme', 'register_my_menu');
+add_action('after_setup_theme', '_webpress_after_setup_theme');
