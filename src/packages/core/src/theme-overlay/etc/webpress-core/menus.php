@@ -13,11 +13,13 @@ add_filter("webpress_preloaded", function ($array) {
     foreach ($theme->menus as $menu) {
         $params = [];
         $params['location'] = $menu->location;
-        $cache_ns = wp_cache_get("webpress-menu-ns");
+        $cache_ns = wp_cache_get("webpress-menu-ns") ?: 0;
         $cache_key = "webpress-menu-" . $cache_ns . "_" . $menu->location;
-        if (!$menuData = wp_cache_get($cache_key, 'webpress-core')) {
+        $menuData = wp_cache_get($cache_key, 'webpress-core');
+        if ($menuData === false) {
             $menuData = json_encode((new WebpressMenuRoute())->get_menus_for_params($params)->data);
             wp_cache_set($cache_key, $menuData, 'webpress-core', 0);
+            break;
         }
 
         $array["/webpress/v1/menus?location=" . $menu->location] = $menuData;
@@ -38,7 +40,7 @@ add_action('save_post', function ($post_id) {
         return;
     }
 
-    $cache_ns = wp_cache_get("webpress-menu-ns");
+    $cache_ns = wp_cache_get("webpress-menu-ns") ?: 0;
     wp_cache_set("webpress-menu-ns", $cache_ns + 1);
 });
 
