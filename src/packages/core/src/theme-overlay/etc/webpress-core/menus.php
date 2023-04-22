@@ -30,7 +30,6 @@ add_filter("webpress_preloaded", function ($array) {
  * Bust menu when menu is saved
  */
 add_action('save_post', function ($post_id) {
-
     // If this is a revision, get real post ID
     if ($parent_id = wp_is_post_revision($post_id))
         $post_id = $parent_id;
