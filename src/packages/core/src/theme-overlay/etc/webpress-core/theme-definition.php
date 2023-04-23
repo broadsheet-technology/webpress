@@ -79,7 +79,7 @@ function _webpress_try_load_theme_definition(): ?ThemeDefinition
 function _webpress_parse_menus($menus): array
 {
     $toRet = [];
-    foreach ($$menus as $menu) {
+    foreach ($menus as $menu) {
         $toRet[] = new MenuDefinition($menu['location'], $menu['description'], array_key_exists('autoLoad', $menu) ? $menu['autoLoad'] : true);
     }
     return $toRet;
