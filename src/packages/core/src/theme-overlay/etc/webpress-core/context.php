@@ -7,7 +7,8 @@ $WebpressContext;
  * The client representation of webpress context
  * localized with the webpress application javascript
  */
-class WebpressContext {
+class WebpressContext
+{
     public string $namespace;
     public array $theme;
     public array $serverInfo;
@@ -16,13 +17,14 @@ class WebpressContext {
 
     public WebpressAutoload $autoloaded;
 
-    function __construct(ThemeDefinition $theme, ?StencilStats $stats) {
+    function __construct(ThemeDefinition $theme, ?StencilStats $stats)
+    {
         $this->namespace = $stats->namespace ? $stats->namespace : WEBPRESS_STENCIL_NAMESPACE;
-        $this->theme = [ 
+        $this->theme = [
             "dir" => get_template_directory_uri(),
             "root" => $theme->root
         ];
-        $this->serverInfo = [ 
+        $this->serverInfo = [
             "apiUrl" => get_home_url() . '/wp-json'
         ];
         $this->buildHash = $stats->buildHash;
@@ -33,11 +35,12 @@ class WebpressContext {
  * Returns the webpress contextual
  * object
  */
-function get_webpress_context() : WebpressContext {
-    global $WebpressContext;
+function get_webpress_context(): WebpressContext
+{
+    static $WebpressContext;
 
     /// Resolve first from global—
-    if ( $WebpressContext != null ) {
+    if ($WebpressContext != null) {
         return $WebpressContext;
     }
 
